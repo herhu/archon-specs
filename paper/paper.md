@@ -98,7 +98,9 @@ The Model Context Protocol (MCP) server functions as the universal bidirectional
 To guarantee transactional safety, Archon decouples code generation from physical disk I/O. The compiler generates changes into an in-memory **Virtual File System (VFS)**. Mutations are scheduled as an ordered sequence of atomic `ChangeOperations` (`CREATE`, `UPDATE`, `PATCH`).
 
 During execution, the CLI acts as a physical layer client listening to a Server-Sent Events (SSE) stream emitted by the MCP engine:
-$$\text{PLAN\_STREAM\_STARTED} \longrightarrow \text{PLAN\_OPERATION\_READY} \longrightarrow \text{PLAN\_STREAM\_COMMITTED}$$
+
+> `PLAN_STREAM_STARTED` $\longrightarrow$ `PLAN_OPERATION_READY` $\longrightarrow$ `PLAN_STREAM_COMMITTED`
+
 If network communication drops or an invariant fails mid-stream, the VFS transaction is rolled back, preventing partial or corrupted project states.
 
 ---
