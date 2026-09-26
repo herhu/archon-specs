@@ -1,0 +1,150 @@
+{
+  "version": "1.0.0",
+  "name": "Enterprise Smoke API",
+  "platform": {
+    "cors": true,
+    "securityHeaders": true,
+    "swagger": true,
+    "throttling": true,
+    "rateLimitTtl": 60,
+    "rateLimitMax": 100,
+    "newRelic": true
+  },
+  "crossCutting": {
+    "auth": {
+      "jwt": {
+        "issuer": "https://auth.example.com/",
+        "audience": "enterprise-smoke-api",
+        "jwksUri": "https://auth.example.com/.well-known/jwks.json",
+        "defaultScopes": "openid profile"
+      }
+    }
+  },
+  "modules": [
+    {
+      "type": "cache.redis",
+      "name": "cache",
+      "config": {}
+    },
+    {
+      "type": "queue.bullmq",
+      "name": "jobs",
+      "config": {}
+    },
+    {
+      "type": "db-transactions",
+      "name": "tx",
+      "config": {}
+    }
+  ],
+  "domains": [
+    {
+      "key": "catalog",
+      "name": "catalog",
+      "entities": [
+        {
+          "name": "Product",
+          "primaryKey": "id",
+          "fields": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "primary": true
+            },
+            {
+              "name": "sku",
+              "type": "string",
+              "unique": true
+            },
+            {
+              "name": "price",
+              "type": "float"
+            },
+            {
+              "name": "featuredOrderId",
+              "type": "uuid",
+              "nullable": true,
+              "references": {
+                "entity": "PurchaseOrder",
+                "field": "id"
+              }
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "ProductService",
+          "entity": "Product",
+          "route": "products",
+          "crud": [
+            "create",
+            "findAll",
+            "findOne",
+            "update",
+            "delete"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "orders",
+      "name": "orders",
+      "entities": [
+        {
+          "name": "PurchaseOrder",
+          "primaryKey": "id",
+          "fields": [
+            {
+              "name": "id",
+              "type": "uuid",
+              "primary": true
+            },
+            {
+              "name": "productId",
+              "type": "uuid",
+              "references": {
+                "entity": "Product",
+                "field": "id"
+              }
+            },
+            {
+              "name": "quantity",
+              "type": "int"
+            },
+            {
+              "name": "status",
+              "type": "string",
+              "nullable": true
+            }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "PurchaseOrderService",
+          "entity": "PurchaseOrder",
+          "route": "orders",
+          "operations": [
+            {
+              "name": "placeOrder",
+              "method": "POST",
+              "path": "/place",
+              "authz": {
+                "required": true,
+                "scopesAll": [
+                  "orders:write"
+                ]
+              }
+            },
+            {
+              "name": "cancelOrder",
+              "method": "PUT",
+              "path": "/:id/cancel"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

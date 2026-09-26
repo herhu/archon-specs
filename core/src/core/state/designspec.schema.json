@@ -1,0 +1,428 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Archon DesignSpec v1",
+  "type": "object",
+  "required": [
+    "version",
+    "name",
+    "domains"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "projectId": {
+      "type": "string",
+      "description": "The unique enterprise identifier for this project used by Shield Governance."
+    },
+    "revisionId": {
+      "type": "string",
+      "description": "The specific revision tracker string mapped by the Orchestrator."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^1\\.\\d+\\.\\d+$",
+      "description": "Spec version (semver), starting with 1.x.x"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Project name"
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "cors": {
+          "type": "boolean"
+        },
+        "cookieParser": {
+          "type": "boolean"
+        },
+        "securityHeaders": {
+          "type": "boolean"
+        },
+        "swagger": {
+          "type": "boolean"
+        },
+        "throttling": {
+          "type": "boolean"
+        },
+        "rateLimitTtl": {
+          "type": "integer"
+        },
+        "rateLimitMax": {
+          "type": "integer"
+        },
+        "maxBodySize": {
+          "type": "string"
+        },
+        "jenkins": {
+          "type": "boolean",
+          "description": "Generate Jenkinsfile pipeline"
+        },
+        "frogbot": {
+          "type": "boolean",
+          "description": "Generate GitHub Actions Frogbot scan"
+        },
+        "sonarQube": {
+          "type": "boolean",
+          "description": "Generate sonar-project.properties"
+        },
+        "terraform": {
+          "type": "boolean",
+          "description": "Generate simplified Terraform boilerplate"
+        },
+        "newRelic": {
+          "type": "boolean",
+          "description": "Generate New Relic APM backend setup"
+        },
+        "husky": {
+          "type": "boolean",
+          "description": "Generate Husky pre-commit and commit-msg hooks"
+        },
+        "nginxProxy": {
+          "type": "boolean",
+          "description": "Generate NGINX proxy and OpenAPI specs setups"
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "cache.redis",
+              "queue.bullmq",
+              "db-transactions"
+            ],
+            "description": "The type of module to inject."
+          },
+          "name": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "crossCutting": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "auth": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "jwt": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "issuer",
+                "audience"
+              ],
+              "properties": {
+                "issuer": {
+                  "type": "string"
+                },
+                "audience": {
+                  "type": "string"
+                },
+                "jwksUri": {
+                  "type": "string"
+                },
+                "defaultScopes": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "domains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/domain"
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "blueprintId": {
+          "type": "string",
+          "description": "The ID of the architectural blueprint used for structural modeling."
+        },
+        "appliedMuscles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of behavioral muscle IDs injected into this project."
+        }
+      }
+    },
+    "handlebarsHelpers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of Handlebars helpers from the 'market' requested for use in template logic."
+    }
+  },
+  "definitions": {
+    "domain": {
+      "type": "object",
+      "required": [
+        "name",
+        "key"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/entity"
+          }
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/service"
+          }
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "required": [
+        "name",
+        "fields"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "primaryKey": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/field"
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/relationship"
+          }
+        },
+        "indexes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["fields"],
+            "properties": {
+               "name": { "type": "string" },
+               "fields": { "type": "array", "items": { "type": "string" } },
+               "unique": { "type": "boolean" }
+            }
+          }
+        },
+        "partitionBy": {
+           "type": "object",
+           "required": ["type", "field"],
+           "properties": {
+             "type": { "enum": ["LIST", "RANGE", "HASH"] },
+             "field": { "type": "string" }
+           }
+        }
+      }
+    },
+    "relationship": {
+      "type": "object",
+      "required": ["name", "type", "targetEntity"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "enum": ["manyToOne", "oneToMany", "oneToOne", "manyToMany"] },
+        "targetEntity": { "type": "string" },
+        "joinColumn": { "type": "string" },
+        "inverseProperty": { "type": "string" }
+      }
+    },
+    "field": {
+      "type": "object",
+      "required": [
+        "name",
+        "type"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "type": {
+          "enum": [
+            "string",
+            "boolean",
+            "uuid",
+            "int",
+            "float",
+            "timestamp",
+            "json"
+          ]
+        },
+        "primary": {
+          "type": "boolean"
+        },
+        "nullable": {
+          "type": "boolean"
+        },
+        "references": {
+          "type": "object",
+          "properties": {
+            "entity": { "type": "string" },
+            "field": { "type": "string" }
+          }
+        },
+        "index": {
+          "type": "boolean"
+        },
+        "unique": {
+          "type": "boolean"
+        }
+      }
+    },
+    "service": {
+      "type": "object",
+      "required": [
+        "name",
+        "route"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "route": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "crud": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "create",
+              "findAll",
+              "findOne",
+              "update",
+              "delete"
+            ]
+          }
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/operation"
+          }
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "name",
+        "method",
+        "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+        },
+        "method": {
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "authz": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "required": {
+              "type": "boolean"
+            },
+            "scopesAll": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "request": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "schemaRef": {
+              "type": "string"
+            }
+          }
+        },
+        "logic": {
+          "type": "string",
+          "description": "Custom behavioral logic to be injected into the operation body (The Muscle)."
+        },
+        "params": {
+          "type": "string",
+          "description": "Explicit parameter definition for the generated method (e.g. 'dto: CreateTransferDto')."
+        },
+        "returnType": {
+          "type": "string",
+          "description": "Explicit return type for the generated method (e.g. 'Promise<TransferResult>')."
+        }
+      }
+    }
+  }
+}

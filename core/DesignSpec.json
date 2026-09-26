@@ -1,0 +1,262 @@
+{
+  "projectId": "instagram-clone-enterprise",
+  "name": "Instagram Enterprise Engine",
+  "version": "1.0.0",
+  "platform": {
+    "swagger": true,
+    "throttling": true,
+    "husky": true,
+    "terraform": true,
+    "jenkins": true,
+    "securityHeaders": true,
+    "cors": true
+  },
+  "modules": [
+    {
+      "type": "cache.redis",
+      "name": "MainCache"
+    },
+    {
+      "type": "queue.bullmq",
+      "name": "AsyncProcessor"
+    },
+    {
+      "type": "db-transactions",
+      "name": "AcidSupport"
+    }
+  ],
+  "domains": [
+    {
+      "name": "Identity",
+      "key": "identity",
+      "entities": [
+        {
+          "name": "SocialUser",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "email", "type": "string", "unique": true },
+            { "name": "passwordHash", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "Profile",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "userId", "type": "uuid", "unique": true, "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "username", "type": "string", "unique": true },
+            { "name": "bio", "type": "string" },
+            { "name": "avatarUrl", "type": "string" },
+            { "name": "isPrivate", "type": "boolean" }
+          ]
+        },
+        {
+          "name": "FollowRelationship",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "followerId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "followingId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "status", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        }
+      ],
+      "services": [
+        { "name": "UserService", "route": "/users", "entity": "SocialUser", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "ProfileService", "route": "/profiles", "entity": "Profile", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "FollowRelationshipService", "route": "/follow-relationships", "entity": "FollowRelationship", "crud": ["create", "findAll", "findOne", "update", "delete"] }
+      ]
+    },
+    {
+      "name": "Content",
+      "key": "content",
+      "entities": [
+        {
+          "name": "SocialPost",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "authorId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "caption", "type": "string" },
+            { "name": "location", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "MediaAsset",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "postId", "type": "uuid", "references": { "entity": "SocialPost", "field": "id" } },
+            { "name": "url", "type": "string" },
+            { "name": "mediaType", "type": "string" },
+            { "name": "sortOrder", "type": "int" }
+          ]
+        },
+        {
+          "name": "SocialComment",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "postId", "type": "uuid", "references": { "entity": "SocialPost", "field": "id" } },
+            { "name": "authorId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "content", "type": "string" },
+            { "name": "parentId", "type": "uuid", "nullable": true, "references": { "entity": "SocialComment", "field": "id" } },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "SocialLike",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "userId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "targetId", "type": "uuid" },
+            { "name": "targetType", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "Hashtag",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "tag", "type": "string", "unique": true }
+          ]
+        },
+        {
+          "name": "PostHashtag",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "postId", "type": "uuid", "references": { "entity": "SocialPost", "field": "id" } },
+            { "name": "hashtagId", "type": "uuid", "references": { "entity": "Hashtag", "field": "id" } }
+          ]
+        }
+      ],
+      "services": [
+        { "name": "PostService", "route": "/posts", "entity": "SocialPost", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "MediaAssetService", "route": "/media-assets", "entity": "MediaAsset", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "CommentService", "route": "/comments", "entity": "SocialComment", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "LikeService", "route": "/likes", "entity": "SocialLike", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "HashtagService", "route": "/hashtags", "entity": "Hashtag", "crud": ["create", "findAll", "findOne", "update", "delete"] }
+      ]
+    },
+    {
+      "name": "Ephemeral",
+      "key": "ephemeral",
+      "entities": [
+        {
+          "name": "Story",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "userId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "mediaUrl", "type": "string" },
+            { "name": "expiresAt", "type": "timestamp" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "StoryView",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "storyId", "type": "uuid", "references": { "entity": "Story", "field": "id" } },
+            { "name": "viewerId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        }
+      ],
+      "services": [
+        { "name": "StoryService", "route": "/stories", "entity": "Story", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "StoryViewService", "route": "/story-views", "entity": "StoryView", "crud": ["create", "findAll", "findOne", "update", "delete"] }
+      ]
+    },
+    {
+      "name": "Discovery",
+      "key": "discovery",
+      "entities": [
+        {
+          "name": "Collection",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "userId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "name", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "SavedItem",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "collectionId", "type": "uuid", "references": { "entity": "Collection", "field": "id" } },
+            { "name": "postId", "type": "uuid", "references": { "entity": "SocialPost", "field": "id" } },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        }
+      ],
+      "services": [
+        { "name": "CollectionService", "route": "/collections", "entity": "Collection", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "SavedItemService", "route": "/saved-items", "entity": "SavedItem", "crud": ["create", "findAll", "findOne", "update", "delete"] }
+      ]
+    },
+    {
+      "name": "Messaging",
+      "key": "messaging",
+      "entities": [
+        {
+          "name": "Conversation",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "ConversationMember",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "conversationId", "type": "uuid", "references": { "entity": "Conversation", "field": "id" } },
+            { "name": "userId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } }
+          ]
+        },
+        {
+          "name": "Message",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "conversationId", "type": "uuid", "references": { "entity": "Conversation", "field": "id" } },
+            { "name": "senderId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "text", "type": "string" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        },
+        {
+          "name": "Notification",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "userId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "actorId", "type": "uuid", "references": { "entity": "SocialUser", "field": "id" } },
+            { "name": "verb", "type": "string" },
+            { "name": "objectId", "type": "uuid" },
+            { "name": "isRead", "type": "boolean" },
+            { "name": "createdAt", "type": "timestamp" }
+          ]
+        }
+      ],
+      "services": [
+        { "name": "ConversationService", "route": "/conversations", "entity": "Conversation", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "MessageService", "route": "/messages", "entity": "Message", "crud": ["create", "findAll", "findOne", "update", "delete"] },
+        { "name": "NotificationService", "route": "/notifications", "entity": "Notification", "crud": ["create", "findAll", "findOne", "update", "delete"] }
+      ]
+    }
+  ]
+}

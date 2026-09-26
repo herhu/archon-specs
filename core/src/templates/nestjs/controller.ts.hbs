@@ -1,0 +1,133 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { Controller, Get, Post, Put, Patch, Delete, Body, Param, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiOAuth2, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiNoContentResponse, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { {{serviceClassName}} } from '{{serviceImportPath}}';
+{{#each useCases}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+import { {{entity.name}} } from '{{entityImportPath}}';
+import { Create{{entity.name}}Dto } from '../dtos/create-{{kebab entity.name}}.dto';
+import { Update{{entity.name}}Dto } from '../dtos/update-{{kebab entity.name}}.dto';
+{{#if crossCutting.auth}}
+import { JwtAuthGuard } from '../../../auth/jwt.guard';
+import { ScopesGuard } from '../../../auth/scopes.guard';
+import { Scopes } from '../../../auth/scopes.decorator';
+{{/if}}
+import { ArchonManual } from '../../../shared/decorators/archon-manual.decorator';
+
+@ApiTags('{{domainKey}}')
+{{#if crossCutting.auth}}
+@ApiBearerAuth('bearer')
+{{/if}}
+@Controller('{{service.route}}')
+export class {{controllerClassName}} {
+  constructor(
+    private readonly service: {{serviceClassName}},
+{{#each useCases}}
+    private readonly {{prop}}: {{className}},
+{{/each}}
+  ) {}
+
+{{#if crud.create}}
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create {{entity.name}}' })
+  @ApiCreatedResponse({ description: 'The {{entity.name}} was created', type: {{entity.name}} })
+  @ApiBadRequestResponse({ description: 'Validation failed' })
+{{#if crossCutting.auth}}
+  @ApiOAuth2(['{{domainKey}}:write'])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each crudScopes.create}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+  async create(@Body() dto: Create{{entity.name}}Dto): Promise<{{entity.name}}> {
+    return this.service.create(dto);
+  }
+{{/if}}
+
+{{#if crud.findAll}}
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'List {{entity.name}}s' })
+  @ApiOkResponse({ description: 'List of {{entity.name}}', type: {{entity.name}}, isArray: true })
+{{#if crossCutting.auth}}
+  @ApiOAuth2(['{{domainKey}}:read'])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each crudScopes.findAll}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+  async findAll(): Promise<{{entity.name}}[]> {
+    return this.service.findAll();
+  }
+{{/if}}
+
+{{#if crud.findOne}}
+  @Get(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Get {{entity.name}} by id' })
+  @ApiParam({ name: 'id', description: 'The unique id of the {{camel entity.name}}' })
+  @ApiOkResponse({ description: 'The {{entity.name}}', type: {{entity.name}} })
+  @ApiNotFoundResponse({ description: '{{entity.name}} not found' })
+{{#if crossCutting.auth}}
+  @ApiOAuth2(['{{domainKey}}:read'])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each crudScopes.findOne}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+  async findOne(@Param('id') id: {{idType}}): Promise<{{entity.name}}> {
+    return this.service.findOne(id);
+  }
+{{/if}}
+
+{{#if crud.update}}
+  @Patch(':id')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Update {{entity.name}}' })
+  @ApiParam({ name: 'id', description: 'The unique id of the {{camel entity.name}}' })
+  @ApiOkResponse({ description: 'The updated {{entity.name}}', type: {{entity.name}} })
+  @ApiNotFoundResponse({ description: '{{entity.name}} not found' })
+{{#if crossCutting.auth}}
+  @ApiOAuth2(['{{domainKey}}:write'])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each crudScopes.update}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+  async update(@Param('id') id: {{idType}}, @Body() dto: Update{{entity.name}}Dto): Promise<{{entity.name}}> {
+    return this.service.update(id, dto);
+  }
+{{/if}}
+
+{{#if crud.delete}}
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete {{entity.name}}' })
+  @ApiParam({ name: 'id', description: 'The unique id of the {{camel entity.name}}' })
+  @ApiNoContentResponse({ description: 'The {{entity.name}} was deleted' })
+  @ApiNotFoundResponse({ description: '{{entity.name}} not found' })
+{{#if crossCutting.auth}}
+  @ApiOAuth2(['{{domainKey}}:write'])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each crudScopes.delete}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+  async delete(@Param('id') id: {{idType}}): Promise<void> {
+    return this.service.delete(id);
+  }
+{{/if}}
+
+  // Custom operations
+{{#each operations}}
+  @{{nestjsMethod method}}('{{path}}')
+  @ApiOperation({ summary: '{{name}}' })
+{{#if authRequired}}
+{{#if ../crossCutting.auth}}
+  @ApiOAuth2([{{#each effectiveScopes}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}])
+  @UseGuards(JwtAuthGuard, ScopesGuard)
+  @Scopes({{#each effectiveScopes}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}})
+{{/if}}
+{{/if}}
+  async {{name}}({{{controllerParams}}}) {
+    return this.{{useCaseProp}}.execute({{{serviceCallParams}}});
+  }
+{{/each}}
+}

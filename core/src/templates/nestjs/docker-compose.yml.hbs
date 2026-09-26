@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: archon
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: {{snake projectName}}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./src/db/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U archon -d {{snake projectName}}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+      - .env.docker
+    depends_on:
+      db:
+        condition: service_healthy
+{{#if hasRedis}}
+      redis:
+        condition: service_started
+{{/if}}
+    ports:
+      - "${PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health/ready || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
+{{#if hasRedis}}
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+{{/if}}
+
+volumes:
+  db_data:

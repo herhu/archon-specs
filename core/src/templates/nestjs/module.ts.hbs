@@ -1,0 +1,45 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+{{#each services}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+{{#each controllers}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+{{#each entities}}
+import { {{this.name}} } from './entities/{{kebab this.name}}.entity';
+{{/each}}
+{{#each repositories}}
+import { {{adapterClass}} } from '{{adapterImport}}';
+import { {{token}} } from '{{portImport}}';
+{{/each}}
+{{#each useCases}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+
+@Module({
+imports: [
+TypeOrmModule.forFeature([
+{{#each entities}}
+{{this.name}},
+{{/each}}
+]),
+],
+controllers: [
+{{#each controllers}}
+{{className}},
+{{/each}}
+],
+providers: [
+{{#each services}}
+{{className}},
+{{/each}}
+{{#each useCases}}
+{{className}},
+{{/each}}
+{{#each repositories}}
+{ provide: {{token}}, useClass: {{adapterClass}} },
+{{/each}}
+],
+})
+export class {{moduleClassName}} {}

@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "RequirementContract",
+  "description": "Governed Business Requirements for ArchonSpecs V2",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Version of the requirements contract"
+    },
+    "businessRules": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of core business rules and logic"
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "capabilities": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["name", "capabilities"]
+      },
+      "description": "System actors and their allowed capabilities"
+    },
+    "invariants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Business invariants that must always hold true"
+    },
+    "events": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Domain events emitted by the system"
+    },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Technical and business constraints"
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Identified project risks and mitigations"
+    }
+  },
+  "required": ["version", "businessRules", "actors", "invariants", "events"]
+}

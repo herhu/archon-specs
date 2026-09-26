@@ -1,0 +1,10 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { PartialType } from '@nestjs/swagger';
+import { Create{{entity.name}}Dto } from './create-{{kebab entity.name}}.dto';
+
+export class Update{{entity.name}}Dto extends PartialType(Create{{entity.name}}Dto) {}

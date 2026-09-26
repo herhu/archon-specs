@@ -1,0 +1,10 @@
+-- 🛡️ [GOVERNED BY ARCHON] Transactional outbox table (E4).
+-- Idempotent + safe to re-run. Runs before domain migrations (0000_ prefix).
+CREATE TABLE IF NOT EXISTS "outbox_event" (
+  "id" UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  "type" TEXT NOT NULL,
+  "payload" JSONB NOT NULL,
+  "published" BOOLEAN NOT NULL DEFAULT FALSE,
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS "idx_outbox_event_published" ON "outbox_event" ("published");

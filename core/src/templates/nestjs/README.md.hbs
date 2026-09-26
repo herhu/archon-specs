@@ -1,0 +1,192 @@
+# {{projectName}}
+
+Generated backend application.
+
+## 🚀 Getting Started
+
+### 1. Environment Setup
+
+Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+### 2. Run with Docker (Recommended)
+
+Start the app and database:
+
+```bash
+docker-compose up -d
+```
+
+### 3. Run Locally
+
+Install dependencies:
+```bash
+npm install
+```
+
+Start the server:
+```bash
+npm run start:dev
+```
+
+## 📚 Documentation
+
+- **Swagger UI**: [http://localhost:3000/docs](http://localhost:3000/docs)
+- **JSON Spec**: [http://localhost:3000/openapi.json](http://localhost:3000/openapi.json)
+
+## ❤️ Health Checks
+
+- **Liveness**: [http://localhost:3000/health](http://localhost:3000/health) (Returns 200 OK)
+- **Readiness**: [http://localhost:3000/health/ready](http://localhost:3000/health/ready) (Checks DB connection)
+
+## 🔑 Authentication
+
+Use the included helper scripts to generate tokens:
+
+```bash
+# Get a JWT token
+./scripts/get-token.sh
+
+# Test an authenticated endpoint
+./scripts/curl.sh -X GET http://localhost:3000/api/v1/projects
+```
+
+## 🛠️ Project Structure
+
+- `src/main.ts`: Application bootstrap (CORS, Pipes, Helmet)
+- `src/app.module.ts`: Main module mounting Config, Logger, Health, and Domains
+- `src/shared/`: Platform resources (Config, Logging, Middleware, etc.)
+- `src/modules/`: Domain feature modules
+
+## 🧠 Architecture Governance & Evolution
+
+This project is governed by Archon. **Do not manually create random files or break the structure.** 
+To add new domains, entities, or fields, use the **Archon AI Bridge**.
+
+### Setup the AI Bridge
+
+In order for your IDE AI to understand how to automatically modify this project, you need to configure the **Model Context Protocol (MCP)**.
+
+1. **Install the Client** (Done automatically by `ARCHON.sh`):
+   ```bash
+   npm install -g archonspecs
+   ```
+
+2. **Configure your IDE**:
+
+   Copy the following JSON literal:
+   ```json
+   {
+     "mcpServers": {
+       "archon-governance": {
+         "command": "npx",
+         "args": ["-y", "archonspecs", "https://archonspecs.dev/mcp/sse?apiKey=<YOUR_API_KEY>"]
+       }
+     }
+   }
+   ```
+   *Note: Replace `<YOUR_API_KEY>` with your actual Archon platform token. If you have your own enterprise Archon server, replace the base URL with your remote endpoint.*
+
+    *   **Cursor**: Go to `Cursor Settings > Features > MCP` and click `+ Add New MCP Server`.
+        *   Name: `archon`
+        *   Type: `command`
+        *   Command: `npx -y archonspecs https://archonspecs.dev/mcp/sse?apiKey=<YOUR_API_KEY>`
+    *   **Claude Desktop**: Open `~/Library/Application Support/Claude/claude_desktop_config.json` and paste the JSON block inside the root `{}`.
+    *   **Antigravity**: Open `~/.gemini/antigravity/mcp_config.json` and paste the JSON block inside the root `{}`.
+
+3. **Talk to the AI**:
+   Reload your IDE to apply the MCP settings. Open your IDE chat in this project repository and say:
+   > *"Add a Notifications domain with a Webhook entity."*
+   
+   The AI will automatically use the MCP tools to update the remote spec and synchronize your local project, **preserving every method you marked with `@ArchonManual()`** (see "Evolving This Project" below).
+
+## 🔄 Evolving This Project
+
+Archon is a **hybrid developer**: it owns the architecture (entities, DTOs, CRUD, Swagger, SQL schema) and you own the specialized business logic. When the spec evolves and the project is re-materialized, the engine performs a **structural merge** — it never blindly overwrites your file.
+
+### What happens on each regeneration
+
+| You add… | Archon does (additively — nothing is deleted) |
+| :--- | :--- |
+| A **new entity** | Creates its entity/DTO/service/controller and adds a new table to `src/db/schema.sql` (`CREATE TABLE IF NOT EXISTS`) |
+| A **new field** | Adds the `@Column` to the existing entity + `@ApiProperty` to the DTO, and emits `ALTER TABLE … ADD COLUMN IF NOT EXISTS` in `schema.sql` |
+| A **new operation** | Adds a protected `@ArchonManual()` stub to the service + a typed route to the controller |
+| **Nothing** (re-run) | Standard CRUD methods are refreshed from the template; your protected code is left untouched |
+
+The generated `schema.sql` is fully **idempotent** — running it repeatedly only adds what's missing, so the database stays in sync as features are added.
+
+### 🛡️ Protecting your business logic — `@ArchonManual()`
+
+This is the contract that keeps your code safe across regenerations:
+
+```typescript
+import { ArchonManual } from '../../shared/decorators/archon-manual.decorator';
+
+@ArchonManual()
+async registerAttendee(dto: any) {
+  // 🖐️ Your logic. Archon will NEVER overwrite this method again.
+  const profile = this.repo.create({ ...dto, status: 'REGISTERED' });
+  return this.repo.save(profile);
+}
+```
+
+Rules the merge engine follows:
+- A **method** marked `@ArchonManual()` is **skipped entirely** on regeneration — your implementation is preserved verbatim.
+- All generated **custom operations already carry `@ArchonManual()`**, so the moment you implement one it is locked.
+- Want to customize a standard CRUD method (`create`, `findOne`, …)? Just add `@ArchonManual()` to it and it becomes yours.
+- To freeze an **entire file**, put `@ArchonManual()` on the class — the whole file is then ignored by the engine.
+- Merges are **additive**: new methods, properties and imports are added; existing protected code and your manual additions are never removed.
+
+> ⚠️ Regenerating from a **stale spec** still won't touch `@ArchonManual` code, but it will refresh boilerplate. Keep the spec the source of truth — make structural changes there, business logic here.
+
+Generated by Archon.
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Environment variables:
+```bash
+cp .env.example .env
+# Update .env with your configuration
+```
+
+
+
+## Running the app
+
+```bash
+# development
+npm run start
+
+# watch mode
+npm run start:dev
+
+# production mode
+npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+npm run test
+
+# e2e tests
+npm run test:e2e
+
+# test coverage
+npm run test:cov
+```
+
+## API Documentation
+
+- **Base URL**: `http://localhost:3000`
+- **API Reference**: See `docs/api.md` for full endpoint documentation and Curl examples.
+- **Authentication**: Bearer Token required for most endpoints. See `docs/api.md` for token acquisition details.

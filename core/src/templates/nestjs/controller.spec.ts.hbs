@@ -1,0 +1,69 @@
+/**
+ * 🛡️ [GENERATED ONCE BY ARCHON] — this test scaffold is YOURS.
+ * Archon writes it a single time and never overwrites it on regeneration, so any
+ * specs you add below are safe. Delete the file to regenerate a fresh scaffold.
+ */
+import { Test, TestingModule } from '@nestjs/testing';
+import { {{controllerClassName}} } from './{{controllerFileBase}}.controller';
+import { {{serviceClassName}} } from '../services/{{serviceFileBase}}.service';
+{{#each useCases}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+
+const serviceMock = {
+  create: jest.fn(),
+  findAll: jest.fn(),
+  findOne: jest.fn(),
+  update: jest.fn(),
+  delete: jest.fn(),
+};
+
+describe('{{controllerClassName}}', () => {
+  let controller: {{controllerClassName}};
+
+  beforeEach(async () => {
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      controllers: [{{controllerClassName}}],
+      providers: [
+        { provide: {{serviceClassName}}, useValue: serviceMock },
+{{#each useCases}}        { provide: {{className}}, useValue: { execute: jest.fn() } },
+{{/each}}      ],
+    }).compile();
+
+    controller = moduleRef.get<{{controllerClassName}}>({{controllerClassName}});
+  });
+
+  afterEach(() => jest.clearAllMocks());
+
+  it('is defined', () => {
+    expect(controller).toBeDefined();
+  });
+{{#if crud.findAll}}
+
+  it('findAll() delegates to the service', async () => {
+    const list: unknown[] = [];
+    serviceMock.findAll.mockResolvedValue(list);
+    await expect(controller.findAll()).resolves.toBe(list);
+    expect(serviceMock.findAll).toHaveBeenCalledTimes(1);
+  });
+{{/if}}
+{{#if crud.findOne}}
+
+  it('findOne() delegates to the service with the id', async () => {
+    const found = {};
+    serviceMock.findOne.mockResolvedValue(found);
+    await expect(controller.findOne('id-1' as never)).resolves.toBe(found);
+    expect(serviceMock.findOne).toHaveBeenCalledWith('id-1');
+  });
+{{/if}}
+{{#if crud.delete}}
+
+  it('delete() delegates to the service with the id', async () => {
+    serviceMock.delete.mockResolvedValue(undefined);
+    await controller.delete('id-1' as never);
+    expect(serviceMock.delete).toHaveBeenCalledWith('id-1');
+  });
+{{/if}}
+
+  // 🖐️ Add your own controller specs below — this file belongs to you now.
+});

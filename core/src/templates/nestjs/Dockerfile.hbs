@@ -1,0 +1,40 @@
+# ---------- build stage ----------
+FROM node:20-alpine AS build
+WORKDIR /app
+
+# Install deps first (better layer caching)
+COPY package*.json ./
+RUN npm ci
+
+# Copy sources and build
+COPY . .
+RUN npm run build
+
+# ---------- runtime stage ----------
+FROM node:20-alpine AS runtime
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Install only production deps
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy built output
+COPY --from=build --chown=app:app /app/dist ./dist
+COPY --from=build --chown=app:app /app/node_modules ./node_modules
+COPY --chown=app:app package*.json ./
+{{#if platform.newRelic}}
+# New Relic APM agent config (loaded via -r newrelic below)
+COPY --chown=app:app newrelic.js ./
+{{/if}}
+
+# Run as non-root
+RUN addgroup -S app && adduser -S app -G app
+USER app
+
+{{#if platform.newRelic}}
+CMD ["node", "-r", "newrelic", "dist/main.js"]
+{{else}}
+CMD ["node", "dist/main.js"]
+{{/if}}

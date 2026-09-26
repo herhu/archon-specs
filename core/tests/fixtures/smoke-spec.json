@@ -1,0 +1,56 @@
+{
+  "version": "1.0.0",
+  "name": "Smoke API",
+  "domains": [
+    {
+      "key": "customers",
+      "name": "customers",
+      "entities": [
+        {
+          "name": "Customer",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "email", "type": "string", "unique": true },
+            { "name": "fullName", "type": "string" }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "CustomerService",
+          "entity": "Customer",
+          "route": "customers",
+          "crud": ["create", "findAll", "findOne", "update", "delete"]
+        }
+      ]
+    },
+    {
+      "key": "billing",
+      "name": "billing",
+      "entities": [
+        {
+          "name": "Invoice",
+          "primaryKey": "id",
+          "fields": [
+            { "name": "id", "type": "uuid", "primary": true },
+            { "name": "amount", "type": "float" },
+            { "name": "status", "type": "string", "nullable": true },
+            { "name": "customerId", "type": "uuid", "references": { "entity": "Customer", "field": "id" } }
+          ]
+        }
+      ],
+      "services": [
+        {
+          "name": "InvoiceService",
+          "entity": "Invoice",
+          "route": "invoices",
+          "operations": [
+            { "name": "issueInvoice", "method": "POST", "path": "/issue" },
+            { "name": "replaceInvoice", "method": "PUT", "path": "/:id/replace" }
+          ]
+        }
+      ]
+    }
+  ]
+}

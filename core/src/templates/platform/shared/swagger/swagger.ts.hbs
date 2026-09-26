@@ -1,0 +1,18 @@
+import { INestApplication } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+export function setupSwagger(app: INestApplication) {
+const title = process.env.APP_NAME || '{{projectName}}';
+
+const cfg = new DocumentBuilder()
+.setTitle(title)
+.setDescription('Generated backend scaffold')
+.setVersion(process.env.APP_VERSION || '0.1.0')
+.addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'bearer')
+.build();
+
+const doc = SwaggerModule.createDocument(app, cfg);
+SwaggerModule.setup('/docs', app, doc);
+
+app.use('/openapi.json', (_req, res) => res.json(doc));
+}

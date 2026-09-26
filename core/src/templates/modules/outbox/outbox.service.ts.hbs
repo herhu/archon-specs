@@ -1,0 +1,20 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Outbox writer.
+ * Call `append(type, payload)` from inside a `runInTransaction(...)` block (e.g. a
+ * use-case) so the event row commits atomically with your business change.
+ */
+import { Injectable } from '@nestjs/common';
+import { DataSource } from 'typeorm';
+import { OutboxEvent } from './outbox-event.entity';
+import { activeManager } from './transaction-context';
+
+@Injectable()
+export class OutboxService {
+  constructor(private readonly dataSource: DataSource) {}
+
+  async append(type: string, payload: Record<string, unknown>): Promise<void> {
+    const manager = activeManager(this.dataSource);
+    const event = manager.create(OutboxEvent, { type, payload, published: false });
+    await manager.save(event);
+  }
+}

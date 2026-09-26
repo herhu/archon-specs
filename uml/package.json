@@ -1,0 +1,54 @@
+{
+  "name": "uml-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for UML to Archon Spec transformation",
+  "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "default": "./dist/server.js"
+    },
+    "./stdio": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/transform/spec.d.ts",
+      "default": "./dist/transform/spec.js"
+    },
+    "./dsl": {
+      "types": "./dist/dsl/ascii.d.ts",
+      "default": "./dist/dsl/ascii.js"
+    },
+    "./mermaid": {
+      "types": "./dist/transform/mermaid.d.ts",
+      "default": "./dist/transform/mermaid.js"
+    },
+    "./schema": {
+      "types": "./dist/schema/ir.d.ts",
+      "default": "./dist/schema/ir.js"
+    },
+    "./validation": {
+      "types": "./dist/validation/index.d.ts",
+      "default": "./dist/validation/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.1",
+    "fs-extra": "^11.2.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.19.39",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

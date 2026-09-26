@@ -1,0 +1,52 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Outbox relay (poller).
+ * Bridges the DB→queue gap of the transactional-outbox pattern: a scheduled job
+ * claims unpublished events with FOR UPDATE SKIP LOCKED (safe across instances),
+ * enqueues them, and marks them published. Recovers events from a crash between
+ * commit and enqueue.
+ */
+import { Injectable, Logger } from '@nestjs/common';
+import { Interval } from '@nestjs/schedule';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
+import { DataSource } from 'typeorm';
+import { OutboxEvent } from './outbox-event.entity';
+
+export const DOMAIN_EVENTS_QUEUE = 'domain-events';
+
+@Injectable()
+export class OutboxRelay {
+  private readonly logger = new Logger(OutboxRelay.name);
+
+  constructor(
+    private readonly dataSource: DataSource,
+    @InjectQueue(DOMAIN_EVENTS_QUEUE) private readonly queue: Queue,
+  ) {}
+
+  @Interval(5000)
+  async drain(): Promise<void> {
+    await this.dataSource.transaction(async (manager) => {
+      const events = await manager
+        .createQueryBuilder(OutboxEvent, 'e')
+        .setLock('pessimistic_partial_write') // FOR UPDATE SKIP LOCKED
+        .where('e.published = :published', { published: false })
+        .orderBy('e.created_at', 'ASC')
+        .take(100)
+        .getMany();
+
+      if (events.length === 0) return;
+
+      // Enqueue all claimed events, then mark them published in one statement. If any
+      // enqueue fails the transaction rolls back and the events are retried next tick
+      // (at-least-once). SKIP LOCKED above keeps concurrent relays from double-claiming.
+      await Promise.all(
+        events.map((event) =>
+          this.queue.add(event.type, { id: event.id, type: event.type, payload: event.payload }),
+        ),
+      );
+      await manager.update(OutboxEvent, events.map((event) => event.id), { published: true });
+
+      this.logger.log('Relayed ' + events.length + ' domain event(s) to the queue.');
+    });
+  }
+}

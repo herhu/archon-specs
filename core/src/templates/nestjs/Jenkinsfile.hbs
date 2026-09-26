@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    
+    environment {
+        PROJECT_NAME = '{{kebab projectName}}'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Install') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+        stage('Lint & Format') {
+            steps {
+                sh 'npm run format'
+                sh 'npm run lint'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'npm run test:cov'
+            }
+        }
+        {{#if platformConfig.sonarQube}}
+        stage('SonarQube Static Analysis') {
+            steps {
+                // 'SonarQube' must match the server name configured in
+                // Jenkins → Manage Jenkins → System → SonarQube servers.
+                withSonarQubeEnv('SonarQube') {
+                    sh 'sonar-scanner'
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                // Fail the build if SonarQube reports code smells / bugs /
+                // vulnerabilities above the configured Quality Gate threshold.
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        {{/if}}
+        stage('Build') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    def image = docker.build("${PROJECT_NAME}:${env.BUILD_ID}")
+                    // Add registry credentials step here
+                    // image.push('latest')
+                }
+            }
+        }
+    }
+}

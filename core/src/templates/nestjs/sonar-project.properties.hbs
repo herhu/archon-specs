@@ -1,0 +1,14 @@
+sonar.projectName={{pascal projectName}}
+sonar.projectKey={{kebab projectName}}
+
+# Source analysis (code smells, bugs, vulnerabilities)
+sonar.sources=src
+sonar.tests=src
+sonar.test.inclusions=**/*.spec.ts
+sonar.exclusions=**/*.spec.ts,dist/**/*,coverage/**/*,node_modules/**/*
+
+sonar.sourceEncoding=UTF-8
+sonar.typescript.tsconfigPath=tsconfig.json
+
+# Coverage (optional — produced by `npm run test:cov`)
+sonar.javascript.lcov.reportPaths=coverage/lcov.info

@@ -1,0 +1,84 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, OneToOne, ManyToMany, JoinColumn, Index } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+{{#each relatedEntities}}
+import { {{name}} } from '{{importPath}}';
+{{/each}}
+
+@Entity('{{snake entity.name}}')
+{{#each entity.indexes}}
+@Index('{{#if name}}{{name}}{{else}}idx_{{snake ../entity.name}}_{{#each fields}}{{this}}{{#unless @last}}_{{/unless}}{{/each}}{{/if}}', [{{#each fields}}'{{this}}'{{#unless @last}}, {{/unless}}{{/each}}]{{#if unique}}, { unique: true }{{/if}})
+{{/each}}
+export class {{entity.name}} {
+{{#each entity.fields}}
+{{#if primary}}
+  @ApiProperty({ description: 'Primary key', example: {{{apiExample type name}}} })
+  @PrimaryGeneratedColumn({{#if (eq type 'uuid')}}'uuid'{{/if}})
+  {{name}}!: {{tsType type}};
+{{else}}
+{{#unless isFkColumn}}
+{{#if index}}
+  @Index('idx_{{snake ../entity.name}}_{{name}}')
+{{/if}}
+  @ApiProperty({ description: '{{name}}', example: {{{apiExample type name}}}{{#if nullable}}, required: false{{/if}} })
+{{#if (eq type 'uuid')}}
+  @Column({ type: 'uuid', nullable: {{#if nullable}}true{{else}}false{{/if}} })
+  {{name}}{{#if nullable}}?{{else}}!{{/if}}: string;
+{{else if (eq type 'timestamp')}}
+  @Column({ type: 'timestamp', nullable: {{#if nullable}}true{{else}}false{{/if}} })
+  {{name}}{{#if nullable}}?{{else}}!{{/if}}: Date;
+{{else if (eq type 'json')}}
+  @Column({ type: 'jsonb', nullable: {{#if nullable}}true{{else}}false{{/if}} })
+  {{name}}{{#if nullable}}?{{else}}!{{/if}}: Record<string, any>;
+{{else}}
+  @Column({ nullable: {{#if nullable}}true{{else}}false{{/if}}{{#if unique}}, unique: true{{/if}} })
+  {{name}}{{#if nullable}}?{{else}}!{{/if}}: {{tsType type}};
+{{/if}}
+{{/unless}}
+{{/if}}
+{{/each}}
+
+{{#each entity.relationships}}
+{{#if (eq type 'manyToOne')}}
+  @ManyToOne(() => {{targetEntity}}{{#if inverseProperty}}, ({{camel targetEntity}}) => {{camel targetEntity}}.{{inverseProperty}}{{/if}})
+  @JoinColumn({ name: '{{#if joinColumn}}{{joinColumn}}{{else}}{{camel targetEntity}}Id{{/if}}' })
+  {{name}}!: {{targetEntity}};
+
+  @ApiProperty({ description: 'FK to {{targetEntity}}', example: '3fa85f64-5717-4562-b3fc-2c963f66afa6' })
+  @Column({ name: '{{#if joinColumn}}{{joinColumn}}{{else}}{{camel targetEntity}}Id{{/if}}', nullable: false })
+  {{#if joinColumn}}{{joinColumn}}{{else}}{{camel targetEntity}}Id{{/if}}!: string;
+{{/if}}
+
+{{#if (eq type 'oneToMany')}}
+  @OneToMany(() => {{targetEntity}}, ({{camel targetEntity}}) => {{camel targetEntity}}.{{#if inverseProperty}}{{inverseProperty}}{{else}}{{camel ../entity.name}}{{/if}})
+  {{name}}!: {{targetEntity}}[];
+{{/if}}
+
+{{#if (eq type 'oneToOne')}}
+  @OneToOne(() => {{targetEntity}}{{#if inverseProperty}}, ({{camel targetEntity}}) => {{camel targetEntity}}.{{inverseProperty}}{{/if}})
+  {{#if joinColumn}}@JoinColumn({ name: '{{joinColumn}}' }){{/if}}
+  {{name}}!: {{targetEntity}};
+{{/if}}
+
+{{#if (eq type 'manyToMany')}}
+  @ManyToMany(() => {{targetEntity}}{{#if inverseProperty}}, ({{camel targetEntity}}) => {{camel targetEntity}}.{{inverseProperty}}{{/if}})
+  {{name}}!: {{targetEntity}}[];
+{{/if}}
+{{/each}}
+
+{{#unless hasCreatedAt}}
+  @ApiProperty({ description: 'Creation timestamp', example: '2025-01-01T12:00:00.000Z' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt!: Date;
+{{/unless}}
+{{#unless hasUpdatedAt}}
+  @ApiProperty({ description: 'Last update timestamp', example: '2025-01-01T12:00:00.000Z' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt!: Date;
+{{/unless}}
+}

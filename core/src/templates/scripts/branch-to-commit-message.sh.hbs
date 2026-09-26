@@ -1,0 +1,19 @@
+#!/bin/bash
+# Automatically adds branch name and branch description to every commit message.
+
+if [ -z "$BRANCHES_TO_SKIP" ]; then
+BRANCHES_TO_SKIP=() # space separated list like: master develop main
+fi
+
+BRANCH_NAME=$(git branch 2>/dev/null | grep '*' | sed 's/* //')
+
+if [ -z "$BRANCH_NAME" ]; then
+exit 0
+fi
+
+BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+BRANCH_IN_COMMIT=0
+
+if [ -n "$BRANCH_NAME" ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then
+sed -i.bak -e "1s/^/[$BRANCH_NAME] /" "$1"
+fi

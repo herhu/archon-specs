@@ -1,0 +1,40 @@
+-- 🛡️ [GOVERNED BY ARCHON]
+-- Migration: {{migrationName}}
+-- Generated at: {{generatedAt}}
+
+{{#each changes}}
+{{#if (eq type 'CreateTable')}}
+-- Create Table: {{tableName}}
+CREATE TABLE IF NOT EXISTS "{{tableName}}" (
+  {{#each fields}}
+  "{{name}}" {{#if (eq type 'int')}}SERIAL{{else}}{{#if (eq type 'uuid')}}UUID{{else}}{{#if (eq type 'boolean')}}BOOLEAN{{else}}{{#if (eq type 'timestamp')}}TIMESTAMP WITH TIME ZONE{{else}}{{#if (eq type 'json')}}JSONB{{else}}TEXT{{/if}}{{/if}}{{/if}}{{/if}}{{/if}} {{#unless optional}}NOT NULL{{/unless}}{{#if primary}} PRIMARY KEY{{/if}}{{#if unique}} UNIQUE{{/if}}{{#if references}} REFERENCES "{{snake references.entity}}"("{{references.field}}"){{/if}},
+  {{/each}}
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP{{#each relationships}}{{#if (or (eq type 'manyToOne') (eq type 'oneToOne'))}},
+  CONSTRAINT "fk_{{snake ../tableName}}_{{snake targetEntity}}" FOREIGN KEY ("{{#if joinColumn}}{{joinColumn}}{{else}}{{camel targetEntity}}Id{{/if}}") REFERENCES "{{snake targetEntity}}"("id"){{/if}}{{/each}}
+){{#if partitionBy}} PARTITION BY {{partitionBy.type}} ("{{partitionBy.field}}"){{/if}};
+
+{{#if partitionBy}}
+-- Example for HASH partition:
+-- CREATE TABLE "{{tableName}}_p0" PARTITION OF "{{tableName}}" FOR VALUES WITH (MODULUS 4, REMAINDER 0);
+{{/if}}
+{{/if}}
+
+{{#if (eq type 'AddColumn')}}
+-- Add Column: {{columnName}} to {{tableName}}
+ALTER TABLE "{{tableName}}" ADD COLUMN "{{columnName}}" {{#if (eq columnType 'int')}}INTEGER{{else}}{{#if (eq columnType 'uuid')}}UUID{{else}}{{#if (eq columnType 'boolean')}}BOOLEAN{{else}}{{#if (eq columnType 'timestamp')}}TIMESTAMP WITH TIME ZONE{{else}}{{#if (eq columnType 'json')}}JSONB{{else}}TEXT{{/if}}{{/if}}{{/if}}{{/if}}{{/if}} {{#unless optional}}NOT NULL{{/unless}}{{#if unique}} UNIQUE{{/if}}{{#if references}} REFERENCES "{{snake references.entity}}"("{{references.field}}"){{/if}};
+{{#if index}}
+CREATE INDEX IF NOT EXISTS "idx_{{tableName}}_{{columnName}}" ON "{{tableName}}" ("{{columnName}}");
+{{/if}}
+{{/if}}
+
+{{#if (eq type 'AddIndex')}}
+-- Add {{#if unique}}Unique {{/if}}Index: {{indexName}} on {{tableName}}
+CREATE {{#if unique}}UNIQUE {{/if}}INDEX IF NOT EXISTS "{{indexName}}" ON "{{tableName}}" ({{#each fields}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}});
+{{/if}}
+
+{{#if (eq type 'AddForeignKey')}}
+-- Add Foreign Key: {{constraintName}}
+ALTER TABLE "{{tableName}}" ADD CONSTRAINT "{{constraintName}}" FOREIGN KEY ("{{columnName}}") REFERENCES "{{snake references.entity}}"("{{references.field}}");
+{{/if}}
+{{/each}}

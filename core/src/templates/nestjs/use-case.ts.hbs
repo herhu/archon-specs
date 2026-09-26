@@ -1,0 +1,26 @@
+/**
+ * 🛡️ [GENERATED ONCE BY ARCHON] Application use-case: {{opName}}.
+ * The orchestration seam for a business PROCESS (distinct from entity CRUD, which
+ * lives in the domain service). Implement your logic inside execute() — this file is
+ * yours after first generation; Archon never overwrites it on regeneration.
+ */
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { {{repoPort}}, {{repoToken}} } from '{{repoPortImport}}';
+import { ArchonManual } from '../../../shared/decorators/archon-manual.decorator';
+
+@Injectable()
+export class {{useCaseClass}} {
+  constructor(
+    @Inject({{repoToken}})
+    private readonly repo: {{repoPort}},
+  ) {}
+
+  @ArchonManual()
+  async execute(_command: {{commandType}}): {{{returnType}}} {
+    // 🖐️ Implement the {{opName}} business process here.
+    // The injected `repo` is the domain repository port for {{entityName}}.
+    // (the request payload arrives as `_command`; rename to `command` when you use it)
+    // TODO: implement {{opName}}
+    throw new NotFoundException('{{opName}} is not implemented yet');
+  }
+}

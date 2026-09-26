@@ -1,0 +1,53 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { {{entity.name}} } from '../entities/{{kebab entity.name}}.entity';
+import { Create{{entity.name}}Dto } from '../dtos/create-{{kebab entity.name}}.dto';
+import { Update{{entity.name}}Dto } from '../dtos/update-{{kebab entity.name}}.dto';
+import { {{repoPort}}, {{repoToken}} } from '{{repoPortImport}}';
+
+@Injectable()
+export class {{serviceClassName}} {
+  constructor(
+    @Inject({{repoToken}})
+    private readonly repo: {{repoPort}},
+  ) {}
+
+{{#if crud.create}}
+  async create(dto: Create{{entity.name}}Dto): Promise<{{entity.name}}> {
+    return this.repo.save(this.repo.create(dto as unknown as {{entity.name}}));
+  }
+{{/if}}
+{{#if crud.findAll}}
+  async findAll(): Promise<{{entity.name}}[]> {
+    return this.repo.findAll();
+  }
+{{/if}}
+{{#if crud.findOne}}
+  async findOne({{idName}}: {{idType}}): Promise<{{entity.name}}> {
+    const entity = await this.repo.findById({{idName}});
+    if (!entity) {
+      throw new NotFoundException('{{entity.name}} with id ' + {{idName}} + ' not found');
+    }
+    return entity;
+  }
+{{/if}}
+{{#if crud.update}}
+  async update({{idName}}: {{idType}}, dto: Update{{entity.name}}Dto): Promise<{{entity.name}}> {
+    await this.repo.update({{idName}}, dto as unknown as Partial<{{entity.name}}>);
+    return this.findOne({{idName}});
+  }
+{{/if}}
+{{#if crud.delete}}
+  async delete({{idName}}: {{idType}}): Promise<void> {
+    const removed = await this.repo.remove({{idName}});
+    if (!removed) {
+      throw new NotFoundException('{{entity.name}} with id ' + {{idName}} + ' not found');
+    }
+  }
+{{/if}}
+}

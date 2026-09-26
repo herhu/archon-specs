@@ -1,0 +1,53 @@
+# API Reference — {{projectName}}
+
+Base URL (default): `{{baseUrl}}`
+
+---
+
+## Authentication — Get a Token (Client Credentials)
+
+If your IdP supports **OAuth2 Client Credentials**, run:
+
+```bash
+curl -X POST "{{tokenUrl}}" \
+-H "Content-Type: application/x-www-form-urlencoded" \
+-d "grant_type=client_credentials" \
+-d "client_id={{clientId}}" \
+-d "client_secret={{clientSecret}}" \
+-d "scope={{scope}}"
+```
+
+**Then copy `access_token` from the response and set:**
+
+```bash
+export TOKEN="<access_token>"
+```
+
+All examples below assume:
+
+```bash
+-H "Authorization: Bearer {{token}}"
+```
+
+> **Scopes convention (domain-based):**
+>
+> * Read: `domain:read`
+> * Write: `domain:write`
+
+---
+
+## Endpoints
+
+{{#each endpoints}}
+
+### {{method}} `{{path}}`
+
+**Auth:** {{#if authRequired}}Yes{{else}}No{{/if}}
+**Required scope:** {{scope}}
+**Description:** {{description}}
+
+```bash
+{{{curl}}}
+```
+
+{{/each}}

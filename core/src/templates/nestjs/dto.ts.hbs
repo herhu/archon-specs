@@ -1,0 +1,36 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsString,
+  IsInt,
+  IsBoolean,
+  IsOptional,
+  IsNotEmpty,
+  IsUUID,
+  IsEmail,
+  IsObject,
+  IsDateString,
+  IsNumber,
+} from 'class-validator';
+
+export class Create{{entity.name}}Dto {
+{{#each entity.fields}}
+{{#unless primary}}
+  {{#if nullable}}
+  @ApiPropertyOptional({ description: '{{name}} of the {{camel ../entity.name}}', example: {{{apiExample type name}}} })
+  @IsOptional()
+  {{else}}
+  @ApiProperty({ description: '{{name}} of the {{camel ../entity.name}}', example: {{{apiExample type name}}} })
+  @IsNotEmpty({ message: '{{name}} is required' })
+  {{/if}}
+  {{#if (eq type 'uuid')}}@IsUUID(){{else if (and (eq type 'string') (contains (lower name) 'email'))}}@IsEmail({}, { message: '{{name}} must be a valid email' }){{else if (eq type 'string')}}@IsString(){{else if (eq type 'int')}}@IsInt(){{else if (eq type 'float')}}@IsNumber(){{else if (eq type 'boolean')}}@IsBoolean(){{else if (eq type 'timestamp')}}@IsDateString(){{else if (eq type 'json')}}@IsObject(){{else}}@IsString(){{/if}}
+  {{name}}{{#if nullable}}?{{else}}!{{/if}}: {{#if (eq type 'timestamp')}}string{{else}}{{tsType type}}{{/if}};
+
+{{/unless}}
+{{/each}}
+}

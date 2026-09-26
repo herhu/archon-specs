@@ -1,0 +1,15 @@
+openapi: 3.0.0
+info:
+title: {{pascal projectName}} Environment Specific API
+description: Environment-level gateway routing definition for Kong or API GW.
+version: 1.0.0
+servers:
+- url: https://{{kebab projectName}}-{{env}}.pateng.elsevier.com/api/v1
+description: {{env}} Server
+paths:
+/health:
+get:
+summary: Health Check
+responses:
+'200':
+description: OK

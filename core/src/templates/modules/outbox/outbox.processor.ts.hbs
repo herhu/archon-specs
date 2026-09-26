@@ -1,0 +1,24 @@
+/**
+ * 🛡️ [GENERATED ONCE BY ARCHON] Domain-event consumer.
+ * Delivery is AT-LEAST-ONCE, so `process()` MUST be idempotent (dedupe on job.data.id
+ * or use upserts). Implement your dispatch logic in the @ArchonManual region — this
+ * file is yours after first generation.
+ */
+import { Logger } from '@nestjs/common';
+import { Processor, WorkerHost } from '@nestjs/bullmq';
+import { Job } from 'bullmq';
+import { DOMAIN_EVENTS_QUEUE } from './outbox-relay.service';
+import { ArchonManual } from '../../../shared/decorators/archon-manual.decorator';
+
+@Processor(DOMAIN_EVENTS_QUEUE)
+export class OutboxProcessor extends WorkerHost {
+  private readonly logger = new Logger(OutboxProcessor.name);
+
+  @ArchonManual()
+  async process(job: Job): Promise<void> {
+    // 🖐️ Dispatch the domain event here. MUST be idempotent (at-least-once delivery).
+    // `job.name` is the event type; `job.data` is { id, type, payload }.
+    // TODO: route job.name to your handlers.
+    this.logger.log('Received domain event ' + job.name + ' (' + String(job.data?.id) + ')');
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ArchitectureContract",
+  "description": "Governed Architecture Specifications for ArchonSpecs V2",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Version of the architecture contract"
+    },
+    "domainShards": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of domain shard identifiers (e.g. 'identity', 'payments')"
+    },
+    "capabilityShards": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of cross-cutting capabilities (e.g. 'auth', 'logging')"
+    },
+    "boundedContexts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "domains": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name", "domains"]
+      },
+      "description": "Logical groupings of domains into Bounded Contexts"
+    },
+    "serviceContracts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Integrations or service agreements"
+    }
+  },
+  "required": ["version", "domainShards"]
+}

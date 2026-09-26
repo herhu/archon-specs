@@ -1,0 +1,97 @@
+/**
+ * 🛡️ [GENERATED ONCE BY ARCHON] — this test scaffold is YOURS.
+ * Archon writes it a single time and never overwrites it on regeneration, so any
+ * specs you add below are safe. Delete the file to regenerate a fresh scaffold.
+ */
+import { Test, TestingModule } from '@nestjs/testing';
+{{#if isTransactional}}import { DataSource } from 'typeorm';
+{{/if}}{{#if needsNotFound}}import { NotFoundException } from '@nestjs/common';
+{{/if}}import { {{serviceClassName}} } from './{{serviceFileBase}}.service';
+import { {{repoToken}} } from '{{repoPortImport}}';
+
+const createMockRepo = () => ({
+  create: jest.fn(),
+  save: jest.fn(),
+  findAll: jest.fn(),
+  findById: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+});
+type MockRepo = ReturnType<typeof createMockRepo>;
+{{#if isTransactional}}
+const managerMock = {
+  create: jest.fn(),
+  save: jest.fn(),
+  update: jest.fn(),
+  findOne: jest.fn(),
+};
+const dataSourceMock = { transaction: jest.fn(async (cb: (m: typeof managerMock) => unknown) => cb(managerMock)) };
+{{/if}}
+
+describe('{{serviceClassName}}', () => {
+  let service: {{serviceClassName}};
+  let repo: MockRepo;
+
+  beforeEach(async () => {
+    repo = createMockRepo();
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      providers: [
+        {{serviceClassName}},
+        { provide: {{repoToken}}, useValue: repo },
+{{#if isTransactional}}        { provide: DataSource, useValue: dataSourceMock },
+{{/if}}      ],
+    }).compile();
+
+    service = moduleRef.get<{{serviceClassName}}>({{serviceClassName}});
+  });
+
+  afterEach(() => jest.clearAllMocks());
+
+  it('is defined', () => {
+    expect(service).toBeDefined();
+  });
+{{#if crud.create}}
+
+  it('create() persists and returns the entity', async () => {
+    const saved = { {{idName}}: 'id-1' };
+{{#if isTransactional}}    managerMock.create.mockReturnValue(saved);
+    managerMock.save.mockResolvedValue(saved);
+    await expect(service.create({} as never)).resolves.toEqual(saved);
+    expect(dataSourceMock.transaction).toHaveBeenCalled();
+{{else}}    repo.create.mockReturnValue(saved);
+    repo.save.mockResolvedValue(saved);
+    await expect(service.create({} as never)).resolves.toEqual(saved);
+    expect(repo.save).toHaveBeenCalledWith(saved);
+{{/if}}  });
+{{/if}}
+{{#if crud.findAll}}
+
+  it('findAll() returns the list', async () => {
+    const list = [{ {{idName}}: 'id-1' }];
+    repo.findAll.mockResolvedValue(list);
+    await expect(service.findAll()).resolves.toEqual(list);
+  });
+{{/if}}
+{{#if crud.findOne}}
+
+  it('findOne() returns the entity when found', async () => {
+    const found = { {{idName}}: 'id-1' };
+    repo.findById.mockResolvedValue(found);
+    await expect(service.findOne('id-1' as never)).resolves.toEqual(found);
+  });
+
+  it('findOne() throws NotFoundException when missing', async () => {
+    repo.findById.mockResolvedValue(null);
+    await expect(service.findOne('missing' as never)).rejects.toBeInstanceOf(NotFoundException);
+  });
+{{/if}}
+{{#if crud.delete}}
+
+  it('delete() throws NotFoundException when nothing was removed', async () => {
+    repo.remove.mockResolvedValue(false);
+    await expect(service.delete('missing' as never)).rejects.toBeInstanceOf(NotFoundException);
+  });
+{{/if}}
+
+  // 🖐️ Add your own behavioral specs below — this file belongs to you now.
+});

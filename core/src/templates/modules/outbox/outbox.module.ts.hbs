@@ -1,0 +1,23 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Transactional outbox module.
+ * Exposes OutboxService (write events in-transaction), relays them to the queue,
+ * and consumes them. @Global so use-cases can inject OutboxService anywhere.
+ */
+import { Global, Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BullModule } from '@nestjs/bullmq';
+import { OutboxEvent } from './outbox-event.entity';
+import { OutboxService } from './outbox.service';
+import { OutboxRelay, DOMAIN_EVENTS_QUEUE } from './outbox-relay.service';
+import { OutboxProcessor } from './outbox.processor';
+
+@Global()
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([OutboxEvent]),
+    BullModule.registerQueue({ name: DOMAIN_EVENTS_QUEUE }),
+  ],
+  providers: [OutboxService, OutboxRelay, OutboxProcessor],
+  exports: [OutboxService],
+})
+export class OutboxModule {}

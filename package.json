@@ -1,0 +1,27 @@
+{
+  "name": "archon-specs-monorepo",
+  "version": "2.0.0",
+  "private": true,
+  "description": "The Open Source AI Architecture Compiler",
+  "workspaces": [
+    "cli",
+    "core",
+    "desktop",
+    "uml"
+  ],
+  "scripts": {
+    "test": "npm --workspace=core test",
+    "desktop": "npm --workspace=desktop run dev"
+  },
+  "keywords": [
+    "ai",
+    "architecture",
+    "mcp",
+    "compiler",
+    "nestjs",
+    "code-generation",
+    "deterministic"
+  ],
+  "author": "Hernán Humana",
+  "license": "MIT"
+}

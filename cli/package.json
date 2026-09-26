@@ -1,0 +1,43 @@
+{
+  "name": "archonspecs",
+  "version": "2.0.6",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/herhu/Archonmcp.git"
+  },
+  "homepage": "https://archonspecs.dev",
+  "bugs": {
+    "url": "https://github.com/herhu/Archonmcp/issues"
+  },
+  "description": "The official Archon Specs CLI and MCP Bridge. Build and materialize AI-architected backends.",
+  "main": "bin/cli.js",
+  "type": "module",
+  "bin": {
+    "archonspecs": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "README.md",
+    "LICENSE",
+    "CLI.md"
+  ],
+  "scripts": {
+    "start": "node ./bin/cli.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.2.0",
+    "@types/fs-extra": "^11.0.4",
+    "fs-extra": "^11.3.4"
+  },
+  "keywords": [
+    "mcp",
+    "sse",
+    "stdio",
+    "bridge",
+    "proxy",
+    "archon"
+  ],
+  "author": "Archon",
+  "license": "MIT"
+}

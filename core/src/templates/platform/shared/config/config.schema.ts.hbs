@@ -1,0 +1,24 @@
+import * as Joi from 'joi';
+
+export const configSchema = Joi.object({
+NODE_ENV: Joi.string().valid('development', 'test', 'production').default('development'),
+PORT: Joi.number().default({{port}}),
+
+API_PREFIX: Joi.string().default('{{apiPrefix}}'),
+
+{{#if platform.cors}}
+CORS_ORIGINS: Joi.string().allow('').default(''),
+{{/if}}
+
+{{#if platform.throttling}}
+RATE_LIMIT_TTL: Joi.number().default({{platform.rateLimitTtl}}),
+RATE_LIMIT_MAX: Joi.number().default({{platform.rateLimitMax}}),
+{{/if}}
+
+{{#if (or hasRedis hasQueue)}}
+REDIS_HOST: Joi.string().default('localhost'),
+REDIS_PORT: Joi.number().default(6379),
+{{/if}}
+
+DATABASE_URL: Joi.string().required()
+}).unknown(true);

@@ -1,0 +1,65 @@
+import pgPromise from 'pg-promise';
+import fs from 'fs';
+import path from 'path';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+const pgp = pgPromise();
+const dbUrl = process.env.DATABASE_URL || 'postgres://archon:app@localhost:5432/app';
+const db = pgp(dbUrl);
+
+async function runMigrations() {
+  const migrationsDir = path.join(process.cwd(), 'scripts/migrations');
+  
+  if (!fs.existsSync(migrationsDir)) {
+    console.log('No migrations directory found. Skipping.');
+    return;
+  }
+
+  // Ensure migrations table exists
+  await db.none(`
+    CREATE TABLE IF NOT EXISTS "_archon_migrations" (
+      id SERIAL PRIMARY KEY,
+      name TEXT UNIQUE NOT NULL,
+      applied_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+
+  const files = fs.readdirSync(migrationsDir)
+    .filter(f => f.endsWith('.sql'))
+    .sort();
+
+  for (const file of files) {
+    const alreadyApplied = await db.oneOrNone(
+      'SELECT id FROM _archon_migrations WHERE name = $1',
+      [file]
+    );
+
+    if (!alreadyApplied) {
+      console.log(`🚀 Applying migration: ${file}`);
+      const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+      
+      try {
+        await db.tx(async t => {
+          await t.none(sql);
+          await t.none('INSERT INTO _archon_migrations(name) VALUES($1)', [file]);
+        });
+        console.log(`✅ Successfully applied: ${file}`);
+      } catch (err) {
+        console.error(`❌ Error applying migration ${file}:`, err);
+        process.exit(1);
+      }
+    } else {
+      console.log(`⏭️ Skipping already applied migration: ${file}`);
+    }
+  }
+
+  console.log('🏁 All migrations are up to date.');
+  pgp.end();
+}
+
+runMigrations().catch(err => {
+  console.error('Fatal error during migrations:', err);
+  process.exit(1);
+});

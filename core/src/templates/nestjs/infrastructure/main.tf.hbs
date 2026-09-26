@@ -1,0 +1,27 @@
+terraform {
+required_providers {
+aws = {
+source = "hashicorp/aws"
+version = "~> 5.0"
+}
+}
+backend "s3" {}
+}
+
+provider "aws" {
+region = var.aws_region
+}
+
+// -------------------------------------------------------------
+// Simplified Application Boilerplate
+// You will need to bring your own VPC and ECS cluster variables
+// -------------------------------------------------------------
+
+resource "aws_ecr_repository" "app" {
+name = "{{kebab projectName}}"
+image_tag_mutability = "MUTABLE"
+
+image_scanning_configuration {
+scan_on_push = true
+}
+}

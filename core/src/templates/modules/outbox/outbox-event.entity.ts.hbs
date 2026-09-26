@@ -1,0 +1,25 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Transactional outbox row.
+ * A domain event is written here in the same tx as the business change, then
+ * relayed to the queue by OutboxRelay (at-least-once).
+ */
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
+
+@Entity('outbox_event')
+export class OutboxEvent {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
+
+  @Column({ type: 'text' })
+  type!: string;
+
+  @Column({ type: 'jsonb' })
+  payload!: Record<string, unknown>;
+
+  @Index()
+  @Column({ type: 'boolean', default: false })
+  published!: boolean;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt!: Date;
+}

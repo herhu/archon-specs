@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Machine-readable governance rules for AI agents using Archon MCP. Use this to pre-validate locally before making MCP calls.",
+  "version": "2.6.0",
+  "reservedEntityNames": [
+    "User", "Account", "Transaction", "Session", "Order", "Event", "Log",
+    "Token", "Role", "Permission", "Config", "Setting", "Audit", "Record"
+  ],
+  "validFieldTypes": ["int", "float", "timestamp", "uuid", "string", "boolean", "json"],
+  "typeAliases": {
+    "number": "float",
+    "date": "timestamp",
+    "datetime": "timestamp",
+    "text": "string",
+    "bool": "boolean",
+    "bigint": "int",
+    "decimal": "float",
+    "char": "string",
+    "varchar": "string"
+  },
+  "requiredSpecFields": ["version", "name"],
+  "requiredDomainFields": ["key", "name", "entities"],
+  "requiredEntityFields": ["name", "fields"],
+  "requiredFieldFields": ["name", "type"],
+  "allowedFieldModifiers": ["primary", "optional", "unique"],
+  "forbiddenFieldProperties": ["isPrimary", "isRequired", "nullable", "default", "primaryKey"],
+  "identifierPattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+  "identifierNote": "No dashes, spaces, or special characters. PascalCase for entities, camelCase for fields.",
+  "workflowStates": [
+    "NEW",
+    "WORKSPACE_INITIALIZED",
+    "DISCOVERY_DONE",
+    "ARCHITECTURE_CONTRACT_CREATED",
+    "DESIGN_DRAFTED",
+    "SPEC_SHARDS_CREATED",
+    "IR_PARSED",
+    "SPEC_COMPILED",
+    "SPEC_CREATED",
+    "SPEC_VALIDATED",
+    "PLAN_CREATED",
+    "USER_APPROVED",
+    "GENERATED",
+    "VERIFIED",
+    "DELIVERED"
+  ],
+  "manualPathIntermediateStates": {
+    "description": "When using the Pro/Manual path (writing DesignSpec.json directly), you must advance through these intermediate states in order before reaching PLAN_CREATED.",
+    "sequence": ["SPEC_SHARDS_CREATED", "SPEC_COMPILED", "SPEC_VALIDATED", "PLAN_CREATED"],
+    "note": "These are normally auto-advanced. On the manual path, call archon_workflow_continue for each in sequence. Legacy paths use IR_PARSED and SPEC_CREATED."
+  },
+  "proWorkflow": {
+    "description": "The Pro Workflow allows bypassing the UML parser to write DesignSpec.json directly.",
+    "steps": [
+      "1. archon_workflow_start",
+      "2. archon_initialize_workspace",
+      "3. Write DesignSpec.json manually",
+      "4. archon_validate_spec (get fingerprint)",
+      "5. archon_workflow_continue → IR_PARSED",
+      "6. archon_workflow_continue → SPEC_CREATED",
+      "7. archon_workflow_continue → SPEC_VALIDATED",
+      "8. archon_workflow_continue → PLAN_CREATED",
+      "9. archon_workflow_continue → USER_APPROVED (requires approvalToken)",
+      "10. archon materialize <workflowId> (local CLI)"
+    ]
+  },
+  "governedWorkflow": {
+    "description": "The standard governed workflow using the UML pipeline.",
+    "steps": [
+      "1. archon_workflow_start",
+      "2. archon_initialize_workspace",
+      "3. archon_generate_from_uml (auto-advances states)",
+      "4. archon_workflow_continue → USER_APPROVED (requires approvalToken)",
+      "5. archon_workflow_materialize"
+    ]
+  },
+  "dslSyntaxExample": "domain IdentityModule {\n  entity Profile {\n    id: uuid primary\n    email: string\n    status: string\n    createdAt: timestamp\n  }\n  entity Session {\n    id: uuid primary\n    profileId: uuid\n    --\n    Profile.id < Session.profileId\n  }\n}",
+  "commonErrors": {
+    "PARSE_ERROR_NO_DOMAINS": {
+      "message": "The parsed UML contains no domains or entities.",
+      "cause": "DSL syntax error causing the parser to skip blocks silently.",
+      "fix": "Ensure you use 'domain Name { entity Name { field: type } }' structure exactly. Check for missing closing braces."
+    },
+    "ADDITIONAL_PROPERTIES": {
+      "message": "must NOT have additional properties",
+      "cause": "Field contains a property not in the Phase 2.6 schema (e.g., isPrimary, isRequired, default).",
+      "fix": "Fields only accept { name, type }. Primary keys are inferred by convention or the 'primary' modifier in DSL."
+    },
+    "RESERVED_NAME": {
+      "message": "Entity name is reserved",
+      "cause": "Entity name conflicts with a protected system-level identifier.",
+      "fix": "Rename entity (e.g., 'User' → 'Profile', 'Account' → 'IdentityRecord', 'Session' → 'AuthToken')."
+    },
+    "ILLEGAL_TRANSITION": {
+      "message": "Illegal transition from X to Y",
+      "cause": "Attempted to skip intermediate workflow states.",
+      "fix": "See manualPathIntermediateStates for the required sequence."
+    }
+  }
+}

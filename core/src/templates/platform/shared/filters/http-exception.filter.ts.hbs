@@ -1,0 +1,57 @@
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+
+@Catch()
+export class HttpExceptionFilter implements ExceptionFilter {
+catch(exception: unknown, host: ArgumentsHost) {
+const ctx = host.switchToHttp();
+const res = ctx.getResponse();
+const req = ctx.getRequest();
+
+const correlationId =
+req.headers['x-correlation-id'] ||
+req.headers['X-Correlation-Id'] ||
+randomUUID();
+
+// Ensure correlation ID is on response headers too (defensive)
+res.setHeader('X-Correlation-Id', correlationId);
+
+const status =
+exception instanceof HttpException
+? exception.getStatus()
+: HttpStatus.INTERNAL_SERVER_ERROR;
+
+const payload =
+exception instanceof HttpException
+? exception.getResponse()
+: { message: 'Internal server error' };
+
+// Normalize message (handle string vs array from validation pipes)
+const rawMessage =
+typeof payload === 'string'
+? payload
+: (payload as any).message ?? (payload as any).error ?? 'Error';
+
+const message = Array.isArray(rawMessage)
+? rawMessage.join(', ')
+: rawMessage;
+
+const details = Array.isArray(rawMessage) ? rawMessage : undefined;
+
+// Application-level error code
+const code =
+exception instanceof HttpException
+? HttpStatus[status]
+: 'INTERNAL_ERROR';
+
+res.status(status).json({
+statusCode: status,
+code,
+message,
+details,
+path: req.url,
+correlationId,
+timestamp: new Date().toISOString()
+});
+}
+}

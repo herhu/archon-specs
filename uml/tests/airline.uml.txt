@@ -1,0 +1,113 @@
+
+domain Identity_Management {
+    entity PassengerProfile {
+        id: uuid PK
+        firstName: string
+        lastName: string
+        email: string [Unique]
+        loyaltyTier: string
+        createdAt: timestamp
+    }
+
+    entity StaffRecord {
+        id: uuid PK
+        staffCode: string [Unique]
+        role: string
+        department: string
+    }
+}
+
+domain Flight_Operations {
+    entity FlightRoute {
+        id: uuid PK
+        originIATA: string
+        destinationIATA: string
+        distanceKm: int
+    }
+
+    entity Airframe {
+        id: uuid PK
+        tailNumber: string [Unique]
+        model: string
+        totalSeats: int
+    }
+
+    entity ScheduledFlight {
+        id: uuid PK
+        routeId: uuid FK
+        airframeId: uuid FK
+        flightNumber: string
+        departureTime: timestamp
+        status: string
+    }
+}
+
+domain Commerce_Booking {
+    entity BookingOrder {
+        id: uuid PK
+        passengerId: uuid FK
+        pnr: string [Unique]
+        totalPrice: float
+        status: string
+    }
+
+    entity BoardingPass {
+        id: uuid PK
+        bookingId: uuid FK
+        flightId: uuid FK
+        ticketNumber: string
+        checkedIn: boolean
+    }
+
+    entity SeatAssignment {
+        id: uuid PK
+        boardingPassId: uuid FK
+        seatCode: string
+        isExtraLegroom: boolean
+    }
+}
+
+domain Financials_Ancillaries {
+    entity PaymentTransaction {
+        id: uuid PK
+        bookingId: uuid FK
+        providerId: string
+        amount: float
+        currency: string
+    }
+
+    entity AncillaryItem {
+        id: uuid PK
+        name: string
+        basePrice: float
+        category: string
+    }
+
+    entity BookingAncillary {
+        id: uuid PK
+        bookingId: uuid FK
+        ancillaryId: uuid FK
+        quantity: int
+    }
+}
+
+domain Logistics {
+    entity BaggageRecord {
+        id: uuid PK
+        boardingPassId: uuid FK
+        weightKg: float
+        type: string
+    }
+}
+
+%% Relationships
+PassengerProfile "1" --> "*" BookingOrder : places
+FlightRoute "1" --> "*" ScheduledFlight : defined_by
+Airframe "1" --> "*" ScheduledFlight : assigned_to
+BookingOrder "1" --> "*" BoardingPass : contains
+ScheduledFlight "1" --> "*" BoardingPass : manifest
+BookingOrder "1" -- "1" PaymentTransaction : paid_by
+BoardingPass "1" -- "0..1" SeatAssignment : occupies
+BoardingPass "1" --> "*" BaggageRecord : holds
+BookingOrder "1" --> "*" BookingAncillary : includes
+AncillaryItem "1" --> "*" BookingAncillary : defines

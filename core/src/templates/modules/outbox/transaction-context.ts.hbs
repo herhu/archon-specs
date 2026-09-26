@@ -1,0 +1,25 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Transaction context (AsyncLocalStorage).
+ * Lets the outbox write its event in the SAME database transaction as the business
+ * change — no dual-write. Run business work via `runInTransaction(...)`; anything it
+ * calls (including OutboxService.append) sees the same EntityManager.
+ */
+import { AsyncLocalStorage } from 'async_hooks';
+import { DataSource, EntityManager } from 'typeorm';
+
+export const transactionStorage = new AsyncLocalStorage<EntityManager>();
+
+/** Run `work` inside a DB transaction whose EntityManager is shared via ALS. */
+export function runInTransaction<T>(
+  dataSource: DataSource,
+  work: (manager: EntityManager) => Promise<T>,
+): Promise<T> {
+  return dataSource.transaction((manager) =>
+    transactionStorage.run(manager, () => work(manager)),
+  );
+}
+
+/** The active transactional EntityManager if inside runInTransaction, else the default. */
+export function activeManager(dataSource: DataSource): EntityManager {
+  return transactionStorage.getStore() ?? dataSource.manager;
+}

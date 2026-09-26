@@ -1,0 +1,45 @@
+
+domain Commercial {
+  entity Flight {
+    id: uuid PK
+    flightNumber: string [Unique]
+    capacity: int
+  }
+
+  entity Booking {
+    id: uuid PK
+    bookingCode: string [Unique]
+    status: string
+  }
+
+  entity BoardingPass {
+    id: uuid PK
+    ticketNumber: string
+  }
+
+  entity SeatAssignment {
+    id: uuid PK
+    seatCode: string
+  }
+
+  Flight "1" -- "*" Booking : contains
+  BoardingPass "1" --> "0..1" SeatAssignment : occupies
+}
+
+domain Identity {
+  entity Passenger {
+    id: uuid PK
+    email: string [Unique]
+    fullName: string
+  }
+
+  Passenger "1" --> "*" Booking : places
+}
+
+sequence Commercial {
+  Passenger -> BookingService : createBooking()
+  BookingService -> PassengerService : getBookingStatus()
+  PassengerService -> PassengerService : deleteBooking()
+  PassengerService -> PassengerService : listBookings()
+  PassengerService -> PassengerService : updateSeat()
+}

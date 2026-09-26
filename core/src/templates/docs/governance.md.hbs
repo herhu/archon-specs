@@ -1,0 +1,29 @@
+# Archon Governance Blueprint
+
+This document defines the mandatory workflow for any agent managing a project built with the Archon System Architect. Adhering to these rules ensures architectural integrity and prevents "governance bypass" during project evolution.
+
+## Mandatory Workflow for AI Agents
+
+### 1. Identify Project Lineage
+Before performing any structural changes (Adding Domains, Entities), the agent **MUST** locate the `.archon/lineage.json` file in the root of the targeted project.
+- **Lineage Found**: Use the `projectId` and `revisionId` from this file as the unique identifiers for all remote mutation calls.
+- **No Lineage**: If working on a pre-existing project without a lineage file, the agent must ask the user to initialize the project via `archon_generate_project` to establish a new control plane entry.
+
+### 2. Architectural Mutations
+- **DO NOT** manually edit DDD-managed files (Entities, Services, Controllers, DTOs).
+- **ALWAYS** use Archon's mutation tools to update the source of truth (`DesignSpec`) first.
+- **TOOLS**:
+    - `archon_add_domain`
+    - `archon_add_entity`
+    - `archon_patch_spec`
+- **DELTA SYNC**: After a remote mutation succeeds, the agent must run the local sync process (`archon_sync_local`) to reflect the changes in the filesystem. The local lineage will be updated automatically by the planner.
+
+### 3. Custom Logic & Evolution
+- Structural changes (entities, fields, operations) belong in the **spec**, never hand-edited into generated files.
+- Business logic belongs in methods marked **`@ArchonManual()`** — the merge engine skips these verbatim on every regeneration, so your code is never overwritten.
+- All generated custom operations ship with `@ArchonManual()` already applied. To protect a standard CRUD method too, add the decorator to it; to freeze an entire file, put `@ArchonManual()` on the class.
+- Merges are **additive**: new entities create new tables (`CREATE TABLE IF NOT EXISTS`), new fields add columns (`ALTER TABLE … ADD COLUMN IF NOT EXISTS`) — nothing is destructively dropped.
+- Never delete or modify the `@ArchonManual` decorators on code you want preserved.
+
+---
+*Note: This is a governance template provided by Archon. It should be copied into the `instructions/` or `docs/` folder of any project being evolved by an AI Agent.*

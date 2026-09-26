@@ -1,0 +1,43 @@
+export function pinoOptions() {
+const isProd = process.env.NODE_ENV === 'production';
+const runtimeLogPath = process.env.ARCHON_RUNTIME_LOG_PATH;
+
+const transports = [];
+
+// 1. Console transport
+if (!isProd) {
+    transports.push({
+        target: 'pino-pretty',
+        options: { singleLine: true, colorize: true }
+    });
+} else {
+    transports.push({ target: 'pino/file', options: { destination: 1 } }); // stdout
+}
+
+// 2. Archon Runtime Log transport (JSONL for ingestion)
+if (runtimeLogPath) {
+    transports.push({
+        target: 'pino/file',
+        options: { destination: runtimeLogPath }
+    });
+}
+
+return {
+pinoHttp: {
+level: process.env.LOG_LEVEL || (isProd ? 'info' : 'debug'),
+redact: {
+paths: ['req.headers.authorization', 'req.headers.cookie'],
+remove: true
+},
+transport: {
+    targets: transports
+},
+genReqId: function(req: any, _res: any) {
+if (req.headers['x-correlation-id']) {
+return req.headers['x-correlation-id'];
+}
+return undefined;
+}
+}
+};
+}

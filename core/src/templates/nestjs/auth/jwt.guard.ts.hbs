@@ -1,0 +1,107 @@
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException, Logger } from '@nestjs/common';
+import { createRemoteJWKSet, jwtVerify, type JWTPayload } from 'jose';
+import { loadJwtConfig } from './jwt.config';
+
+type AuthUser = {
+sub?: string;
+email?: string;
+roles: string[];
+scopes: string[]; // NEW: extracted scopes
+raw: JWTPayload;
+};
+
+function extractBearerToken(req: any): string | null {
+const auth = req.headers?.authorization || req.headers?.Authorization || '';
+const s = String(auth);
+if (!s.startsWith('Bearer ')) return null;
+return s.slice('Bearer '.length).trim();
+}
+
+function normalizeRoles(payload: any): string[] {
+  const candidates = [
+    payload?.roles,
+    payload?.role,
+    payload?.['https://example.com/roles'],
+    payload?.['permissions']
+  ];
+
+  const found = candidates.find(c => Array.isArray(c) || (typeof c === 'string' && c.length));
+  if (!found) return [];
+  if (Array.isArray(found)) return found.map(String);
+  return [String(found)];
+}
+
+function extractScopes(payload: any): string[] {
+  const candidates = [
+    payload?.scope, // "a b c"
+    payload?.scp, // ["a","b"] or "a b"
+    payload?.permissions, // ["x:y"]
+    payload?.['https://example.com/scopes'],
+    payload?.['https://example.com/permissions']
+  ];
+
+  const scopes = new Set<string>();
+
+  candidates.filter(Boolean).forEach(c => {
+    if (Array.isArray(c)) {
+      c.forEach(s => scopes.add(String(s)));
+    } else if (typeof c === 'string') {
+      c.split(/[ ,]+/).forEach(s => s && scopes.add(s));
+    }
+  });
+
+  return Array.from(scopes);
+}
+
+    @Injectable()
+    export class JwtAuthGuard implements CanActivate {
+    private readonly logger = new Logger(JwtAuthGuard.name);
+    private jwks?: ReturnType<typeof createRemoteJWKSet>;
+        private cfg = loadJwtConfig();
+
+        constructor() {
+        if (this.cfg.mode === 'jwks' && this.cfg.jwksUri) {
+        this.jwks = createRemoteJWKSet(new URL(this.cfg.jwksUri));
+        }
+        }
+
+        async canActivate(context: ExecutionContext): Promise<boolean> {
+            const req = context.switchToHttp().getRequest();
+            const token = extractBearerToken(req);
+            if (!token) throw new UnauthorizedException('Missing Bearer token');
+
+            try {
+            const { payload } = await this.verify(token);
+
+            const user: AuthUser = {
+            sub: typeof payload.sub === 'string' ? payload.sub : undefined,
+            email: typeof (payload as any).email === 'string' ? (payload as any).email : undefined,
+            roles: normalizeRoles(payload),
+            scopes: extractScopes(payload),
+            raw: payload
+            };
+
+            req.user = user;
+            return true;
+            } catch (e: any) {
+            this.logger.error(e);
+            throw new UnauthorizedException('Invalid token');
+            }
+            }
+
+            private async verify(token: string) {
+            if (this.cfg.mode === 'jwks') {
+            if (!this.jwks) throw new Error('JWKS not configured');
+            return jwtVerify(token, this.jwks, {
+            issuer: this.cfg.issuer,
+            audience: this.cfg.audience
+            });
+            }
+
+            const secret = new TextEncoder().encode(this.cfg.secret || '');
+            return jwtVerify(token, secret, {
+            issuer: this.cfg.issuer,
+            audience: this.cfg.audience
+            });
+            }
+            }

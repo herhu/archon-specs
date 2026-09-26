@@ -1,0 +1,12 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Jest setup — runs once per test file (jest.setupFiles).
+ * Loads the metadata polyfill required for Nest DI in unit tests and provides
+ * deterministic, non-production auth defaults so guards/services that validate
+ * environment config at construction can be instantiated under test.
+ */
+import 'reflect-metadata';
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'test';
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-secret-not-for-production';
+process.env.JWT_ISSUER = process.env.JWT_ISSUER || 'archon-test-issuer';
+process.env.JWT_AUDIENCE = process.env.JWT_AUDIENCE || 'archon-test-audience';

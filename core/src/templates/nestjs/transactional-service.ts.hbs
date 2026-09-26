@@ -1,0 +1,64 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON]
+ * This file is part of the Archon Architecture Contract.
+ * Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+ */
+
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { DataSource } from 'typeorm';
+import { {{entity.name}} } from '../entities/{{kebab entity.name}}.entity';
+import { Create{{entity.name}}Dto } from '../dtos/create-{{kebab entity.name}}.dto';
+import { Update{{entity.name}}Dto } from '../dtos/update-{{kebab entity.name}}.dto';
+import { {{repoPort}}, {{repoToken}} } from '{{repoPortImport}}';
+
+@Injectable()
+export class {{serviceClassName}} {
+  constructor(
+    @Inject({{repoToken}})
+    private readonly repo: {{repoPort}},
+    private readonly dataSource: DataSource,
+  ) {}
+
+{{#if crud.create}}
+  async create(dto: Create{{entity.name}}Dto): Promise<{{entity.name}}> {
+    return this.dataSource.transaction(async (manager) => {
+      const entity = manager.create({{entity.name}}, dto as unknown as {{entity.name}});
+      return manager.save(entity);
+    });
+  }
+{{/if}}
+{{#if crud.findAll}}
+  async findAll(): Promise<{{entity.name}}[]> {
+    return this.repo.findAll();
+  }
+{{/if}}
+{{#if crud.findOne}}
+  async findOne({{idName}}: {{idType}}): Promise<{{entity.name}}> {
+    const entity = await this.repo.findById({{idName}});
+    if (!entity) {
+      throw new NotFoundException('{{entity.name}} with id ' + {{idName}} + ' not found');
+    }
+    return entity;
+  }
+{{/if}}
+{{#if crud.update}}
+  async update({{idName}}: {{idType}}, dto: Update{{entity.name}}Dto): Promise<{{entity.name}}> {
+    return this.dataSource.transaction(async (manager) => {
+      await manager.update({{entity.name}}, {{idName}}, dto as any);
+      const entity = await manager.findOne({{entity.name}}, { where: { {{idName}} } as any });
+      if (!entity) {
+        throw new NotFoundException('{{entity.name}} with id ' + {{idName}} + ' not found');
+      }
+      return entity;
+    });
+  }
+{{/if}}
+{{#if crud.delete}}
+  async delete({{idName}}: {{idType}}): Promise<void> {
+    const removed = await this.repo.remove({{idName}});
+    if (!removed) {
+      throw new NotFoundException('{{entity.name}} with id ' + {{idName}} + ' not found');
+    }
+  }
+{{/if}}
+}

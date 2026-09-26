@@ -1,0 +1,112 @@
+#!/bin/bash
+set -e
+
+LOGO_BASE64="ICAgIF8gICAgX19fXyAgIF9fX18gXyAgIF8gIF9fXyAgXyAgIF8gCiAgIC8gXCAgfCAgXyBcIC8gX19ffCB8IHwgfC8gXyBcIHwgXCB8IHwKICAvIF8gXCB8IHxfKSB8IHwgICB8IHxffCB8IHwgfCB8ICBcIHwgfAogLyBfX18gXHwgIF8gPHwgfF9fX3wgIF8gIHwgfF98IHwgfFwgIHwKL18vICAgXF9cfF8gfCBcX1xcX19fX3xffCB8X3xcX19fL3xffCBcX3wKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCg=="
+echo "$LOGO_BASE64" | base64 --decode 2>/dev/null || true
+
+echo -e "\nInitializing Archon AI API for \033[1;36m{{projectName}}\033[0m...\n"
+
+OS="$(uname -s)"
+case "${OS}" in
+Linux*) MACHINE=Linux;;
+Darwin*) MACHINE=Mac;;
+CYGWIN*|MINGW*|MSYS*) MACHINE=Windows;;
+*) MACHINE=UNKNOWN;;
+esac
+
+check_dependency() {
+local cmd=$1
+local name=$2
+local mac_inst=$3
+local linux_inst=$4
+local win_inst=$5
+
+if ! command -v $cmd &> /dev/null; then
+echo -e "\n\033[1;31m❌ Error: $name is not installed or not in PATH.\033[0m"
+echo -e "\033[1;33mHow to install $name:\033[0m"
+if [ "$MACHINE" == "Mac" ]; then
+echo -e " 👉 Mac: \033[1;36m$mac_inst\033[0m"
+elif [ "$MACHINE" == "Linux" ]; then
+echo -e " 👉 Linux (Ubuntu/Debian): \033[1;36m$linux_inst\033[0m"
+elif [ "$MACHINE" == "Windows" ]; then
+echo -e " 👉 Windows: \033[1;36m$win_inst\033[0m"
+else
+echo " 👉 Please refer to the official $name documentation."
+fi
+echo -e "\nOnce installed, please run this script again."
+exit 1
+fi
+}
+
+echo "🔍 Checking system dependencies..."
+check_dependency "node" "Node.js" "brew install node" "curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash
+- && sudo apt-get install -y nodejs" "Download from https://nodejs.org/"
+check_dependency "npm" "npm" "brew install node" "sudo apt install npm" "Included with Node.js installer"
+check_dependency "docker" "Docker" "brew install --cask docker" "sudo apt install docker.io docker-compose-v2" "Download
+Docker Desktop from https://www.docker.com/"
+
+if ! docker info &> /dev/null; then
+echo -e "\n\033[1;31m❌ Error: Docker is not running.\033[0m"
+echo -e "\033[1;33mPlease start Docker Desktop or the Docker daemon and try again.\033[0m"
+exit 1
+fi
+
+echo "📦 Installing project dependencies..."
+npm install
+
+echo "🌉 Installing Archon MCP Client (Global)..."
+npm install -g archonspecs || true
+
+echo "✨ Formatting code..."
+npm run format
+
+echo "🔍 Linting & Cleaning up imports..."
+npm run lint || true
+
+echo "⚙️ Setting up environment..."
+if [ ! -f .env ]; then
+cp .env.example .env
+fi
+
+# Inject JWT Secrets
+if grep -q "YOUR_SECRET" .env || ! grep -q "JWT_SECRET=" .env || grep -q "JWT_SECRET=$" .env || grep -q "{{jwti}}" .env;
+then
+# Use Node.js for cross-platform crypto instead of openssl
+SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))")
+# Replace {{jwti}} placeholder or whatever empty secret
+sed -i.bak "s|^JWT_SECRET=.*|JWT_SECRET=$SECRET|" .env 2>/dev/null || true
+rm -f .env.bak
+fi
+
+if ! grep -q "^# Auto-generated JWT properties" .env; then
+echo "" >> .env
+echo "# Auto-generated JWT properties" >> .env
+ISSUER=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))")
+AUDIENCE=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64'))")
+echo "JWT_ISSUER=$ISSUER" >> .env
+echo "JWT_AUDIENCE=$AUDIENCE" >> .env
+fi
+
+echo "🐳 Starting infrastructure..."
+# Check if port is already in use
+PORT_TO_CHECK=$(grep "^PORT=" .env | cut -d '=' -f 2 || echo "3000")
+if [ "$MACHINE" == "Mac" ] || [ "$MACHINE" == "Linux" ]; then
+if lsof -Pi :$PORT_TO_CHECK -sTCP:LISTEN -t >/dev/null ; then
+echo -e "\n\033[1;31m❌ Error: Port $PORT_TO_CHECK is already in use.\033[0m"
+echo -e "\033[1;33mPlease stop the process using this port or change PORT in .env\033[0m"
+exit 1
+fi
+fi
+docker compose build --no-cache && docker compose up -d
+
+echo "🗄️ Running database migrations..."
+npm run db:migrate
+
+echo -e "\n🎉 Archon AI API is ready!"
+echo -e "🔗 \033[1mSwagger UI:\033[0m http://localhost:3000/docs"
+echo -e "🗄️ \033[1mDatabase:\033[0m {{snake projectName}}"
+echo -e "👤 \033[1mUser:\033[0m archon"
+echo -e "🔑 \033[1mPassword:\033[0m app"
+echo -e "🔌 \033[1mPort:\033[0m 5432"
+echo -e "🔗 \033[1mURL:\033[0m postgresql://archon:app@localhost:5432/{{snake projectName}}"
+echo -e "🚀 Run \033[1;32mnpm run start:dev\033[0m if you wish to run the API locally.\n"

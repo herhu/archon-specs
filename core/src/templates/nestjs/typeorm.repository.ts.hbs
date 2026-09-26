@@ -1,0 +1,42 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] TypeORM adapter implementing {{portInterface}}.
+ * Infrastructure detail — the domain layer never imports this class, only the port.
+ */
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { {{entity.name}} } from '{{entityImportPath}}';
+import { {{portInterface}} } from '{{portImport}}';
+
+@Injectable()
+export class {{adapterClass}} implements {{portInterface}} {
+  constructor(
+    @InjectRepository({{entity.name}})
+    private readonly orm: Repository<{{entity.name}}>,
+  ) {}
+
+  create(data: Partial<{{entity.name}}>): {{entity.name}} {
+    return this.orm.create(data as {{entity.name}});
+  }
+
+  save(entity: {{entity.name}}): Promise<{{entity.name}}> {
+    return this.orm.save(entity);
+  }
+
+  findAll(): Promise<{{entity.name}}[]> {
+    return this.orm.find();
+  }
+
+  findById(id: {{idType}}): Promise<{{entity.name}} | null> {
+    return this.orm.findOne({ where: { {{idName}}: id } as any });
+  }
+
+  async update(id: {{idType}}, data: Partial<{{entity.name}}>): Promise<void> {
+    await this.orm.update(id, data as any);
+  }
+
+  async remove(id: {{idType}}): Promise<boolean> {
+    const result = await this.orm.delete(id);
+    return !!result.affected;
+  }
+}

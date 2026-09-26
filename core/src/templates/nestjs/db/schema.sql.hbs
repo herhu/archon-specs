@@ -1,0 +1,82 @@
+-- 🛡️ [GOVERNED BY ARCHON]
+-- This file is part of the Archon Architecture Contract.
+-- Manual changes outside of @archon-manual regions WILL BE OVERWRITTEN.
+--
+-- Idempotent + order-independent:
+--   * Section 1 creates every table (CREATE TABLE IF NOT EXISTS) with NO foreign
+--     keys, so table creation order never matters (no forward-reference errors).
+--   * ALTER TABLE ADD COLUMN IF NOT EXISTS keeps existing tables in sync.
+--   * Section 2 adds foreign keys AFTER all tables exist, each guarded so the
+--     script is safe to re-run.
+
+-- ============================================================
+-- 1. TABLES
+-- ============================================================
+{{#each domains}}
+-- Domain: {{name}}
+{{#each entities}}
+CREATE TABLE IF NOT EXISTS "{{snake name}}" (
+  {{#each fields}}
+  "{{name}}" {{#if (and primary (eq type 'int'))}}SERIAL{{else}}{{sqlType type}}{{/if}}{{#unless nullable}} NOT NULL{{/unless}}{{#if primary}} PRIMARY KEY{{/if}}{{#if unique}}{{#unless ../partitionBy}} UNIQUE{{/unless}}{{/if}},
+  {{/each}}
+  "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+){{#if partitionBy}} PARTITION BY {{partitionBy.type}} ("{{partitionBy.field}}"){{/if}};
+{{#if partitionBy}}
+{{#if (eq partitionBy.type 'HASH')}}
+-- Partitions (a partitioned table with no partitions rejects every INSERT)
+CREATE TABLE IF NOT EXISTS "{{snake name}}_p0" PARTITION OF "{{snake name}}" FOR VALUES WITH (MODULUS 4, REMAINDER 0);
+CREATE TABLE IF NOT EXISTS "{{snake name}}_p1" PARTITION OF "{{snake name}}" FOR VALUES WITH (MODULUS 4, REMAINDER 1);
+CREATE TABLE IF NOT EXISTS "{{snake name}}_p2" PARTITION OF "{{snake name}}" FOR VALUES WITH (MODULUS 4, REMAINDER 2);
+CREATE TABLE IF NOT EXISTS "{{snake name}}_p3" PARTITION OF "{{snake name}}" FOR VALUES WITH (MODULUS 4, REMAINDER 3);
+{{else}}
+-- Default partition (catches rows until explicit partitions are added)
+CREATE TABLE IF NOT EXISTS "{{snake name}}_default" PARTITION OF "{{snake name}}" DEFAULT;
+{{/if}}
+{{/if}}
+
+-- Evolution: ensure columns exist if this table predates the current spec
+{{#each fields}}
+{{#unless primary}}
+ALTER TABLE "{{snake ../name}}" ADD COLUMN IF NOT EXISTS "{{name}}" {{sqlType type}}{{#if unique}}{{#unless ../partitionBy}} UNIQUE{{/unless}}{{/if}};
+{{/unless}}
+{{/each}}
+ALTER TABLE "{{snake name}}" ADD COLUMN IF NOT EXISTS "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE "{{snake name}}" ADD COLUMN IF NOT EXISTS "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP;
+
+{{#each fields}}
+{{#if index}}
+CREATE INDEX IF NOT EXISTS "idx_{{snake ../name}}_{{name}}" ON "{{snake ../name}}" ("{{name}}");
+{{/if}}
+{{/each}}
+{{#each indexes}}
+CREATE {{#if unique}}UNIQUE {{/if}}INDEX IF NOT EXISTS "{{#if name}}{{name}}{{else}}idx_{{snake ../name}}_{{#each fields}}{{this}}{{#unless @last}}_{{/unless}}{{/each}}{{/if}}" ON "{{snake ../name}}" ({{#each fields}}"{{this}}"{{#unless @last}}, {{/unless}}{{/each}});
+{{/each}}
+
+{{/each}}
+{{/each}}
+-- ============================================================
+-- 2. FOREIGN KEYS  (added after all tables exist; safe to re-run)
+-- ============================================================
+{{#each domains}}
+{{#each entities}}
+{{#each fields}}
+{{#if references}}
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_{{snake ../name}}_{{name}}') THEN
+    ALTER TABLE "{{snake ../name}}" ADD CONSTRAINT "fk_{{snake ../name}}_{{name}}" FOREIGN KEY ("{{name}}") REFERENCES "{{snake references.entity}}"("{{references.field}}");
+  END IF;
+END $$;
+{{/if}}
+{{/each}}
+{{#each relationships}}
+{{#if (or (eq type 'manyToOne') (eq type 'oneToOne'))}}
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'fk_{{snake ../name}}_{{snake targetEntity}}') THEN
+    ALTER TABLE "{{snake ../name}}" ADD CONSTRAINT "fk_{{snake ../name}}_{{snake targetEntity}}" FOREIGN KEY ("{{#if joinColumn}}{{joinColumn}}{{else}}{{camel targetEntity}}Id{{/if}}") REFERENCES "{{snake targetEntity}}"("id");
+  END IF;
+END $$;
+{{/if}}
+{{/each}}
+{{/each}}
+{{/each}}

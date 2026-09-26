@@ -1,0 +1,30 @@
+server {
+listen 8080;
+server_name localhost;
+
+# Health Check URL
+location =/health {
+access_log off;
+log_not_found off;
+proxy_pass http://localhost:3000/health;
+}
+
+# API Proxy
+location /api {
+proxy_pass http://localhost:3000;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+
+# Enterprise Security Headers
+add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";
+add_header Referrer-Policy "no-referrer-when-downgrade";
+add_header X-Content-Type-Options "nosniff";
+add_header X-Frame-Options "SAMEORIGIN";
+add_header X-XSS-Protection "1; mode=block";
+}
+
+# Swagger UI Proxy
+location /docs {
+proxy_pass http://localhost:3000/docs;
+}
+}

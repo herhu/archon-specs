@@ -1,0 +1,32 @@
+name: "FrogBot Scan"
+on:
+pull_request:
+types: [opened, synchronize, reopened]
+
+permissions:
+pull-requests: write
+contents: read
+id-token: write
+
+jobs:
+scan-pull-request:
+runs-on: ubuntu-latest
+steps:
+- name: Checkout code
+uses: actions/checkout@v3
+
+- name: Set up Node.js 22
+uses: actions/setup-node@v2
+with:
+node-version: '22'
+
+- name: Run Frogbot Scan
+uses: jfrog/frogbot@v2
+continue-on-error: true
+env:
+JF_URL: $\{{{ secrets.JF_URL }}\}
+JF_ACCESS_TOKEN: $\{{{ secrets.JF_ACCESS_TOKEN }}\}
+JF_GIT_TOKEN: $\{{{ secrets.GITHUB_TOKEN }}\}
+JF_INCLUDE_ALL_VULNERABILITIES: TRUE
+JF_FIXABLE_ONLY: TRUE
+FROGBOT_FAIL_ON_SECURITY_ISSUES: "false"

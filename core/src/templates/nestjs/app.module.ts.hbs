@@ -1,0 +1,60 @@
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+{{#if enableThrottle}}
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+{{/if}}
+import { ConfigModule } from './shared/config/config.module';
+import { LoggerModule } from './shared/logging/logger.module';
+import { HealthModule } from './shared/health/health.module';
+import { CorrelationIdMiddleware } from './shared/middleware/correlation-id.middleware';
+{{#if crossCutting.auth}}
+import { AuthModule } from './auth/auth.module';
+{{/if}}
+{{#if enableOutbox}}
+import { ScheduleModule } from '@nestjs/schedule';
+import { OutboxModule } from './modules/core/outbox/outbox.module';
+{{/if}}
+{{#each moduleImports}}
+import { {{className}} } from '{{importPath}}';
+{{/each}}
+
+@Module({
+  imports: [
+    ConfigModule,
+    LoggerModule,
+    HealthModule,
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      url: process.env.DATABASE_URL,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      // Migrations (scripts/migrations, applied via `npm run db:migrate`) are the
+      // source of truth. synchronize stays OFF unless explicitly opted in for local dev.
+      synchronize: process.env.DB_SYNCHRONIZE === 'true',
+    }),
+{{#if enableThrottle}}
+    ThrottlerModule.forRoot([{ ttl: {{throttleTtlMs}}, limit: {{throttleLimit}} }]),
+{{/if}}
+{{#if crossCutting.auth}}
+    AuthModule,
+{{/if}}
+{{#if enableOutbox}}
+    ScheduleModule.forRoot(),
+    OutboxModule,
+{{/if}}
+{{#each moduleImports}}
+    {{className}},
+{{/each}}
+  ],
+  controllers: [],
+  providers: [
+{{#if enableThrottle}}
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+{{/if}}
+  ],
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorrelationIdMiddleware).forRoutes('*');
+  }
+}

@@ -1,0 +1,9 @@
+import { SetMetadata } from '@nestjs/common';
+
+/**
+ * 🛡️ [ARCHON GOVERNANCE]
+ * 
+ * Methods decorated with @ArchonManual() will be PRESERVED during code regeneration
+ * if the sync is performed via archon-mcp-client or local archon generate.
+ */
+export const ArchonManual = () => SetMetadata('archon:manual', true);

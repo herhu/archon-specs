@@ -1,0 +1,17 @@
+/**
+ * 🛡️ [GOVERNED BY ARCHON] Domain repository PORT for {{entity.name}}.
+ * The domain/application layer depends on this interface + token, never on TypeORM
+ * directly. Swap the bound adapter (see the module) to change persistence.
+ */
+import { {{entity.name}} } from '{{entityImportPath}}';
+
+export const {{token}} = Symbol('{{token}}');
+
+export interface {{portInterface}} {
+  create(data: Partial<{{entity.name}}>): {{entity.name}};
+  save(entity: {{entity.name}}): Promise<{{entity.name}}>;
+  findAll(): Promise<{{entity.name}}[]>;
+  findById(id: {{idType}}): Promise<{{entity.name}} | null>;
+  update(id: {{idType}}, data: Partial<{{entity.name}}>): Promise<void>;
+  remove(id: {{idType}}): Promise<boolean>;
+}

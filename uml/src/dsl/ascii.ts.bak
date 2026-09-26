@@ -1,0 +1,472 @@
+import { DiagramIR } from "../schema/ir.js";
+import { randomUUID, createHash } from "node:crypto";
+
+// Simple ID generator
+function generateId(): string {
+  return "gen-" + randomUUID();
+}
+
+interface Token {
+  type: string;
+  value: string;
+  line: number;
+  col: number;
+}
+
+interface Diagnostic {
+  severity: "info" | "warning" | "error";
+  message: string;
+  span?: {
+      startLine: number, startCol: number, endLine: number, endCol: number
+  };
+}
+
+export class AsciiParser {
+  private input: string = "";
+  private diagnostics: Diagnostic[] = [];
+
+  constructor() {}
+
+  parse(input: string): DiagramIR {
+    this.input = input;
+    this.diagnostics = [];
+    
+    console.error(`[AsciiParser] Parsing input (${input.length} chars)`);
+    // console.error(`[AsciiParser] Raw DSL:\n${input}`);
+
+    const tokens = this.tokenize(input);
+    console.error(`[AsciiParser] Tokenized: ${tokens.length} tokens`);
+
+    const diagrams = this.parseDiagrams(tokens);
+    console.error(`[AsciiParser] Parsed ${diagrams.length} diagrams`);
+
+    const ir: DiagramIR = {
+      version: "1.0.0",
+      source: {
+        kind: "ascii-dsl",
+        text: input
+      },
+      diagrams: diagrams,
+      warnings: this.diagnostics.length > 0 ? this.diagnostics : undefined
+    };
+
+    // Calculate fingerprint for canonical tracking
+    const contentToHash = JSON.stringify({
+        version: ir.version,
+        sourceText: input,
+        diagramCount: diagrams.length,
+        // We hash a stable projection to avoid formatting noise
+        diagramIds: diagrams.map(d => d.id)
+    });
+    ir.fingerprint = createHash('sha256').update(contentToHash).digest('hex');
+
+    return ir;
+  }
+
+  private error(message: string, token: Token | null) {
+      if (token) {
+          this.diagnostics.push({
+              severity: "error",
+              message: message,
+              span: { 
+                  startLine: token.line, startCol: token.col, 
+                  endLine: token.line, endCol: token.col + token.value.length 
+              }
+          });
+      } else {
+          this.diagnostics.push({ severity: "error", message });
+      }
+  }
+
+  private sanitizeName(name: string): string {
+    if (!name) return "unknown";
+
+    // 1. Convert spaces/dashes to camelCase
+    // "User Account" -> "UserAccount", "user-account" -> "userAccount"
+    const words = name.split(/[\s-]+/);
+    let sanitized = words
+      .map((word, index) => {
+        const cleaned = word.replace(/[^a-zA-Z0-9_]/g, '');
+        if (!cleaned) return '';
+        if (index === 0) return cleaned; // Keep first word casing (could be Pascal or camel)
+        return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+      })
+      .join('');
+
+    // 2. Final regex strip to ensure strict Phase 2.6 compliance
+    sanitized = sanitized.replace(/[^a-zA-Z0-9_]/g, '');
+    
+    // 3. Ensure it starts with a letter or underscore
+    if (!/^[a-zA-Z_]/.test(sanitized)) {
+      sanitized = 'f_' + sanitized;
+    }
+
+    return sanitized || "unknown";
+  }
+
+  private tokenize(input: string): Token[] {
+    const tokens: Token[] = [];
+    let current = 0;
+    let line = 1;
+    let col = 1;
+
+    const operators = ["-->", "->", "<--", "<-", "o--", "*--", "..>", "<..", "<|--", "--", ":", "{", "}", "(", ")", "[", "]", ",", "+", "-", "#", "="];
+
+    while (current < input.length) {
+      let char = input[current];
+
+      if (char === ' ' || char === '\t') {
+        current++;
+        col++;
+        continue;
+      }
+
+      if (char === '\n') {
+        current++;
+        line++;
+        col = 1;
+        tokens.push({ type: 'NEWLINE', value: '\n', line, col });
+        continue;
+      }
+
+      if (char === '/' && input[current + 1] === '/') {
+        while (char !== '\n' && current < input.length) {
+          char = input[++current];
+        }
+        continue;
+      }
+      
+      if (char === '#') {
+         while (char !== '\n' && current < input.length) {
+          char = input[++current];
+        }
+        continue;
+      }
+
+      if (char === '"') {
+        let value = "";
+        const startCol = col;
+        current++; col++; // skip open quote
+        while (current < input.length && input[current] !== '"') {
+          if (input[current] === '\\') {
+             current++; col++;
+          }
+          value += input[current];
+          current++; col++;
+        }
+        current++; col++; // skip close quote
+        tokens.push({ type: 'STRING', value, line, col: startCol });
+        continue;
+      }
+
+      let matchedOp = "";
+      for (const op of operators) {
+        if (input.substr(current, op.length) === op) {
+          matchedOp = op;
+          break;
+        }
+      }
+
+      if (matchedOp) {
+        tokens.push({ type: 'OP', value: matchedOp, line, col });
+        current += matchedOp.length;
+        col += matchedOp.length;
+        continue;
+      }
+
+      const alphaNumeric = /[a-zA-Z0-9_\-.]/;
+      if (alphaNumeric.test(char)) {
+        let value = "";
+        const startCol = col;
+        while (current < input.length && alphaNumeric.test(input[current])) {
+          value += input[current];
+          current++; col++;
+        }
+        tokens.push({ type: 'IDENT', value, line, col: startCol });
+        continue;
+      }
+
+      current++; col++;
+    }
+    return tokens;
+  }
+
+  private parseDiagrams(tokens: Token[]): any[] {
+    let currentTokenIndex = 0;
+    const consume = () => {
+      if (currentTokenIndex >= tokens.length) return null;
+      return tokens[currentTokenIndex++];
+    };
+    const peek = (offset = 0) => {
+      if (currentTokenIndex + offset >= tokens.length) return null;
+      return tokens[currentTokenIndex + offset];
+    };
+    
+    const diagrams: any[] = [];
+    let currentElements: any[] = [];
+    let currentRelationships: any[] = [];
+    let currentFragments: any[] = [];
+    let currentKind = "class";
+    let currentName = "Untitled";
+    let currentKey: string | undefined = undefined;
+
+    const startNewDiagram = (name: string, key?: string) => {
+        if (currentElements.length > 0 || currentRelationships.length > 0) {
+            diagrams.push({
+                id: generateId(),
+                kind: currentKind,
+                name: this.sanitizeName(currentName),
+                key: key,
+                elements: currentElements,
+                relationships: currentRelationships,
+                fragments: currentFragments.length > 0 ? currentFragments : undefined
+            });
+        }
+        currentElements = [];
+        currentRelationships = [];
+        currentFragments = [];
+        currentName = name;
+        currentKey = key;
+    };
+
+    while (currentTokenIndex < tokens.length) {
+        const token = consume();
+        if (!token) break;
+        if (token.type === 'NEWLINE') continue;
+
+        try {
+            // --- Domain Parsing ---
+            if (token.type === 'IDENT' && token.value === 'domain') {
+                const nameToken = consume();
+                const name = nameToken?.value || "Domain";
+                let key: string | undefined = undefined;
+                
+                while (peek() && peek()?.value !== '{' && peek()?.type !== 'NEWLINE') {
+                    const attr = consume();
+                    if (!attr) break;
+                    if (attr.value === 'key') {
+                        if (peek()?.value === '=') consume(); // Skip =
+                        const val = consume();
+                        if (val) key = val.value;
+                    }
+                }
+                
+                startNewDiagram(name, key);
+                if (peek()?.value === '{') consume();
+                continue;
+            }
+
+            // --- Class / Entity Parsing ---
+            if (token.type === 'IDENT' && (token.value === 'class' || token.value === 'entity')) {
+                 const nameToken = consume();
+                 if (!nameToken || nameToken.type !== 'IDENT') {
+                     this.error(`Expected ${token.value} name`, token);
+                     continue;
+                 }
+                 
+                 const sanitizedClassName = this.sanitizeName(nameToken.value);
+                 const clazz: any = {
+                     id: sanitizedClassName,
+                     type: "classifier",
+                     kind: "class",
+                     name: sanitizedClassName,
+                     attributes: [],
+                     operations: []
+                 };
+
+                 if (peek()?.value === 'as') {
+                    consume(); 
+                    const aliasToken = consume();
+                    if (aliasToken) clazz.id = this.sanitizeName(aliasToken.value);
+                 }
+
+                 if (peek()?.value === '{') {
+                     consume(); 
+                     while (peek() && peek()?.value !== '}') {
+                         const memberToken = consume();
+                         if (!memberToken) break;
+                         if (memberToken.type === 'NEWLINE') continue;
+                         
+                         if (memberToken.value === 'index' && peek()?.value === '(') {
+                             consume();
+                             const fieldList: string[] = [];
+                             while (peek() && peek()?.value !== ')') {
+                                 const f = consume();
+                                 if (f && f.type === 'IDENT') fieldList.push(f.value);
+                                 if (peek()?.value === ',') consume();
+                             }
+                             if (peek()?.value === ')') consume();
+                             if (!clazz.indexes) clazz.indexes = [];
+                             clazz.indexes.push({ fields: fieldList });
+                             continue;
+                         } 
+                         
+                         if (memberToken.value === 'partition' && peek()?.value === '(') {
+                            consume();
+                            const type = consume()?.value || 'HASH';
+                            if (peek()?.value === ',') consume();
+                            const field = consume()?.value || 'id';
+                            if (peek()?.value === ')') consume();
+                            clazz.partitionBy = { type, field };
+                            continue;
+                         }
+
+                         if (memberToken.type === 'IDENT') {
+                             const attrName = this.sanitizeName(memberToken.value);
+                             let typeName = 'unknown';
+                             if (peek()?.value === ':') {
+                                 consume(); 
+                                 typeName = consume()?.value || 'unknown';
+                             } else if (peek()?.type === 'IDENT') {
+                                 typeName = consume()?.value || 'unknown';
+                             } else if (peek()?.value === '(') {
+                                 clazz.operations.push({ name: attrName, visibility: "public" });
+                                 while (peek() && peek()?.value !== '}' && peek()?.type !== 'NEWLINE') consume();
+                                 continue;
+                             }
+
+                             const attr: any = {
+                                 name: attrName,
+                                 typeRef: { name: this.sanitizeName(typeName) },
+                                 visibility: "public"
+                             };
+                             
+                             while (peek() && peek()?.type !== 'NEWLINE' && peek()?.value !== '}') { 
+                                 const mod = peek()?.value;
+                                 if (mod === 'primary') { consume(); attr.primary = true; }
+                                 else if (mod === 'unique') { consume(); attr.unique = true; }
+                                 else if (mod === 'index') { consume(); attr.index = true; }
+                                 else if (mod === 'references') {
+                                     consume();
+                                     const refStr = consume()?.value || "";
+                                     if (refStr.includes('.')) {
+                                         const [e, f] = refStr.split('.');
+                                         attr.references = { entity: e, field: f };
+                                     } else {
+                                         attr.references = { entity: refStr, field: 'id' };
+                                     }
+                                 }
+                                 else {
+                                     consume();
+                                 }
+                             }
+                             clazz.attributes.push(attr);
+                         } else if (memberToken.type === 'OP' && (memberToken.value === '+' || memberToken.value === '-')) {
+                            const visibility = memberToken.value === '+' ? 'public' : 'private';
+                            const nameT = consume();
+                            if (!nameT) continue;
+                            const sanitizedMemberName = this.sanitizeName(nameT.value);
+                            if (peek()?.value === '(') {
+                                 clazz.operations.push({ name: sanitizedMemberName, visibility });
+                            } else {
+                                 clazz.attributes.push({ name: sanitizedMemberName, visibility, typeRef: { name: 'unknown' } });
+                            }
+                            while (peek() && peek()?.type !== 'NEWLINE' && peek()?.value !== '}') { consume(); }
+                         }
+                     }
+                     if (peek()?.value === '}') consume();
+                 }
+                 currentElements.push(clazz);
+            }
+            // --- Component Parsing ---
+            else if (token.type === 'IDENT' && token.value === 'component') {
+                currentKind = "component";
+                let name = "Unnamed";
+                let id = "";
+                
+                if (peek()?.type === 'STRING') {
+                    name = consume()?.value || "Unnamed";
+                    id = this.sanitizeName(name);
+                } else if (peek()?.type === 'IDENT') {
+                    name = consume()?.value || "Unnamed";
+                    id = this.sanitizeName(name);
+                }
+                
+                if (peek()?.value === 'as') {
+                    consume();
+                     const aliasToken = consume();
+                     if (aliasToken) id = this.sanitizeName(aliasToken.value);
+                }
+
+                const comp: any = {
+                    id,
+                    type: "component",
+                    name: this.sanitizeName(name),
+                    ports: [],
+                    contains: []
+                };
+
+                if (peek()?.value === '{') {
+                    consume();
+                    while (peek() && peek()?.value !== '}') {
+                        const portToken = consume();
+                        if (!portToken) break;
+                        if (portToken.type === 'NEWLINE') continue;
+
+                         if (portToken.value === 'provides' || portToken.value === 'requires') {
+                             const dir = portToken.value;
+                             const pname = this.sanitizeName(consume()?.value || "p");
+                             let ifaceId = undefined;
+                             if(peek()?.value === ':') { consume(); ifaceId = this.sanitizeName(consume()?.value || ""); }
+                             comp.ports.push({ name: pname, direction: dir, interface: ifaceId });
+                         }
+                        while (peek() && peek()?.type !== 'NEWLINE' && peek()?.value !== '}') consume();
+                    }
+                    if (peek()?.value === '}') consume();
+                }
+                currentElements.push(comp);
+            }
+            // --- Sequence Parsing ---
+            else if (token.type === 'IDENT' && token.value === 'participant') {
+                 currentKind = "sequence";
+                 const nameToken = consume();
+                 const name = nameToken?.value || "Unknown";
+                 let id = this.sanitizeName(name);
+                 if (peek()?.value === 'as') { consume(); id = this.sanitizeName(consume()?.value || id); }
+                 currentElements.push({ id, type: "participant", name: this.sanitizeName(name), role: "component" });
+             }
+            // --- Relationships ---
+            else if (token.type === 'IDENT' || token.type === 'STRING') {
+                const fromId = this.sanitizeName(token.value);
+                 if (peek()?.type === 'OP' && (peek()?.value.includes('--') || peek()?.value.includes('->') || peek()?.value.includes('..>'))) {
+                     const opToken = consume();
+                     const targetToken = consume();
+                     if (targetToken) {
+                         const toId = this.sanitizeName(targetToken.value);
+                         let type = "association";
+                         let kind = "sync";
+                         if (opToken?.value.includes('..>')) type = "dependency";
+                         if (opToken?.value === '-->') { type = "message"; kind = "reply"; }
+                         if (opToken?.value === '->') { type = "message"; kind = "sync"; }
+                         
+                         const rel: any = {
+                             id: generateId(),
+                             from: fromId, to: toId, type, label: ""
+                         };
+                         if (type === 'message') {
+                             rel.kind = kind;
+                             currentKind = "sequence";
+                         }
+                         if (peek()?.value === ':') {
+                             consume();
+                             let label = "";
+                             while (peek() && peek()?.type !== 'NEWLINE' && peek()?.type !== 'OP') {
+                                 if (peek()?.value === '{') break;
+                                 label += consume()?.value + " ";
+                             }
+                             rel.label = label.trim();
+                         }
+                         currentRelationships.push(rel);
+                     }
+                 }
+            }
+        } catch (e: any) {
+            this.error(`Parsing error: ${e.message}`, token);
+            while (peek() && peek()?.type !== 'NEWLINE') consume();
+        }
+    }
+
+    startNewDiagram(currentName, currentKey); // Finalize last
+    return diagrams;
+  }
+}
