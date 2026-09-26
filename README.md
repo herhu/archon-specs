@@ -34,6 +34,16 @@ Most AI developer tools generate raw, unstructured code snippets that hallucinat
 
 ---
 
+## 📄 Research Paper
+
+Read our academic research paper detailing the compiler architecture, contract reconciliation loop, formal AST masking lattice, and empirical token reduction proofs:
+
+- **[Read Full Paper (Markdown)](./paper/paper.md)**
+- **[LaTeX Source (IEEE/ACM Format)](./paper/paper.tex)**
+- **[BibTeX Citations](./paper/references.bib)**
+
+---
+
 ## 📂 Repository Structure
 
 This repository is organized into modular workspaces:
