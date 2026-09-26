@@ -26,6 +26,14 @@ Most AI developer tools generate raw, unstructured code snippets that hallucinat
 
 ---
 
+## 🏛️ Architecture & Control Plane
+
+<div align="center">
+  <img src="./assets/architecture.png" alt="Archon Specs System Architecture & Control Plane" width="850" />
+</div>
+
+---
+
 ## 📂 Repository Structure
 
 This repository is organized into modular workspaces:
