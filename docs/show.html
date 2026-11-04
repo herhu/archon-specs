@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Archon Specs — AI Architecture Compiler</title>
+  <meta name="description" content="Your idea to a running production backend in 23 seconds. Archon Specs compiles intent into validated NestJS systems — deterministically."/>
+  <meta property="og:title" content="Archon Specs — AI Architecture Compiler"/>
+  <meta property="og:description" content="47 files. 23 seconds. 0 boilerplate. See how it works."/>
+  <meta property="og:image" content="https://archonspecs.dev/logo-text.svg"/>
+  <meta property="og:url" content="https://archonspecs.dev/show"/>
+  <meta name="theme-color" content="#05050a"/>
+  <link rel="icon" type="image/svg+xml" href="./logo.svg"/>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="show.css">
+
+  <script src="./analytics.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="./index.html">
+    <img src="./logo.svg" alt="Archon Specs"/>
+    Archon Specs
+  </a>
+  <div class="nav-badge">AI Compiler</div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 1 — HERO
+══════════════════════════════════════════════════════════════ -->
+<section class="s" id="hero">
+  <div class="eyebrow">The AI Architecture Compiler</div>
+
+  <h1 class="hero-title">
+    Your idea.<br>
+    <span class="line2">Running code.</span>
+    No boilerplate.
+  </h1>
+
+  <p class="hero-sub">
+    Archon Specs turns intent into a validated, production-ready NestJS backend — deterministically. Not "AI writes code". A compiler.
+  </p>
+
+  <!-- Animated counters -->
+  <div class="counters">
+    <div class="counter">
+      <span class="num" id="c1">0</span>
+      <span class="lbl">Files generated</span>
+    </div>
+    <div class="counter">
+      <span class="num" id="c2">0<span style="font-size:.6em">s</span></span>
+      <span class="lbl">Compile time</span>
+    </div>
+    <div class="counter">
+      <span class="num" id="c3">0</span>
+      <span class="lbl">Checks passed</span>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <a href="#pipeline" class="btn-p">See how it works ↓</a>
+    <a href="https://www.youtube.com/watch?v=gxYRkt7pZn0" class="btn-g" target="_blank">▶ 60s demo</a>
+  </div>
+
+  <!-- Minimal terminal -->
+  <div class="hero-term" id="hero-term">
+    <div class="term-line">
+      <span class="term-ps">$</span>
+      <span class="term-cmd" id="tl1"></span>
+    </div>
+    <div class="term-line" id="tl2-row" style="display:none">
+      <span class="term-ps"> </span>
+      <span class="term-ok" id="tl2"></span>
+    </div>
+    <div class="term-line" id="tl3-row" style="display:none">
+      <span class="term-ps"> </span>
+      <span class="term-ok" id="tl3"></span>
+    </div>
+    <div class="term-line">
+      <span class="term-ps">$</span>
+      <span class="term-cur"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 2 — PIPELINE (immersive scroll)
+══════════════════════════════════════════════════════════════ -->
+<section id="pipeline">
+  <div id="pl-sticky">
+    <div id="pl-accent-bar"></div>
+    <div id="pl-eyebrow">How it works</div>
+    <div id="pl-counter">01 <span class="pl-of">/ 06</span></div>
+    <div id="pl-bg-num" aria-hidden="true">01</div>
+
+    <div id="pl-stage">
+      <span id="pl-icon">💬</span>
+      <span id="pl-role">Analyst</span>
+      <h2 id="pl-label">Elicitation</h2>
+      <p id="pl-desc">AI asks structured questions — intent, entities, constraints. Nothing gets built until requirements are clear.</p>
+      <div id="pl-cmd-wrap">
+        <span id="pl-cmd">→ archon elicit  →  12 requirements, 8 entities captured</span>
+      </div>
+    </div>
+
+    <div id="pl-dots"></div>
+    <div id="pl-hint">scroll to explore ↓</div>
+    <div id="pl-prog"><div id="pl-prog-fill"></div></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SHOWCASE — Before / After
+══════════════════════════════════════════════════════════════ -->
+<div id="uml-showcase">
+
+  <!-- ── ACT 1 · The Old Way (3 beats) ─────────────────────────── -->
+  <div class="sc-act" id="act-oldway">
+    <div class="sc-sticky">
+      <div class="sc-badge before">Before Archon</div>
+      <div class="sc-act-label" id="beat-label">1 / 3</div>
+
+      <!-- Beat 0 — the manual grind -->
+      <div class="beat" id="beat-0">
+        <div class="beat-eyebrow">Every new project. Same story.</div>
+        <div class="beat-head">Pick framework.<br>Write the boilerplate.<br><span class="red">From scratch. Again.</span></div>
+        <div class="file-stack" id="file-stack">
+          <div class="file-item" data-i="0"><span class="fi-check">▸</span> app.module.ts + main.ts</div>
+          <div class="file-item" data-i="1"><span class="fi-check">▸</span> JWT auth guard + strategy</div>
+          <div class="file-item" data-i="2"><span class="fi-check">▸</span> 3 entities + TypeORM config</div>
+          <div class="file-item" data-i="3"><span class="fi-check">▸</span> 9 DTOs with class-validator</div>
+          <div class="file-item" data-i="4"><span class="fi-check">▸</span> 3 services + 3 controllers</div>
+          <div class="file-item" data-i="5"><span class="fi-check">▸</span> 3 migrations + rollback</div>
+          <div class="file-item" data-i="6"><span class="fi-check">▸</span> Swagger + Dockerfile + CI</div>
+          <div class="file-item" data-i="7" style="border-color:rgba(239,68,68,.3);color:#ef4444">
+            <span class="fi-check" style="color:#ef4444">→</span> ~47 files. 2 days. Every project.
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat 1 — the LLM trap -->
+      <div class="beat" id="beat-1">
+        <div class="beat-eyebrow">You tried an LLM agent.</div>
+        <div class="beat-head">Better? Or just<br><span class="red">a different kind of broken?</span></div>
+        <div class="llm-stats">
+          <div class="llm-stat"><span class="lsn">~55%</span><span class="lsl">TSC pass rate</span></div>
+          <div class="llm-stat"><span class="lsn">2–6m</span><span class="lsl">per 50 files</span></div>
+          <div class="llm-stat"><span class="lsn">82%</span><span class="lsl">drift at 100 changes</span></div>
+        </div>
+        <div class="llm-error">
+          ERROR TS2345: Argument of type 'CreateUserDto' is not assignable<br>
+          to parameter of type 'DeepPartial&lt;User&gt;'...<br>
+          <span style="opacity:.5">// Hallucinated import. Fix it yourself.</span>
+        </div>
+      </div>
+
+      <!-- Beat 2 — the diagram lie -->
+      <div class="beat" id="beat-2">
+        <div class="beat-eyebrow">That UML diagram you drew on day 1?</div>
+        <div class="beat-head">By sprint 3,<br><span class="red">it's already a lie.</span></div>
+        <div class="drift-compare">
+          <div class="drift-col diagram">
+            <div class="drift-col-head">DIAGRAM says</div>
+            <div class="drift-col-body">User → Organization<br>Organization → Team<br>Team → Member<br>Member → Role</div>
+          </div>
+          <div class="drift-col code">
+            <div class="drift-col-head">CODE has</div>
+            <div class="drift-col-body">User → Org?<br>// TODO: add Team<br>// hotfix: merged<br>// nobody knows</div>
+          </div>
+        </div>
+        <div class="drift-note">"The diagram is aspirational." — everyone, sprint 8.</div>
+      </div>
+
+      <!-- Beat 3 — the transition / unlock -->
+      <div class="beat beat-transition" id="beat-3">
+        <div class="beat-eyebrow">The insight</div>
+        <div class="beat-head">The diagram was<br><span class="accent">always the spec.</span></div>
+        <div class="beat-sub">You just didn't have a compiler for it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACT 2 · Drop the Diagram ──────────────────────────────── -->
+  <div class="sc-act" id="act-drop">
+    <div class="sc-sticky">
+      <div class="sc-badge after">Archon</div>
+      <div class="sc-act-label">Drop your diagram.</div>
+      <div class="uml-diagram-wrap">
+        <div class="uml-svg-container">
+          <svg id="uml-svg" viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="rgba(255,255,255,0.22)"/>
+              </marker>
+            </defs>
+
+            <!-- Domain backgrounds: 5 columns, no y-overlap -->
+            <rect id="dom-identity"    x="4"   y="14" width="188" height="316" rx="9" fill="rgba(74,158,255,0.05)"  stroke="rgba(74,158,255,0.14)"  stroke-width="1" opacity="0"/>
+            <rect id="dom-auth"        x="202" y="14" width="188" height="238" rx="9" fill="rgba(168,85,247,0.05)" stroke="rgba(168,85,247,0.14)" stroke-width="1" opacity="0"/>
+            <rect id="dom-workspace"   x="400" y="14" width="188" height="316" rx="9" fill="rgba(34,197,94,0.05)"  stroke="rgba(34,197,94,0.14)"  stroke-width="1" opacity="0"/>
+            <rect id="dom-billing"     x="598" y="14" width="188" height="238" rx="9" fill="rgba(245,158,11,0.05)" stroke="rgba(245,158,11,0.14)" stroke-width="1" opacity="0"/>
+            <rect id="dom-integration" x="796" y="14" width="200" height="160" rx="9" fill="rgba(255,93,1,0.05)"  stroke="rgba(255,93,1,0.14)"  stroke-width="1" opacity="0"/>
+
+            <!-- Domain labels -->
+            <text x="16"  y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(74,158,255,0.5)"  font-weight="700" letter-spacing="0.1em" opacity="0" id="dlbl-identity">IDENTITY</text>
+            <text x="214" y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(168,85,247,0.5)" font-weight="700" letter-spacing="0.1em" opacity="0" id="dlbl-auth">AUTH</text>
+            <text x="412" y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(34,197,94,0.5)"  font-weight="700" letter-spacing="0.1em" opacity="0" id="dlbl-workspace">WORKSPACE</text>
+            <text x="610" y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(245,158,11,0.5)" font-weight="700" letter-spacing="0.1em" opacity="0" id="dlbl-billing">BILLING</text>
+            <text x="808" y="28" font-family="'JetBrains Mono',monospace" font-size="8" fill="rgba(255,93,1,0.5)"   font-weight="700" letter-spacing="0.1em" opacity="0" id="dlbl-integration">INTEGRATION</text>
+
+            <!-- IDENTITY  col x=8  rows y=22,100,178,256  entity w=178 h=68 -->
+            <g id="ent-User" opacity="0"><rect x="8" y="22" width="178" height="68" rx="5" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5"/><text x="16" y="37" font-family="'JetBrains Mono',monospace" font-size="11" fill="#4a9eff" font-weight="700">User</text><line x1="8" y1="43" x2="186" y2="43" stroke="rgba(74,158,255,0.3)" stroke-width="1"/><text x="16" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · email · name</text><text x="16" y="68" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">passwordHash · roleId</text></g>
+            <g id="ent-Profile" opacity="0"><rect x="8" y="100" width="178" height="68" rx="5" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5"/><text x="16" y="115" font-family="'JetBrains Mono',monospace" font-size="11" fill="#4a9eff" font-weight="700">Profile</text><line x1="8" y1="121" x2="186" y2="121" stroke="rgba(74,158,255,0.3)" stroke-width="1"/><text x="16" y="134" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · userId(FK) · bio</text><text x="16" y="146" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">avatar · timezone</text></g>
+            <g id="ent-Organization" opacity="0"><rect x="8" y="178" width="178" height="68" rx="5" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5"/><text x="16" y="193" font-family="'JetBrains Mono',monospace" font-size="10" fill="#4a9eff" font-weight="700">Organization</text><line x1="8" y1="199" x2="186" y2="199" stroke="rgba(74,158,255,0.3)" stroke-width="1"/><text x="16" y="212" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · name · slug</text><text x="16" y="224" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">plan · createdAt</text></g>
+            <g id="ent-Role" opacity="0"><rect x="8" y="256" width="178" height="68" rx="5" fill="rgba(74,158,255,0.08)" stroke="#4a9eff" stroke-width="1.5"/><text x="16" y="271" font-family="'JetBrains Mono',monospace" font-size="11" fill="#4a9eff" font-weight="700">Role</text><line x1="8" y1="277" x2="186" y2="277" stroke="rgba(74,158,255,0.3)" stroke-width="1"/><text x="16" y="290" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · orgId(FK) · name</text><text x="16" y="302" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">permissions · isDefault</text></g>
+
+            <!-- AUTH  col x=206  rows y=22,100,178 -->
+            <g id="ent-Session" opacity="0"><rect x="206" y="22" width="178" height="68" rx="5" fill="rgba(168,85,247,0.08)" stroke="#a855f7" stroke-width="1.5"/><text x="214" y="37" font-family="'JetBrains Mono',monospace" font-size="11" fill="#a855f7" font-weight="700">Session</text><line x1="206" y1="43" x2="384" y2="43" stroke="rgba(168,85,247,0.3)" stroke-width="1"/><text x="214" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · userId(FK) · token</text><text x="214" y="68" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">expiresAt · ipAddr</text></g>
+            <g id="ent-ApiKey" opacity="0"><rect x="206" y="100" width="178" height="68" rx="5" fill="rgba(168,85,247,0.08)" stroke="#a855f7" stroke-width="1.5"/><text x="214" y="115" font-family="'JetBrains Mono',monospace" font-size="11" fill="#a855f7" font-weight="700">ApiKey</text><line x1="206" y1="121" x2="384" y2="121" stroke="rgba(168,85,247,0.3)" stroke-width="1"/><text x="214" y="134" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · userId(FK) · key</text><text x="214" y="146" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">scope · lastUsed</text></g>
+            <g id="ent-AuditLog" opacity="0"><rect x="206" y="178" width="178" height="68" rx="5" fill="rgba(168,85,247,0.08)" stroke="#a855f7" stroke-width="1.5"/><text x="214" y="193" font-family="'JetBrains Mono',monospace" font-size="10" fill="#a855f7" font-weight="700">AuditLog</text><line x1="206" y1="199" x2="384" y2="199" stroke="rgba(168,85,247,0.3)" stroke-width="1"/><text x="214" y="212" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · actorId(FK)</text><text x="214" y="224" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">action · targetId · ts</text></g>
+
+            <!-- WORKSPACE  col x=404  rows y=22,100,178,256 -->
+            <g id="ent-Workspace" opacity="0"><rect x="404" y="22" width="178" height="68" rx="5" fill="rgba(34,197,94,0.08)" stroke="#22c55e" stroke-width="1.5"/><text x="412" y="37" font-family="'JetBrains Mono',monospace" font-size="10" fill="#22c55e" font-weight="700">Workspace</text><line x1="404" y1="43" x2="582" y2="43" stroke="rgba(34,197,94,0.3)" stroke-width="1"/><text x="412" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · orgId(FK) · name</text><text x="412" y="68" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">slug · visibility</text></g>
+            <g id="ent-Document" opacity="0"><rect x="404" y="100" width="178" height="68" rx="5" fill="rgba(34,197,94,0.08)" stroke="#22c55e" stroke-width="1.5"/><text x="412" y="115" font-family="'JetBrains Mono',monospace" font-size="11" fill="#22c55e" font-weight="700">Document</text><line x1="404" y1="121" x2="582" y2="121" stroke="rgba(34,197,94,0.3)" stroke-width="1"/><text x="412" y="134" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · wsId(FK) · title</text><text x="412" y="146" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">content · version</text></g>
+            <g id="ent-Team" opacity="0"><rect x="404" y="178" width="178" height="68" rx="5" fill="rgba(34,197,94,0.08)" stroke="#22c55e" stroke-width="1.5"/><text x="412" y="193" font-family="'JetBrains Mono',monospace" font-size="11" fill="#22c55e" font-weight="700">Team</text><line x1="404" y1="199" x2="582" y2="199" stroke="rgba(34,197,94,0.3)" stroke-width="1"/><text x="412" y="212" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · wsId(FK) · name</text><text x="412" y="224" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">description · isDefault</text></g>
+            <g id="ent-TeamMember" opacity="0"><rect x="404" y="256" width="178" height="68" rx="5" fill="rgba(34,197,94,0.08)" stroke="#22c55e" stroke-width="1.5"/><text x="412" y="271" font-family="'JetBrains Mono',monospace" font-size="10" fill="#22c55e" font-weight="700">TeamMember</text><line x1="404" y1="277" x2="582" y2="277" stroke="rgba(34,197,94,0.3)" stroke-width="1"/><text x="412" y="290" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · teamId(FK)</text><text x="412" y="302" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">userId(FK) · roleId(FK)</text></g>
+
+            <!-- BILLING  col x=602  rows y=22,100,178 (Plan→Subscription→Invoice) -->
+            <g id="ent-Plan" opacity="0"><rect x="602" y="22" width="178" height="68" rx="5" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/><text x="610" y="37" font-family="'JetBrains Mono',monospace" font-size="11" fill="#f59e0b" font-weight="700">Plan</text><line x1="602" y1="43" x2="780" y2="43" stroke="rgba(245,158,11,0.3)" stroke-width="1"/><text x="610" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · name · price</text><text x="610" y="68" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">limits · interval</text></g>
+            <g id="ent-Subscription" opacity="0"><rect x="602" y="100" width="178" height="68" rx="5" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/><text x="610" y="115" font-family="'JetBrains Mono',monospace" font-size="9.5" fill="#f59e0b" font-weight="700">Subscription</text><line x1="602" y1="121" x2="780" y2="121" stroke="rgba(245,158,11,0.3)" stroke-width="1"/><text x="610" y="134" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · orgId(FK) · planId(FK)</text><text x="610" y="146" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">status · renewsAt</text></g>
+            <g id="ent-Invoice" opacity="0"><rect x="602" y="178" width="178" height="68" rx="5" fill="rgba(245,158,11,0.08)" stroke="#f59e0b" stroke-width="1.5"/><text x="610" y="193" font-family="'JetBrains Mono',monospace" font-size="11" fill="#f59e0b" font-weight="700">Invoice</text><line x1="602" y1="199" x2="780" y2="199" stroke="rgba(245,158,11,0.3)" stroke-width="1"/><text x="610" y="212" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · subId(FK) · amount</text><text x="610" y="224" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">status · paidAt</text></g>
+
+            <!-- INTEGRATION  col x=800  rows y=22,100 -->
+            <g id="ent-Webhook" opacity="0"><rect x="800" y="22" width="178" height="68" rx="5" fill="rgba(255,93,1,0.08)" stroke="#ff5d01" stroke-width="1.5"/><text x="808" y="37" font-family="'JetBrains Mono',monospace" font-size="11" fill="#ff5d01" font-weight="700">Webhook</text><line x1="800" y1="43" x2="978" y2="43" stroke="rgba(255,93,1,0.3)" stroke-width="1"/><text x="808" y="56" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · orgId(FK) · url</text><text x="808" y="68" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">events · secret</text></g>
+            <g id="ent-Notification" opacity="0"><rect x="800" y="100" width="178" height="68" rx="5" fill="rgba(255,93,1,0.08)" stroke="#ff5d01" stroke-width="1.5"/><text x="808" y="115" font-family="'JetBrains Mono',monospace" font-size="10" fill="#ff5d01" font-weight="700">Notification</text><line x1="800" y1="121" x2="978" y2="121" stroke="rgba(255,93,1,0.3)" stroke-width="1"/><text x="808" y="134" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">id · whId(FK) · userId(FK)</text><text x="808" y="146" font-family="'JetBrains Mono',monospace" font-size="9" fill="#94a3b8">type · read · sentAt</text></g>
+
+            <!-- Relationships (18 lines, stroke-dashoffset animated to 0)            -->
+            <!-- Vertical same-column connections                                     -->
+            <line id="rel-0"  x1="97"  y1="90"  x2="97"  y2="100" stroke="rgba(74,158,255,0.4)"  stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-1"  x1="97"  y1="246" x2="97"  y2="256" stroke="rgba(74,158,255,0.4)"  stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-2"  x1="493" y1="90"  x2="493" y2="100" stroke="rgba(34,197,94,0.4)"   stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-3"  x1="406" y1="90"  x2="406" y2="178" stroke="rgba(34,197,94,0.3)"   stroke-width="1.5" stroke-dasharray="94"  stroke-dashoffset="94"  marker-end="url(#arr)"/>
+            <line id="rel-4"  x1="493" y1="246" x2="493" y2="256" stroke="rgba(34,197,94,0.4)"   stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-5"  x1="691" y1="90"  x2="691" y2="100" stroke="rgba(245,158,11,0.4)"  stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-6"  x1="691" y1="168" x2="691" y2="178" stroke="rgba(245,158,11,0.4)"  stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <line id="rel-7"  x1="889" y1="90"  x2="889" y2="100" stroke="rgba(255,93,1,0.4)"    stroke-width="1.5" stroke-dasharray="14"  stroke-dashoffset="14"  marker-end="url(#arr)"/>
+            <!-- Cross-domain connections                                             -->
+            <line id="rel-8"  x1="186" y1="56"  x2="206" y2="56"  stroke="rgba(168,85,247,0.45)" stroke-width="1.5" stroke-dasharray="22"  stroke-dashoffset="22"  marker-end="url(#arr)"/>
+            <line id="rel-9"  x1="186" y1="64"  x2="206" y2="134" stroke="rgba(168,85,247,0.35)" stroke-width="1.5" stroke-dasharray="80"  stroke-dashoffset="80"  marker-end="url(#arr)"/>
+            <line id="rel-10" x1="186" y1="72"  x2="206" y2="212" stroke="rgba(168,85,247,0.25)" stroke-width="1.5" stroke-dasharray="152" stroke-dashoffset="152" marker-end="url(#arr)"/>
+            <line id="rel-11" x1="186" y1="212" x2="404" y2="56"  stroke="rgba(34,197,94,0.3)"   stroke-width="1.5" stroke-dasharray="276" stroke-dashoffset="276" marker-end="url(#arr)"/>
+            <line id="rel-12" x1="186" y1="220" x2="602" y2="134" stroke="rgba(245,158,11,0.25)" stroke-width="1.5" stroke-dasharray="434" stroke-dashoffset="434" marker-end="url(#arr)"/>
+            <line id="rel-13" x1="186" y1="226" x2="800" y2="56"  stroke="rgba(255,93,1,0.2)"    stroke-width="1.5" stroke-dasharray="644" stroke-dashoffset="644" marker-end="url(#arr)"/>
+            <!-- Backward connections (right→left)                                   -->
+            <line id="rel-14" x1="404" y1="134" x2="384" y2="212" stroke="rgba(168,85,247,0.22)" stroke-width="1.5" stroke-dasharray="82"  stroke-dashoffset="82"  marker-end="url(#arr)"/>
+            <line id="rel-15" x1="404" y1="290" x2="186" y2="56"  stroke="rgba(74,158,255,0.18)" stroke-width="1.5" stroke-dasharray="334" stroke-dashoffset="334" marker-end="url(#arr)"/>
+            <line id="rel-16" x1="404" y1="56"  x2="384" y2="212" stroke="rgba(168,85,247,0.18)" stroke-width="1.5" stroke-dasharray="160" stroke-dashoffset="160" marker-end="url(#arr)"/>
+            <line id="rel-17" x1="404" y1="295" x2="186" y2="295" stroke="rgba(74,158,255,0.18)" stroke-width="1.5" stroke-dasharray="220" stroke-dashoffset="220" marker-end="url(#arr)"/>
+          </svg>
+        </div><!-- /.uml-svg-container -->
+
+        <!-- Mobile UML: domain chip stacks (shown <768px, hidden on desktop) -->
+        <div class="uml-mobile" id="uml-mobile">
+          <div class="uml-m-domain" id="m-dom-identity"
+               style="background:rgba(74,158,255,0.05);border:1px solid rgba(74,158,255,0.14)">
+            <div class="uml-m-head" style="color:#4a9eff">IDENTITY</div>
+            <div class="uml-m-chips">
+              <span class="uml-m-chip" id="m-ent-User"         style="color:#4a9eff;border-color:rgba(74,158,255,0.4);background:rgba(74,158,255,0.08)">User</span>
+              <span class="uml-m-chip" id="m-ent-Profile"      style="color:#4a9eff;border-color:rgba(74,158,255,0.4);background:rgba(74,158,255,0.08)">Profile</span>
+              <span class="uml-m-chip" id="m-ent-Organization" style="color:#4a9eff;border-color:rgba(74,158,255,0.4);background:rgba(74,158,255,0.08)">Organization</span>
+              <span class="uml-m-chip" id="m-ent-Role"         style="color:#4a9eff;border-color:rgba(74,158,255,0.4);background:rgba(74,158,255,0.08)">Role</span>
+            </div>
+          </div>
+          <div class="uml-m-domain" id="m-dom-auth"
+               style="background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.14)">
+            <div class="uml-m-head" style="color:#a855f7">AUTH</div>
+            <div class="uml-m-chips">
+              <span class="uml-m-chip" id="m-ent-Session"  style="color:#a855f7;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.08)">Session</span>
+              <span class="uml-m-chip" id="m-ent-ApiKey"   style="color:#a855f7;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.08)">ApiKey</span>
+              <span class="uml-m-chip" id="m-ent-AuditLog" style="color:#a855f7;border-color:rgba(168,85,247,0.4);background:rgba(168,85,247,0.08)">AuditLog</span>
+            </div>
+          </div>
+          <div class="uml-m-domain" id="m-dom-workspace"
+               style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.14)">
+            <div class="uml-m-head" style="color:#22c55e">WORKSPACE</div>
+            <div class="uml-m-chips">
+              <span class="uml-m-chip" id="m-ent-Workspace"   style="color:#22c55e;border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.08)">Workspace</span>
+              <span class="uml-m-chip" id="m-ent-Document"    style="color:#22c55e;border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.08)">Document</span>
+              <span class="uml-m-chip" id="m-ent-Team"        style="color:#22c55e;border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.08)">Team</span>
+              <span class="uml-m-chip" id="m-ent-TeamMember"  style="color:#22c55e;border-color:rgba(34,197,94,0.4);background:rgba(34,197,94,0.08)">TeamMember</span>
+            </div>
+          </div>
+          <div class="uml-m-domain" id="m-dom-billing"
+               style="background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.14)">
+            <div class="uml-m-head" style="color:#f59e0b">BILLING</div>
+            <div class="uml-m-chips">
+              <span class="uml-m-chip" id="m-ent-Plan"         style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Plan</span>
+              <span class="uml-m-chip" id="m-ent-Subscription" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Subscription</span>
+              <span class="uml-m-chip" id="m-ent-Invoice"      style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Invoice</span>
+            </div>
+          </div>
+          <div class="uml-m-domain" id="m-dom-integration"
+               style="background:rgba(255,93,1,0.05);border:1px solid rgba(255,93,1,0.14)">
+            <div class="uml-m-head" style="color:#ff5d01">INTEGRATION</div>
+            <div class="uml-m-chips">
+              <span class="uml-m-chip" id="m-ent-Webhook"      style="color:#ff5d01;border-color:rgba(255,93,1,0.4);background:rgba(255,93,1,0.08)">Webhook</span>
+              <span class="uml-m-chip" id="m-ent-Notification" style="color:#ff5d01;border-color:rgba(255,93,1,0.4);background:rgba(255,93,1,0.08)">Notification</span>
+            </div>
+          </div>
+        </div><!-- /.uml-mobile -->
+
+        <div class="uml-stat-badge" id="uml-stat-badge">
+          <div class="uml-badge-item"><span class="uml-badge-num">16</span><span class="uml-badge-lbl">Entities</span></div>
+          <div class="uml-badge-item"><span class="uml-badge-num">18</span><span class="uml-badge-lbl">Relationships</span></div>
+          <div class="uml-badge-item"><span class="uml-badge-num">5</span><span class="uml-badge-lbl">Domains</span></div>
+          <div class="uml-badge-item"><span class="uml-badge-num">4ms</span><span class="uml-badge-lbl">To compile</span></div>
+        </div>
+        <div class="uml-compile-cta" id="uml-compile-cta">
+          <span style="color:rgba(255,255,255,.3)">$ </span>archon compile diagram.uml<span class="t-cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACT 3 · The Pipeline Runs ─────────────────────────────── -->
+  <div class="sc-act" id="act-pipeline">
+    <div class="sc-sticky">
+      <div class="sc-badge after">5 Personas. Strict separation of duties.</div>
+      <div class="persona-track-wrap">
+        <div class="persona-track" id="persona-track"></div>
+        <div class="persona-footer" id="persona-footer">
+          <div class="persona-footer-q">Every decision approved. Every phase logged.</div>
+          <div class="persona-footer-sub">No phase is skippable — not for the agent, not for you, not for us.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACT 4 · It Boots ───────────────────────────────────────── -->
+  <div class="sc-act" id="act-boot">
+    <div class="sc-sticky">
+      <div class="sc-badge after">./Archon.sh</div>
+      <div class="terminal-wrap">
+        <div class="showcase-terminal">
+          <div class="term-titlebar">
+            <span class="term-dot term-dot-r"></span>
+            <span class="term-dot term-dot-y"></span>
+            <span class="term-dot term-dot-g"></span>
+            <span class="term-title-text">bash — ./Archon.sh</span>
+          </div>
+          <div class="term-body" id="term-body">
+            <span class="t-line"><span class="t-ps">$</span> <span class="t-cmd">./Archon.sh</span></span>
+            <span class="t-blank"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACT 5 · The Numbers ────────────────────────────────────── -->
+  <div class="sc-act" id="act-wins">
+    <div class="sc-sticky">
+      <div class="sc-badge after">The result</div>
+      <div class="wins-wrap">
+        <div class="wins-eyebrow">Drop your diagram. Get your backend.</div>
+        <div class="wins-grid">
+          <div class="win-card" id="win-0">
+            <span class="win-num" style="color:var(--orange)">~97%</span>
+            <span class="win-label">Token Savings</span>
+            <p class="win-sub">LLM only runs during elicitation &amp; architecture. Code generation: zero model calls.</p>
+          </div>
+          <div class="win-card" id="win-1">
+            <span class="win-num" style="color:var(--green)">4ms</span>
+            <span class="win-label">Generation Time</span>
+            <p class="win-sub">47 files from a locked spec. No LLM, no retries, no context window limits.</p>
+          </div>
+          <div class="win-card" id="win-2">
+            <span class="win-num" style="color:var(--blue)">0</span>
+            <span class="win-label">Hallucinations</span>
+            <p class="win-sub">Templates are functions. Functions can be tested. Same output, always.</p>
+          </div>
+        </div>
+        <div class="wins-punchline" id="wins-punchline">
+          <div class="wins-punchline-main">Your diagram. Your spec.<br><span>Your backend.</span></div>
+          <div class="wins-punchline-domain">archonspecs.dev</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#uml-showcase -->
+
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 3 — PROOF
+══════════════════════════════════════════════════════════════ -->
+<section class="s" id="proof">
+  <div class="eyebrow">Proof of work</div>
+  <h2 class="s-title">Real output.<br><span class="hl">Every run.</span></h2>
+  <p class="s-sub">The same spec always produces the same files. Verified by Docker smoke tests and live Swagger on every compile.</p>
+
+  <div class="stat-row" id="stat-row">
+    <div class="stat">
+      <div class="big">47</div>
+      <div class="sm">Files per compile</div>
+    </div>
+    <div class="stat">
+      <div class="big">73<span style="font-size:.55em">%</span></div>
+      <div class="sm">Token reduction</div>
+    </div>
+    <div class="stat">
+      <div class="big">4.2<span style="font-size:.55em">×</span></div>
+      <div class="sm">Faster dev cycle</div>
+    </div>
+  </div>
+
+  <div class="code-proof" id="code-proof">
+    <div class="cp"><span class="cp-ps">$</span><span class="cp-txt">archon compile --spec DesignSpec.json</span></div>
+    <div class="cp"><span class="cp-ps">&nbsp;</span><span class="cp-ok">✓ 200 checks passed  (0.8s)</span></div>
+    <div class="cp"><span class="cp-ps">&nbsp;</span><span class="cp-ok">✓ 47 files generated (23.1s)</span></div>
+    <div class="cp"><span class="cp-ps">$</span><span class="cp-txt">docker compose up --build</span></div>
+    <div class="cp"><span class="cp-ps">&nbsp;</span><span class="cp-ok">✓ API live :3000  |  swagger :3000/api</span></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 4 — AUDIENCE
+══════════════════════════════════════════════════════════════ -->
+<section class="s" id="audience">
+  <div class="eyebrow">Built for you</div>
+  <h2 class="s-title">What does<br><span class="hl">this mean for you?</span></h2>
+
+  <!-- Tabs -->
+  <div class="aud-tabs" id="aud-tabs">
+    <div class="aud-tab on" data-for="dev">Dev Team</div>
+    <div class="aud-tab" data-for="startup">Startup</div>
+    <div class="aud-tab" data-for="investor">Investor</div>
+  </div>
+
+  <!-- Dev Team -->
+  <div class="aud-panel on" id="aud-dev">
+    <div class="aud-big">Write the spec.<br><em>Skip the boilerplate.</em></div>
+    <ul class="aud-ul">
+      <li>47 NestJS + TypeORM + Swagger files in 23 seconds</li>
+      <li>Add a module later: 6 new files, zero regressions</li>
+      <li>Your team ships business logic, not wiring code</li>
+      <li>Every compile verified by Docker smoke tests</li>
+    </ul>
+    <a href="https://archonspecs.dev/docs" class="btn-p" target="_blank">Read the docs →</a>
+  </div>
+
+  <!-- Startup -->
+  <div class="aud-panel" id="aud-startup">
+    <div class="aud-big">MVP in days.<br><em>Not months.</em></div>
+    <ul class="aud-ul">
+      <li>No senior backend dev required for scaffolding</li>
+      <li>Describe your system, recompile, stay aligned with product</li>
+      <li>From idea to Swagger-verified API in one session</li>
+      <li>4.2× faster iteration cycle vs. traditional development</li>
+    </ul>
+    <a href="https://archonspecs.dev/guides" class="btn-p" target="_blank">See a walkthrough →</a>
+  </div>
+
+  <!-- Investor -->
+  <div class="aud-panel" id="aud-investor">
+    <div class="aud-big">The compiler layer<br><em>for AI-native dev.</em></div>
+    <ul class="aud-ul">
+      <li>Architecture-as-code: the missing layer above AI codegen</li>
+      <li>Deterministic output — reproducible, auditable, governable</li>
+      <li>Moat: spec format + 200-rule validation engine + template library</li>
+      <li>Every AI agent that builds software needs a spec compiler</li>
+    </ul>
+    <a href="mailto:judit@archonspecs.dev" class="btn-p">Request the deck →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════════════════════════════ -->
+<section class="s" id="cta">
+  <div class="cta-big">Ready to<br><span>see it live?</span></div>
+  <p class="cta-sub">I can compile your spec right now. 23 seconds.</p>
+
+  <div class="link-stack">
+    <a href="https://archonspecs.dev" class="lk" target="_blank">
+      <span class="ic">🌐</span> archonspecs.dev
+      <span class="ar">→</span>
+    </a>
+    <a href="https://www.youtube.com/watch?v=gxYRkt7pZn0" class="lk" target="_blank">
+      <span class="ic">▶️</span> Watch the 60-second demo
+      <span class="ar">→</span>
+    </a>
+    <a href="https://archonspecs.dev/guides" class="lk" target="_blank">
+      <span class="ic">📖</span> How it works — full walkthrough
+      <span class="ar">→</span>
+    </a>
+    <a href="mailto:judit@archonspecs.dev" class="lk">
+      <span class="ic">📧</span> judit@archonspecs.dev
+      <span class="ar">→</span>
+    </a>
+  </div>  
+
+  <div class="page-url">archonspecs.dev/show</div>
+</section>
+
+<script src="show.js"></script>
+
+<!-- Mobile tap zones for presenter navigation (activated via JS when in showcase) -->
+<div class="tap-zone" id="tap-prev"></div>
+<div class="tap-zone" id="tap-next"></div>
+</body>
+</html>

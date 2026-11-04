@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-05-15T07:47:51.508Z",
+  "archon_version": "2.6",
+  "host": {
+    "platform": "darwin",
+    "cpus": 10,
+    "memory_gb": 34.4,
+    "node_version": "v22.22.2"
+  },
+  "specCompilation": [
+    {
+      "tier": "small",
+      "entity_count": 5,
+      "runs": 10,
+      "avg_ms": 0.009645999999992227,
+      "min_ms": 0.009166999999990821,
+      "max_ms": 0.01187500000000341,
+      "entities_per_sec": 518350
+    },
+    {
+      "tier": "medium",
+      "entity_count": 50,
+      "runs": 10,
+      "avg_ms": 0.08997110000000248,
+      "min_ms": 0.08391600000001631,
+      "max_ms": 0.10058399999999779,
+      "entities_per_sec": 555734
+    },
+    {
+      "tier": "enterprise",
+      "entity_count": 200,
+      "runs": 10,
+      "avg_ms": 0.38434570000000007,
+      "min_ms": 0.29041599999999335,
+      "max_ms": 0.6313330000000121,
+      "entities_per_sec": 520365
+    }
+  ],
+  "systemHealth": {
+    "traces_analyzed": 0,
+    "success_rate_pct": 0,
+    "avg_duration_ms": 0,
+    "verification_rate_pct": 0,
+    "high_failure_tools": [],
+    "source": "unavailable"
+  },
+  "materialization": [
+    {
+      "op_count": 10,
+      "duration_ms": 1.02,
+      "ops_per_sec": 9804
+    },
+    {
+      "op_count": 50,
+      "duration_ms": 3.98,
+      "ops_per_sec": 12563
+    },
+    {
+      "op_count": 200,
+      "duration_ms": 16.04,
+      "ops_per_sec": 12469
+    }
+  ],
+  "codeQuality": {
+    "ran": false,
+    "skipped_reason": "No generated output directory found. Run: npx ts-node scripts/pipeline-test.ts",
+    "files_inspected": 0,
+    "tsc_errors": 0,
+    "tsc_pass_pct": 0,
+    "eslint_errors": 0,
+    "eslint_pass_pct": 0
+  }
+}

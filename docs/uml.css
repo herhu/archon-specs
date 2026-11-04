@@ -1,0 +1,422 @@
+/* ============================================================
+   uml.css — Unified Modeling Language page-specific styles
+   Archon Specs · 2026
+   ============================================================ */
+
+/* ── Category titles ─────────────────────────────────────── */
+.uml-category-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #8b949e);
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border, #30363d);
+}
+
+/* ── Diagram type grid ───────────────────────────────────── */
+.uml-diagram-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.uml-diagram-card {
+  background: var(--bg-card, #161b22);
+  border: 1px solid var(--border, #30363d);
+  border-radius: 10px;
+  padding: 1rem 1rem 0.85rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+  cursor: default;
+}
+
+.uml-diagram-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--uml-color, #ff5d01);
+  border-radius: 10px 0 0 10px;
+}
+
+.uml-diagram-card:hover {
+  border-color: var(--uml-color, #ff5d01);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
+
+.uml-diagram-card.uml-card-active {
+  border-color: var(--uml-color, #ff5d01);
+  background: color-mix(in srgb, var(--uml-color, #ff5d01) 6%, var(--bg-card, #161b22));
+  box-shadow: 0 0 0 1px var(--uml-color, #ff5d01), 0 6px 24px rgba(0,0,0,0.3);
+}
+
+.uml-diagram-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--uml-color, #ff5d01);
+  margin-bottom: 0.35rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.uml-diagram-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary, #e6edf3);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+
+.uml-diagram-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #8b949e);
+  line-height: 1.45;
+}
+
+/* ── Class diagram spec list ─────────────────────────────── */
+.uml-spec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin: 1.25rem 0;
+}
+
+.uml-spec-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #8b949e);
+  line-height: 1.45;
+}
+
+.uml-spec-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+/* ── Mermaid diagram frame ───────────────────────────────── */
+.uml-diagram-frame {
+  border: 1px solid var(--border, #30363d);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1117;
+  margin-top: 1.25rem;
+}
+
+.uml-frame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--border, #30363d);
+  background: #161b22;
+  gap: 0.75rem;
+}
+
+.uml-frame-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary, #8b949e);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.uml-frame-badges {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.uml-frame-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.uml-badge-orange {
+  background: rgba(255, 93, 1, 0.15);
+  color: #ff5d01;
+  border: 1px solid rgba(255, 93, 1, 0.3);
+}
+
+.uml-badge-green {
+  background: rgba(63, 185, 80, 0.12);
+  color: #3fb950;
+  border: 1px solid rgba(63, 185, 80, 0.3);
+}
+
+.uml-diagram-frame .mermaid {
+  padding: 1.5rem;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── 5-step flow strip ───────────────────────────────────── */
+.uml-flow-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.uml-flow-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 110px;
+  flex: 1;
+}
+
+.uml-flow-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.uml-flow-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary, #e6edf3);
+  margin-bottom: 0.2rem;
+  line-height: 1.2;
+}
+
+.uml-flow-sub {
+  font-size: 0.68rem;
+  color: var(--text-secondary, #8b949e);
+  line-height: 1.35;
+  max-width: 90px;
+}
+
+.uml-flow-step-final .uml-flow-label {
+  color: #3fb950;
+}
+
+.uml-flow-step-final .uml-flow-icon {
+  filter: drop-shadow(0 0 6px rgba(63, 185, 80, 0.5));
+}
+
+.uml-flow-arrow {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  margin-top: 0.75rem;
+  color: var(--text-secondary, #8b949e);
+  font-size: 1rem;
+  padding: 0 0.25rem;
+}
+
+/* ── Compile mapping table ───────────────────────────────── */
+.uml-compile-table {
+  border: 1px solid var(--border, #30363d);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.uml-compile-header {
+  display: grid;
+  grid-template-columns: 1.2fr 0.4fr 1.6fr;
+  gap: 0;
+  background: #161b22;
+  border-bottom: 1px solid var(--border, #30363d);
+}
+
+.uml-compile-header span {
+  padding: 0.55rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary, #8b949e);
+}
+
+.uml-compile-header span:not(:last-child) {
+  border-right: 1px solid var(--border, #30363d);
+}
+
+.uml-compile-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.4fr 1.6fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border, #30363d);
+  transition: background 0.15s;
+}
+
+.uml-compile-row:last-child {
+  border-bottom: none;
+}
+
+.uml-compile-row:hover {
+  background: rgba(255, 93, 1, 0.04);
+}
+
+.uml-compile-source {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary, #e6edf3);
+  border-right: 1px solid var(--border, #30363d);
+  display: flex;
+  align-items: center;
+}
+
+.uml-compile-arrow {
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5d01;
+  font-size: 0.9rem;
+  border-right: 1px solid var(--border, #30363d);
+}
+
+.uml-compile-outputs {
+  padding: 0.65rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.uml-output-badge {
+  font-size: 0.68rem;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(96, 165, 250, 0.1);
+  color: #60a5fa;
+  border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.uml-output-badge.badge-green {
+  background: rgba(63, 185, 80, 0.1);
+  color: #3fb950;
+  border-color: rgba(63, 185, 80, 0.25);
+}
+
+.uml-output-badge.badge-purple {
+  background: rgba(163, 113, 247, 0.1);
+  color: #a371f7;
+  border-color: rgba(163, 113, 247, 0.25);
+}
+
+.uml-output-badge.badge-orange {
+  background: rgba(255, 93, 1, 0.1);
+  color: #ff5d01;
+  border-color: rgba(255, 93, 1, 0.25);
+}
+
+/* ── Enforcement gap callout ─────────────────────────────── */
+.uml-gap-callout {
+  background: rgba(255, 93, 1, 0.06);
+  border: 1px solid rgba(255, 93, 1, 0.25);
+  border-left: 4px solid #ff5d01;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.uml-gap-callout p {
+  margin: 0;
+  font-size: 0.925rem;
+  color: var(--text-primary, #e6edf3);
+  line-height: 1.6;
+}
+
+.uml-gap-callout strong {
+  color: #ff5d01;
+}
+
+/* ── Failure grid (reuses sdlc pattern) ─────────────────── */
+/* Uses .failure-grid and .failure-card from sdlc.css */
+
+/* ── Mobile responsive ───────────────────────────────────── */
+@media (max-width: 720px) {
+  .uml-diagram-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .uml-flow-strip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .uml-flow-step {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    min-width: unset;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border, #30363d);
+    gap: 0.75rem;
+  }
+
+  .uml-flow-step:last-child {
+    border-bottom: none;
+  }
+
+  .uml-flow-icon {
+    margin-bottom: 0;
+    font-size: 1.25rem;
+    min-width: 1.75rem;
+  }
+
+  .uml-flow-label,
+  .uml-flow-sub {
+    max-width: unset;
+  }
+
+  .uml-flow-arrow {
+    display: none;
+  }
+
+  .uml-compile-header,
+  .uml-compile-row {
+    grid-template-columns: 1fr 0.35fr 1.3fr;
+  }
+
+  .uml-frame-header {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .uml-diagram-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .uml-compile-header,
+  .uml-compile-row {
+    grid-template-columns: 1fr;
+  }
+
+  .uml-compile-header span:not(:first-child),
+  .uml-compile-arrow {
+    display: none;
+  }
+
+  .uml-compile-source,
+  .uml-compile-outputs {
+    border-right: none;
+  }
+
+  .uml-compile-source {
+    border-bottom: 1px solid var(--border, #30363d);
+    font-size: 0.75rem;
+  }
+}

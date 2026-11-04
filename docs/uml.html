@@ -1,0 +1,635 @@
+<!-- Archon SEO v2.0.0 - 2026-05-24 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Unified Modeling Language (UML) — The Complete Guide for Software Architects | Archon Specs</title>
+  <meta name="description" content="The complete UML guide for software architects. Learn all 14 UML diagram types, why the class diagram is the architecture contract, and why Archon Specs is the only tool where a UML diagram actually compiles to production code." />
+  <link rel="canonical" href="https://archonspecs.dev/uml.html" />
+  <meta property="og:title" content="Unified Modeling Language (UML) — The Complete Guide | Archon Specs" />
+  <meta property="og:description" content="Most tools make UML prettier. Archon makes UML useful. The UML class diagram is the contract that compiles your system to production code." />
+  <meta property="og:type" content="article" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Unified Modeling Language (UML) — The Complete Guide for Software Architects",
+    "description": "All 14 UML diagram types explained. Why the class diagram is the architecture contract. How Archon Specs makes UML executable — the diagram compiles to production code.",
+    "author": { "@type": "Organization", "name": "Archon Specs", "url": "https://archonspecs.dev" },
+    "publisher": { "@type": "Organization", "name": "Archon Specs" },
+    "datePublished": "2026-05-24",
+    "dateModified": "2026-05-24",
+    "keywords": ["UML", "unified modeling language", "UML class diagram", "software architecture diagram", "architecture contract"],
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://archonspecs.dev/uml.html" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Unified Modeling Language (UML)?",
+        "acceptedAnswer": { "@type": "Answer", "text": "UML (Unified Modeling Language) is the ISO-standard visual language for designing and documenting software systems. Created in 1994 by Grady Booch, Ivar Jacobson, and James Rumbaugh and standardized by the OMG (Object Management Group), UML defines 14 diagram types across two categories: structural diagrams (what the system is) and behavioral diagrams (what the system does). The most important for backend architecture is the Class Diagram." }
+      },
+      {
+        "@type": "Question",
+        "name": "How many types of UML diagrams are there?",
+        "acceptedAnswer": { "@type": "Answer", "text": "UML 2.x defines 14 official diagram types. Structural: Class, Object, Component, Composite Structure, Package, Deployment, Profile. Behavioral: Use Case, Activity, State Machine, Sequence, Communication, Timing, Interaction Overview. For backend software architecture, the Class Diagram is the most critical — it defines entities, attributes, relationships, and module boundaries." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is the UML class diagram important for software architecture?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The UML class diagram is the only diagram type that defines the structure of a system in enough detail to generate code from. It specifies entity names, field types, relationships (one-to-many, many-to-many), and module boundaries. When used as an architecture contract — reviewed and approved before implementation begins — it prevents the drift between design and code that costs teams weeks of re-work." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a UML class diagram be used to generate code?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes — in Archon Specs, the UML class diagram is not documentation but an executable contract. You describe your system in plain language, the Architect persona generates a UML class diagram, you review and approve it, and Archon compiles it deterministically into a complete production codebase (NestJS + TypeORM + PostgreSQL migrations + JWT auth + Docker + CI). The same diagram always produces the same code." }
+      }
+    ]
+  }
+  </script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link href="./stylesdocs.css" rel="stylesheet" />
+  <link href="./guides.css" rel="stylesheet" />
+  <link href="./sdlc.css" rel="stylesheet" />
+  <link href="./uml.css" rel="stylesheet" />
+  <link href="./logo.svg" rel="icon" type="image/svg+xml" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script src="./analytics.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div style="display:flex;align-items:center;gap:32px;">
+      <a class="logo" href="./index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width:24px;height:24px;">
+        <span style="font-weight:900;letter-spacing:.2px;color:var(--text);">Archon Specs</span>
+      </a>
+    </div>
+    <nav class="nav-items">
+      <a href="docs.html">Documentation</a>
+      <a href="guides.html">Guides</a>
+      <a href="sdlc.html">SDLC</a>
+      <a class="active" href="uml.html">UML</a>
+      <a href="ai-architecture.html">AI Architecture</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+        <svg id="sun-icon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <aside class="sidebar">
+      <div class="sidebar-section" data-accent="blue">
+        <div class="sidebar-title">What is UML?</div>
+        <ul class="sidebar-nav">
+          <li><a href="#what" class="active">Definition &amp; origin</a></li>
+          <li><a href="#diagrams">The 14 diagram types</a></li>
+          <li><a href="#class-diagram">The class diagram</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="orange">
+        <div class="sidebar-title">Why UML Fails</div>
+        <ul class="sidebar-nav">
+          <li><a href="#problem">Always out of date</a></li>
+          <li><a href="#gap">The enforcement gap</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="purple">
+        <div class="sidebar-title">UML + Archon</div>
+        <ul class="sidebar-nav">
+          <li><a href="#archon-uml">UML as executable contract</a></li>
+          <li><a href="#how">How the compiler uses it</a></li>
+          <li><a href="#live">Live class diagram</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="green">
+        <div class="sidebar-title">Why It Matters</div>
+        <ul class="sidebar-nav">
+          <li><a href="#architects">For architects</a></li>
+          <li><a href="#start">Start now</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <div class="content-wrapper">
+
+        <!-- ─── Hero ──────────────────────────────────────── -->
+        <section id="what">
+          <div class="section-tag">UML · 2026</div>
+          <h1>Unified Modeling Language (UML) — The Architecture Contract No One Enforces</h1>
+          <p class="lead">
+            UML has been the ISO standard for software design since 1997. Every senior architect knows it.
+            Every team uses it for 3 weeks, then stops updating it. The diagrams drift from the code.
+            The architecture lives in someone's head. This guide explains why UML breaks — and introduces
+            the only tool where a UML class diagram actually compiles to production code.
+          </p>
+
+          <div class="callout" style="border-left-color:#60a5fa;">
+            <div class="callout-title" style="color:#60a5fa;">📐 Definition</div>
+            <p><strong>Unified Modeling Language (UML)</strong> is the ISO/IEC 19501 standard visual language for
+              designing, documenting, and communicating software system structure and behavior. Created in 1994–1995
+              by Grady Booch, Ivar Jacobson, and James Rumbaugh ("the Three Amigos") and standardized by the
+              Object Management Group (OMG) in 1997, UML provides 14 diagram types organized around two fundamental
+              questions: <em>what is the system?</em> (structural) and <em>what does the system do?</em>
+              (behavioral).</p>
+          </div>
+
+          <p>UML is not a programming language. It's a modeling language — a vocabulary for drawing precise pictures
+            of software structure before writing a line of code. The goal: ensure that every architect, developer,
+            and stakeholder shares the same mental model of the system before implementation diverges irreversibly.</p>
+
+          <p>The goal is right. The execution, in most teams, is wrong.</p>
+        </section>
+
+        <!-- ─── 14 Diagram Types ───────────────────────── -->
+        <section id="diagrams">
+          <div class="section-tag">Complete reference</div>
+          <h2>All 14 UML Diagram Types — Explained</h2>
+          <p>UML 2.x defines exactly 14 diagram types across two top-level categories. Most tutorials teach 4–7 of
+            them. This is the complete set.</p>
+
+          <div class="uml-category-title">Structural Diagrams — What the system <em>is</em></div>
+          <div class="uml-diagram-grid">
+            <div class="uml-diagram-card uml-card-active reveal" style="--uml-color:#ff5d01;">
+              <div class="uml-diagram-num">01</div>
+              <div class="uml-diagram-name">Class Diagram</div>
+              <p class="uml-diagram-desc">Shows classes, attributes, methods, and relationships. <strong>The most important diagram for backend architecture</strong> — the one that compiles to code.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d1" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">02</div>
+              <div class="uml-diagram-name">Object Diagram</div>
+              <p class="uml-diagram-desc">Snapshot of class instances at a specific moment. Used to validate class diagram designs with concrete examples.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d2" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">03</div>
+              <div class="uml-diagram-name">Component Diagram</div>
+              <p class="uml-diagram-desc">Shows the organization of components (modules, libraries, executables) and their dependencies. Used for microservices and module boundaries.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d3" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">04</div>
+              <div class="uml-diagram-name">Composite Structure</div>
+              <p class="uml-diagram-desc">Internal structure of a classifier and its runtime collaborations. Used for complex component internals.</p>
+            </div>
+            <div class="uml-diagram-card reveal" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">05</div>
+              <div class="uml-diagram-name">Package Diagram</div>
+              <p class="uml-diagram-desc">Organizes model elements into groups (packages). Maps directly to module structure in NestJS, Spring, Django.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d1" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">06</div>
+              <div class="uml-diagram-name">Deployment Diagram</div>
+              <p class="uml-diagram-desc">Physical deployment: servers, containers, databases, networks. The bridge between architecture and infrastructure as code.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d2" style="--uml-color:#60a5fa;">
+              <div class="uml-diagram-num">07</div>
+              <div class="uml-diagram-name">Profile Diagram</div>
+              <p class="uml-diagram-desc">Extends UML with domain-specific stereotypes and constraints. Used in specialized domains (embedded, real-time).</p>
+            </div>
+          </div>
+
+          <div class="uml-category-title" style="margin-top:24px;">Behavioral Diagrams — What the system <em>does</em></div>
+          <div class="uml-diagram-grid">
+            <div class="uml-diagram-card reveal" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">08</div>
+              <div class="uml-diagram-name">Use Case Diagram</div>
+              <p class="uml-diagram-desc">Actors and their goals within the system. Bridges requirements and design — maps to Archon's Analyst phase.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d1" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">09</div>
+              <div class="uml-diagram-name">Activity Diagram</div>
+              <p class="uml-diagram-desc">Workflow, parallel processes, decision points. Used for complex business logic flows and state transitions.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d2" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">10</div>
+              <div class="uml-diagram-name">State Machine Diagram</div>
+              <p class="uml-diagram-desc">States and transitions of an object or system. Archon's governance lifecycle is itself a 10-state state machine.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d3" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">11</div>
+              <div class="uml-diagram-name">Sequence Diagram</div>
+              <p class="uml-diagram-desc">Time-ordered messages between objects. The standard for documenting API call chains and agent interactions.</p>
+            </div>
+            <div class="uml-diagram-card reveal" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">12</div>
+              <div class="uml-diagram-name">Communication Diagram</div>
+              <p class="uml-diagram-desc">Sequence diagram variant emphasizing relationships over time. Used when object structure is more important than message ordering.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d1" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">13</div>
+              <div class="uml-diagram-name">Timing Diagram</div>
+              <p class="uml-diagram-desc">State changes of objects over time. Used in real-time systems, embedded firmware, and event-driven architectures.</p>
+            </div>
+            <div class="uml-diagram-card reveal reveal-d2" style="--uml-color:#c084fc;">
+              <div class="uml-diagram-num">14</div>
+              <div class="uml-diagram-name">Interaction Overview</div>
+              <p class="uml-diagram-desc">Activity diagram using interaction fragments. Combines workflow and sequence to show complex interaction scenarios.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Class Diagram ──────────────────────────── -->
+        <section id="class-diagram">
+          <div class="section-tag">The most important one</div>
+          <h2>The Class Diagram — the only UML diagram that can compile to code</h2>
+          <p>Of the 14 UML diagram types, one is categorically more important for backend software architects:
+            <strong>the class diagram</strong>. It is the only diagram that defines the structure of a system
+            in enough precision to generate implementation from.</p>
+
+          <p>A well-drawn class diagram specifies:</p>
+          <div class="uml-spec-list reveal">
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Entity names</strong> — the nouns of your domain (User, Order, Product, Reservation)</div></div>
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Attributes</strong> — field names, types, constraints (id: uuid, email: string, status: enum)</div></div>
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Methods / operations</strong> — behavior exposed by each class</div></div>
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Relationships</strong> — association, aggregation, composition, inheritance, dependency</div></div>
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Multiplicities</strong> — one-to-one, one-to-many, many-to-many between classes</div></div>
+            <div class="uml-spec-item"><span class="uml-spec-icon" style="color:#ff5d01;">▸</span><div><strong>Visibility</strong> — public (+), private (-), protected (#) members</div></div>
+          </div>
+
+          <p>This is exactly the information needed to generate: TypeORM entities, database schemas, foreign-key
+            constraints, NestJS modules, controllers, DTOs, and Swagger decorators. Everything else in the
+            implementation follows from the class diagram — if the class diagram is correct and enforced.</p>
+
+          <div class="callout" style="border-left-color:var(--brand);">
+            <div class="callout-title">The architectural truth</div>
+            <p>A system's class diagram is its architecture contract. When the diagram and the code disagree,
+              the system is broken — whether the tests pass or not. <strong>The question is never "do we need a
+              class diagram?" — it's "how do we make sure the code stays aligned with it?"</strong></p>
+          </div>
+        </section>
+
+        <!-- ─── Live Class Diagram ─────────────────────── -->
+        <section id="live">
+          <div class="section-tag">See it rendered</div>
+          <h2>From a 22-line spec — a complete UML class diagram</h2>
+          <p>This is the class diagram Archon's Architect persona generates from the BookingPlatform spec.
+            It is not documentation. It is the contract you approve before a single file is written.
+            Once approved, it compiles deterministically to 47 production files.</p>
+
+          <div class="uml-diagram-frame reveal">
+            <div class="uml-frame-header">
+              <span class="uml-frame-badge">ArchitectureContract.json</span>
+              <span class="uml-frame-badge uml-badge-orange">→ UML class diagram (Mermaid)</span>
+              <span class="uml-frame-badge uml-badge-green">→ 47 production files</span>
+            </div>
+            <div class="mermaid" id="uml-class-diagram">
+classDiagram
+  class Room {
+    +UUID id
+    +String number
+    +String type
+    +Decimal pricePerNight
+    +findAll() Room[]
+    +findById(id) Room
+  }
+  class Reservation {
+    +UUID id
+    +DateTime checkIn
+    +DateTime checkOut
+    +String status
+    +create(dto) Reservation
+    +cancel(id) void
+  }
+  class Customer {
+    +UUID id
+    +String email
+    +String name
+    +String phone
+    +findByEmail(email) Customer
+  }
+  class Auth {
+    +login(email, pass) Token
+    +refresh(token) Token
+    +validateToken(token) Payload
+  }
+  Room "1" --> "*" Reservation : has
+  Customer "1" --> "*" Reservation : makes
+  Auth ..> Customer : authenticates
+            </div>
+          </div>
+
+          <p style="font-size:13px;color:var(--muted);margin-top:8px;">
+            This diagram was generated in ~45 minutes from a plain-language description.
+            After your approval, Archon compiled it to the full codebase in under 60 seconds.
+            <a href="guides.html#journey" style="color:var(--brand);">Watch the full build →</a>
+          </p>
+        </section>
+
+        <!-- ─── Why UML Fails ──────────────────────────── -->
+        <section id="problem">
+          <div class="section-tag">The real problem</div>
+          <h2>Why every UML diagram you've ever drawn is wrong within 30 days</h2>
+          <p>UML class diagrams are produced with good intentions. They become useless within weeks for a
+            structurally inevitable reason: <strong>the diagram and the code are two separate artifacts with no
+            enforcement relationship between them.</strong></p>
+
+          <p>Day 1: The diagram is accurate. Day 8: A developer adds a field to the database without updating the
+            diagram. Day 21: Someone renames an entity. Day 45: The architect who drew the diagram leaves the team.
+            Day 90: The diagram describes a system that hasn't existed for two months.</p>
+
+          <div class="failure-grid reveal">
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 01</div>
+              <h3 class="failure-title">Diagrams are optional</h3>
+              <p class="failure-desc">Nothing prevents a developer from writing code that contradicts the class diagram.
+                The diagram has no enforcement power. It's a picture. Pictures don't compile, don't test,
+                and don't reject pull requests.</p>
+            </div>
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 02</div>
+              <h3 class="failure-title">Maintenance is manual</h3>
+              <p class="failure-desc">Updating the diagram requires a tool, a login, and someone who cares.
+                Development moves fast; documentation moves slow. The gap widens by default because
+                "update the UML" is always the lowest priority task.</p>
+            </div>
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 03</div>
+              <h3 class="failure-title">The diagram is owned by one person</h3>
+              <p class="failure-desc">The senior architect who drew it is the only one who can maintain it correctly.
+                When they're unavailable, nobody updates it. When they leave, the diagram becomes
+                an artifact of a different system.</p>
+            </div>
+          </div>
+
+          <p>The result: organizations spend weeks designing UML class diagrams they use as decoration.
+            The code is the actual architecture. The diagram is historical fiction.</p>
+        </section>
+
+        <!-- ─── Enforcement Gap ────────────────────────── -->
+        <section id="gap">
+          <div class="section-tag">The structural cause</div>
+          <h2>The enforcement gap: why no diagramming tool solves this</h2>
+          <p>Lucidchart, Miro, PlantUML, draw.io — all excellent diagramming tools. None of them solve the
+            drift problem, because drift is not a tooling problem. It's an enforcement problem.</p>
+
+          <p>The only way to guarantee that a UML class diagram stays accurate is to make the code an output
+            of the diagram — not a separate artifact that mirrors it. If you generate the code from the diagram,
+            the diagram cannot drift from the code. The diagram <em>is</em> the code's specification.</p>
+
+          <div class="callout" style="border-left-color:#c084fc;">
+            <div class="callout-title" style="color:#c084fc;">💡 The Archon insight</div>
+            <p>Most tools ask: <em>"How do we keep the diagram in sync with the code?"</em><br>
+              Archon asks: <em>"How do we make the code an output of the diagram?"</em><br>
+              The second question has a solution. The first doesn't.</p>
+          </div>
+        </section>
+
+        <!-- ─── UML + Archon ───────────────────────────── -->
+        <section id="archon-uml">
+          <div class="section-tag">The Archon approach</div>
+          <h2>UML as an executable contract — the diagram that compiles</h2>
+          <p>In Archon Specs, the UML class diagram is not drawn by an architect in a diagramming tool.
+            It is generated by the Architect AI agent from your plain-language description, reviewed and
+            approved by you, and then compiled by a deterministic template engine into a production codebase.</p>
+
+          <div class="uml-flow-strip reveal">
+            <div class="uml-flow-step">
+              <div class="uml-flow-icon">💬</div>
+              <div class="uml-flow-label">You describe your system</div>
+              <div class="uml-flow-sub">Plain language. No syntax.</div>
+            </div>
+            <div class="uml-flow-arrow">→</div>
+            <div class="uml-flow-step">
+              <div class="uml-flow-icon">📐</div>
+              <div class="uml-flow-label">Architect generates UML</div>
+              <div class="uml-flow-sub">Class diagram in ~45 min</div>
+            </div>
+            <div class="uml-flow-arrow">→</div>
+            <div class="uml-flow-step">
+              <div class="uml-flow-icon">⟳</div>
+              <div class="uml-flow-label">You iterate &amp; approve</div>
+              <div class="uml-flow-sub">"Add status to Reservation"</div>
+            </div>
+            <div class="uml-flow-arrow">→</div>
+            <div class="uml-flow-step">
+              <div class="uml-flow-icon">⚙️</div>
+              <div class="uml-flow-label">Diagram compiles to code</div>
+              <div class="uml-flow-sub">47 files · &lt; 60 seconds</div>
+            </div>
+            <div class="uml-flow-arrow">→</div>
+            <div class="uml-flow-step uml-flow-step-final">
+              <div class="uml-flow-icon">✓</div>
+              <div class="uml-flow-label">Production baseline</div>
+              <div class="uml-flow-sub">Drift-detected forever</div>
+            </div>
+          </div>
+
+          <p>When you change the class diagram — <em>"rename Room to Suite"</em> — the change propagates to
+            every generated file. Not because someone updated the docs. Because the code <em>is</em> the output
+            of the diagram. There is no separate documentation to maintain.</p>
+        </section>
+
+        <!-- ─── How the Compiler Uses It ─────────────────────── -->
+        <section id="how">
+          <div class="section-tag">Under the hood</div>
+          <h2>What the class diagram compiles into</h2>
+          <p>Every element of the UML class diagram maps to specific generated artifacts. The compiler is
+            deterministic: the same diagram produces the same output, every time.</p>
+
+          <div class="uml-compile-table reveal">
+            <div class="uml-compile-row">
+              <div class="uml-compile-source">UML Class</div>
+              <div class="uml-compile-arrow">→</div>
+              <div class="uml-compile-outputs">
+                <span class="uml-output-badge" style="background:#60a5fa18;color:#60a5fa;">TypeORM Entity</span>
+                <span class="uml-output-badge" style="background:#c084fc18;color:#c084fc;">NestJS Module</span>
+                <span class="uml-output-badge" style="background:#10b98118;color:#10b981;">PostgreSQL Migration</span>
+                <span class="uml-output-badge" style="background:#f59e0b18;color:#f59e0b;">Swagger Schema</span>
+              </div>
+            </div>
+            <div class="uml-compile-row">
+              <div class="uml-compile-source">UML Attribute</div>
+              <div class="uml-compile-arrow">→</div>
+              <div class="uml-compile-outputs">
+                <span class="uml-output-badge" style="background:#60a5fa18;color:#60a5fa;">@Column() decorator</span>
+                <span class="uml-output-badge" style="background:#c084fc18;color:#c084fc;">DTO field + validator</span>
+                <span class="uml-output-badge" style="background:#10b98118;color:#10b981;">SQL column definition</span>
+              </div>
+            </div>
+            <div class="uml-compile-row">
+              <div class="uml-compile-source">UML Relationship</div>
+              <div class="uml-compile-arrow">→</div>
+              <div class="uml-compile-outputs">
+                <span class="uml-output-badge" style="background:#60a5fa18;color:#60a5fa;">@ManyToOne / @OneToMany</span>
+                <span class="uml-output-badge" style="background:#10b98118;color:#10b981;">FOREIGN KEY constraint</span>
+                <span class="uml-output-badge" style="background:#f59e0b18;color:#f59e0b;">JOIN logic in service</span>
+              </div>
+            </div>
+            <div class="uml-compile-row">
+              <div class="uml-compile-source">UML Package</div>
+              <div class="uml-compile-arrow">→</div>
+              <div class="uml-compile-outputs">
+                <span class="uml-output-badge" style="background:#c084fc18;color:#c084fc;">NestJS Module boundary</span>
+                <span class="uml-output-badge" style="background:#f472b618;color:#f472b6;">Domain shard file</span>
+              </div>
+            </div>
+            <div class="uml-compile-row">
+              <div class="uml-compile-source">UML Multiplicity</div>
+              <div class="uml-compile-arrow">→</div>
+              <div class="uml-compile-outputs">
+                <span class="uml-output-badge" style="background:#60a5fa18;color:#60a5fa;">Array vs. single type</span>
+                <span class="uml-output-badge" style="background:#10b98118;color:#10b981;">CASCADE rules</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Why Architects ─────────────────────────── -->
+        <section id="architects">
+          <div class="section-tag">Why it changes everything</div>
+          <h2>For architects: UML stops being maintenance and starts being power</h2>
+          <p>When UML diagrams are documentation, they're a burden. When they're executable contracts, they're
+            the highest-leverage artifact in the entire project.</p>
+
+          <div class="arch-cards">
+            <div class="arch-card reveal" style="border-top:3px solid #ff5d01;">
+              <div class="arch-card-icon">🔒</div>
+              <div class="arch-card-title">The diagram enforces itself</div>
+              <p class="arch-card-desc">You don't ask developers to "update the UML when they change a field."
+                The spec is the source of truth. If a change isn't in the spec, the next re-materialization
+                will flag it. Enforcement is structural, not procedural.</p>
+            </div>
+            <div class="arch-card reveal reveal-d1" style="border-top:3px solid #60a5fa;">
+              <div class="arch-card-icon">⚡</div>
+              <div class="arch-card-title">Design in 45 minutes, not 3 weeks</div>
+              <p class="arch-card-desc">Describe your system in plain language. The Architect agent generates the
+                class diagram. You iterate: "add a field here, rename that entity, remove this relationship."
+                The diagram updates live. You approve when it's right.</p>
+            </div>
+            <div class="arch-card reveal reveal-d2" style="border-top:3px solid #c084fc;">
+              <div class="arch-card-icon">🔁</div>
+              <div class="arch-card-title">Zero maintenance burden</div>
+              <p class="arch-card-desc">Because the code is generated from the diagram, the diagram can never
+                drift from the code. When you evolve the system, you evolve the spec. The diagram updates.
+                The code re-materializes. The diagram is always accurate by definition.</p>
+            </div>
+            <div class="arch-card reveal reveal-d3" style="border-top:3px solid #10b981;">
+              <div class="arch-card-icon">📋</div>
+              <div class="arch-card-title">Instant onboarding</div>
+              <p class="arch-card-desc">New team member joins. You show them the class diagram. They understand
+                the system's domain model in 10 minutes. They don't need to read the codebase to understand
+                the architecture — the spec IS the documentation.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Start ──────────────────────────────────── -->
+        <section id="start">
+          <div class="section-tag">Start now</div>
+          <h2>Turn your next class diagram into production code</h2>
+          <p>Stop drawing UML that drifts. Start compiling UML that ships.</p>
+
+          <div class="start-grid">
+            <div class="start-card reveal" style="border-color:#ff5d0140;">
+              <div class="start-card-badge" style="background:rgba(255,93,1,0.15);color:var(--brand);">New project</div>
+              <h3 class="start-card-title">Design-first with Archon</h3>
+              <p class="start-card-desc">Describe your system in plain language. Get a UML class diagram in 45 minutes.
+                Approve it. Compile it to 47 production files.</p>
+              <ul class="start-card-list">
+                <li>✓ Class diagram generated by AI, approved by you</li>
+                <li>✓ Compiles to NestJS + TypeORM + PostgreSQL</li>
+                <li>✓ Drift detection from day 1</li>
+              </ul>
+              <a href="guides.html#quickstart" class="start-card-cta start-cta-featured">Get started →</a>
+            </div>
+            <div class="start-card reveal reveal-d1" style="border-color:#60a5fa40;">
+              <div class="start-card-badge" style="background:#60a5fa18;color:#60a5fa;">Existing system</div>
+              <h3 class="start-card-title">Reconcile your architecture</h3>
+              <p class="start-card-desc">Have a codebase that's drifted from its design? Archon can reverse-engineer
+                a spec from your existing system and bring diagram and code back into alignment.</p>
+              <ul class="start-card-list">
+                <li>✓ Spec generation from existing codebase</li>
+                <li>✓ Drift detection identifies all divergences</li>
+                <li>✓ Choose: align code or update spec</li>
+              </ul>
+              <a href="docs.html" class="start-card-cta">Read the docs →</a>
+            </div>
+          </div>
+
+          <div class="related-pages reveal" style="margin-top:32px;">
+            <div class="related-title">Go deeper</div>
+            <div class="related-grid">
+              <a href="guides.html#journey" class="related-card">
+                <div class="related-card-icon">▶</div>
+                <div><div class="related-card-title">Watch it build</div><div class="related-card-desc">See the Architect agent generate a UML class diagram from a spec, step by step.</div></div>
+              </a>
+              <a href="sdlc.html" class="related-card">
+                <div class="related-card-icon">📋</div>
+                <div><div class="related-card-title">SDLC Guide</div><div class="related-card-desc">Where UML fits in the software development life cycle — and where it always breaks.</div></div>
+              </a>
+              <a href="ai-architecture.html" class="related-card">
+                <div class="related-card-icon">🏛️</div>
+                <div><div class="related-card-title">AI Architecture</div><div class="related-card-desc">How AI changes software architecture — and why a governed design layer is non-negotiable.</div></div>
+              </a>
+              <a href="guides.html" class="related-card">
+                <div class="related-card-icon">📖</div>
+                <div><div class="related-card-title">Full Archon Guide</div><div class="related-card-desc">The 5 specialist agents, the 6-stage pipeline, benchmarks, and live interactive demo.</div></div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer" style="border-top:1px solid var(--border);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);">
+    <div>© 2026 Archon Specs · All rights reserved</div>
+    <div style="display:flex;gap:20px;">
+      <a href="sdlc.html" style="color:var(--muted);text-decoration:none;">SDLC</a>
+      <a href="uml.html" style="color:var(--brand);text-decoration:none;font-weight:600;">UML Guide</a>
+      <a href="ai-architecture.html" style="color:var(--muted);text-decoration:none;">AI Architecture</a>
+      <a href="guides.html" style="color:var(--muted);text-decoration:none;">Guides</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var tt = document.getElementById('theme-toggle');
+      var si = document.getElementById('sun-icon');
+      var mi = document.getElementById('moon-icon');
+      var html = document.documentElement;
+      tt.addEventListener('click', function () {
+        var isDark = html.getAttribute('data-theme') !== 'light';
+        if (isDark) { html.setAttribute('data-theme', 'light'); si.style.display = 'block'; mi.style.display = 'none'; }
+        else { html.removeAttribute('data-theme'); si.style.display = 'none'; mi.style.display = 'block'; }
+      });
+    })();
+    (function () {
+      var links = document.querySelectorAll('.sidebar-nav a');
+      var sections = Array.from(document.querySelectorAll('.content-wrapper section[id]'));
+      var main = document.querySelector('.content-area');
+      function onScroll() {
+        var scrollY = main.scrollTop + 100;
+        var activeId = sections[0] ? sections[0].id : null;
+        sections.forEach(function (s) { if (s.offsetTop <= scrollY) activeId = s.id; });
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + activeId); });
+      }
+      if (main) main.addEventListener('scroll', onScroll);
+    })();
+    (function () {
+      var revEls = document.querySelectorAll('.reveal');
+      if (!revEls.length) return;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+      revEls.forEach(function (el) { obs.observe(el); });
+    })();
+  </script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#1c1f26', primaryTextColor: '#ffffff', primaryBorderColor: '#ff5d01', lineColor: '#9daab6', secondaryColor: '#161b22', fontFamily: "'JetBrains Mono', monospace", fontSize: '13px' }, class: { useMaxWidth: true } });
+  </script>
+  <script src="./uml-animations.js"></script>
+</body>
+</html>

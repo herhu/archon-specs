@@ -1,0 +1,175 @@
+[
+  {
+    "version": "v2.0.4",
+    "date": "May 19, 2026",
+    "changes": [
+      {
+        "type": "new",
+        "title": "Education Guides Page (/guides.html)",
+        "description": "Launched a comprehensive long-form guide that replaces the previous nav placeholder. Explains Archon's MCP-native architecture, the five-persona governed lifecycle (Analyst → Architect → Tech Lead → Orchestrator → Developer), the conversation-to-code workflow, and the principle of Strict Similitude between UML diagrams and generated code."
+      },
+      {
+        "type": "new",
+        "title": "Interactive Spec → UML → Code Demo",
+        "description": "Browser-side interactive demo on the Guides page parses a live spec, renders a Mermaid class diagram in real time using the same algorithm as the Architect persona, and previews 60+ enterprise-grade generated files. Auto-tour cycles through hand-picked files (JWT guard, exception filter, migration SQL, Dockerfile, Jenkinsfile, README) with prev / play / next controls plus ← / → / space keyboard shortcuts."
+      },
+      {
+        "type": "new",
+        "title": "MCP-First Quickstart Aligned with docs.html",
+        "description": "Guides quickstart now matches the canonical install pattern: install the archonspecs bridge globally, then paste the SSE-URL-with-apiKey MCP snippet into any MCP-capable client. Lists every officially-supported client (Claude Desktop, Claude Code, Cursor, Antigravity, OpenClaw, Windsurf, VS Code with Cline / Continue, Zed) and frames the CLI as the back door rather than the front door."
+      },
+      {
+        "type": "improved",
+        "title": "Color-Coded Sidebar Navigation",
+        "description": "Guides sidebar uses five accent colors (orange / blue / purple / green / pink) on section titles and active links so users get peripheral-vision feedback about which 'chapter' of the page they're reading as they scroll."
+      },
+      {
+        "type": "improved",
+        "title": "Guides Nav Wired Across All Public Pages",
+        "description": "Replaced the dead Guides placeholder in docs.html, benchmarks.html, and changelog.html with proper links to guides.html so the new page is reachable from anywhere in the site."
+      }
+    ]
+  },
+  {
+    "version": "v2.0.3",
+    "date": "May 18, 2026",
+    "changes": [
+      {
+        "type": "new",
+        "title": "Google Search Console Indexing API Integration",
+        "description": "Configured robot service account ownership across Domain and URL-prefix properties, achieving 10/10 automated indexing success via the GSC submit_batch tool."
+      },
+      {
+        "type": "improved",
+        "title": "Technical SEO & Structured Data Hardening",
+        "description": "Fully overhauled public landing pages with premium meta descriptions, high-intent title tags, and 100% valid JSON-LD schemas (WebPage, TechArticle, SoftwareApplication)."
+      },
+      {
+        "type": "new",
+        "title": "Video Indexing & Architecture Migration",
+        "description": "Replaced dynamic JavaScript modals with static HTML5 iframe embeds and launched dedicated video landing pages for 100% crawler discovery and rich snippet eligibility."
+      },
+      {
+        "type": "improved",
+        "title": "Product Rebranding & Content Expansion",
+        "description": "Completely rewrote archon-mcp.html and archon-os.html to eliminate third-party noise, detailing the official Archon Specs MCP materialization toolchain and introducing the upcoming Archon Desktop App."
+      }
+    ]
+  },
+  {
+    "version": "v2.0.2",
+    "date": "May 13, 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "title": "Pipeline Materialization Stability",
+        "description": "Resolved a fatal temporal dead zone ReferenceError in the streaming telemetry callback, ensuring successful project materialization."
+      },
+      {
+        "type": "improved",
+        "title": "Topological Compilation & Schema Hardening",
+        "description": "Added dependsOn support to the domain schema and fixed the domain shard tool to preserve graph dependencies during DAG sorting."
+      },
+      {
+        "type": "new",
+        "title": "Auto-Pathing Normalization",
+        "description": "CLI generator and normalization engine now automatically scaffold HTTP routes from operation names, reducing manual specification burden."
+      },
+      {
+        "type": "fixed",
+        "title": "Diagram Viewer SVG Matrix Error",
+        "description": "Resolved an InvalidStateError caused by the SVG pan/zoom library attempting to invert a 0x0 matrix when reopening hidden diagram modals."
+      }
+    ]
+  },
+  {
+    "version": "v2.0.1",
+    "date": "May 13, 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "title": "Diagram Rendering Normalization",
+        "description": "Fixed Mermaid rendering on Dashboard by correctly stripping markdown metadata and synchronizing diagram type identifiers across the Control Plane."
+      }
+    ]
+  },
+  {
+    "version": "v2.0.0",
+    "date": "May 11, 2026",
+    "changes": [
+      {
+        "type": "new",
+        "title": "Distributed Control Plane",
+        "description": "Fundamental shift from template-driven scaffolding to a deterministic architectural control plane with canonical internal state."
+      },
+      {
+        "type": "new",
+        "title": "Capsule Linking Architecture (CLA)",
+        "description": "Introduced modular orchestration core for horizontal scalability and monorepo-safe incremental evolution."
+      },
+      {
+        "type": "new",
+        "title": "Transactional VFS",
+        "description": "Implemented a fully transactional Virtual File System with atomic commits, rollback support, and dry-run execution."
+      },
+      {
+        "type": "new",
+        "title": "Semantic AST Mutation",
+        "description": "Integrated ts-morph for safe, idempotent code mutation, replacing string replacement with semantic import and decorator injection."
+      },
+      {
+        "type": "new",
+        "title": "Drift Detection & Reconciliation",
+        "description": "Added state-aware orchestration that detects and reconciles structural drift using managed ownership policies."
+      },
+      {
+        "type": "improved",
+        "title": "Execution Plan Protocol",
+        "description": "Replaced ZIP-based transport with distributed execution plans for token-safe, deterministic synchronization."
+      }
+    ]
+  },
+  {
+    "version": "v1.0.2",
+    "date": "April 15, 2026",
+    "changes": [
+      {
+        "type": "new",
+        "title": "WebSocket Stream Engine",
+        "description": "Introduced persistent WebSocket connections for high-speed, real-time architectural materialization."
+      },
+      {
+        "type": "improved",
+        "title": "Workspace Materializer",
+        "description": "Enhanced local authority enforcement for workspace-level project generation."
+      }
+    ]
+  },
+  {
+    "version": "v1.0.1",
+    "date": "March 20, 2026",
+    "changes": [
+      {
+        "type": "fixed",
+        "title": "Schema Validation Logic",
+        "description": "Hardened UML-to-IR transformation to prevent data loss in complex relational mappings."
+      },
+      {
+        "type": "improved",
+        "title": "CLI Tooling",
+        "description": "Refined error reporting and diagnostic logging for the global archonspecs CLI."
+      }
+    ]
+  },
+  {
+    "version": "v1.0.0",
+    "date": "February 1, 2026",
+    "changes": [
+      {
+        "type": "new",
+        "title": "Initial Genesis Release",
+        "description": "Launch of the Archon Specs MVP, featuring basic UML parsing and NestJS project scaffolding."
+      }
+    ]
+  }
+]

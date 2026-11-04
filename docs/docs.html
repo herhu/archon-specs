@@ -1,0 +1,1576 @@
+<!-- Archon SEO v2.0.0 - 2026-04-02 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Archon Documentation: MCP Servers, Client Setup & API Specs</title>
+  <meta name="description"
+    content="Explore official Archon Specs documentation. Learn how to configure MCP servers, authenticate the client CLI, and compile validated NestJS backends." />
+  <link rel="canonical" href="https://archonspecs.dev/docs.html" />
+  <meta property="og:title" content="Archon Documentation: MCP Servers, Client Setup & API Specs" />
+  <meta property="og:description"
+    content="Explore official Archon Specs documentation. Learn how to configure MCP servers, authenticate the client CLI, and compile validated NestJS backends." />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Archon Documentation: MCP Servers, Client Setup & API Specs",
+    "description": "Explore official Archon Specs documentation. Learn how to configure MCP servers, authenticate the client CLI, and compile validated NestJS backends.",
+    "author": {
+      "@type": "Organization",
+      "name": "Archon Specs"
+    }
+  }
+  </script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link href="./stylesdocs.css" rel="stylesheet" />
+  <link href="./logo.svg" rel="icon" type="image/svg+xml" />
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div style="display: flex; align-items: center; gap: 32px;">
+      <a class="logo" href="./index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width: 24px; height: 24px;">
+        <span style="font-weight: 900; letter-spacing: .2px; color: var(--text);">Archon Specs</span>
+      </a>
+      <div class="search-container" style="position: relative; display: flex; align-items: center;">
+        <svg style="position: absolute; left: 12px; color: var(--muted);" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search documentation..."
+          style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px 8px 36px; color: var(--text); font-size: 14px; width: 240px; outline: none; transition: var(--transition);">
+        <span
+          style="position: absolute; right: 12px; font-size: 10px; color: var(--muted); border: 1px solid var(--border); padding: 2px 4px; border-radius: 4px;">⌘K</span>
+      </div>
+    </div>
+    <nav class="nav-items">
+      <a class="active" href="docs.html">Documentation</a>
+      <a href="guides.html">Guides</a>
+      <a href="changelog.html">Changelog</a>
+      <a href="benchmarks.html">Benchmarks</a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+        <svg id="sun-icon" style="display: none;" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a href="https://github.com/herhu/Archonmcp" target="_blank" style="color: var(--muted);"><svg width="20"
+          height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path
+            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+          </path>
+        </svg></a>
+      <a href="https://www.npmjs.com/package/archonspecs" target="_blank" style="color: var(--muted);"
+        title="NPM Package">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M0 0v24h24V0H0zm18 18h-2v-8h-2v8h-4v-8H8v8H6V6h12v12z" />
+        </svg>
+      </a>
+    </div>
+  </header>
+  <div class="main-container">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          Start Here
+        </div>
+        <ul class="sidebar-nav">
+          <li>
+            <a href="#install" class="active">
+              Quick Install
+            </a>
+          </li>
+          <li>
+            <a href="#intro">
+              Welcome to ArchonSpecs
+            </a>
+          </li>
+          <li>
+            <a href="#support">
+              Support
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          System Design
+        </div>
+        <ul class="sidebar-nav">
+          <li><a href="#architecture">Governed Architecture</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          Platform
+        </div>
+        <ul class="sidebar-nav">
+          <li><a href="#cli-ref">CLI Reference</a></li>
+          <li><a href="#desktop">Desktop</a></li>
+          <li><a href="#cli-mcp-proxy">MCP Proxy Mode</a></li>
+          <li><a href="#runtime-layers">Runtime Layers</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          Capabilities
+        </div>
+        <ul class="sidebar-nav">
+          <li><a href="#uml-modeling">UML Modeling</a></li>
+          <li><a href="#sharding">Sharding Process</a></li>
+          <li><a href="#generation-capabilities">Generation Capabilities</a></li>
+          <li><a href="#materialization">Materialization</a></li>
+          <li><a href="#incremental">Incremental Compiler</a></li>
+          <li><a href="#agents">AI Agents & Workspace</a></li>
+          <li><a href="#engineering-memory">Engineering Memory</a></li>
+          <li><a href="#mcp-install">MCP Installation</a></li>
+          <li><a href="#roadmap">Future Roadmap</a></li>
+        </ul>
+      </div>
+    </aside>
+    <main class="content-area">
+      <div class="content-wrapper">
+        <section id="install">
+          <div class="section-tag">Start Here</div>
+          <h1>Get up and running in 4 steps.</h1>
+          <p>Everything you need to go from zero to your first governed backend — in under 5 minutes.</p>
+
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:28px;">
+
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div
+                style="flex-shrink:0; width:36px; height:36px; background:var(--brand); color:#fff; font-family:var(--font-mono); font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:2px;">
+                1</div>
+              <div>
+                <div style="font-weight:700; font-size:15px; margin-bottom:6px;">Install the CLI globally</div>
+                <div class="code-block" style="margin:0;">
+                  <pre>npm install -g archonspecs</pre>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div
+                style="flex-shrink:0; width:36px; height:36px; background:var(--brand); color:#fff; font-family:var(--font-mono); font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:2px;">
+                2</div>
+              <div>
+                <div style="font-weight:700; font-size:15px; margin-bottom:6px;">Get your API key</div>
+                <p style="margin:0 0 8px; font-size:14px; color:var(--text-secondary);">Archon Specs is 100% open source.
+                  Run locally with zero cloud tokens or external account requirements.</p>
+                <a href="https://github.com/herhu/archon-specs"
+                  style="display:inline-block; background:var(--brand); color:#fff; font-family:var(--font-mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; padding:8px 18px; text-decoration:none; border-radius:2px;">Login
+                  / Dashboard →</a>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div
+                style="flex-shrink:0; width:36px; height:36px; background:var(--brand); color:#fff; font-family:var(--font-mono); font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:2px;">
+                3</div>
+              <div>
+                <div style="font-weight:700; font-size:15px; margin-bottom:6px;">Configure Authentication</div>
+                <p style="margin:0 0 8px; font-size:14px; color:var(--text-secondary);">Authenticate your local machine
+                  using your secret token to enable secure remote orchestration.:</p>
+                <div class="code-block" style="margin:0;">
+                  <pre>npx archonspecs init</pre>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:20px; align-items:flex-start;">
+              <div
+                style="flex-shrink:0; width:36px; height:36px; background:var(--brand); color:#fff; font-family:var(--font-mono); font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; border-radius:2px;">
+                4</div>
+              <div style="flex:1;">
+                <div style="font-weight:700; font-size:15px; margin-bottom:6px;">Universal Integration (MCP)</div>
+                <p style="margin:0 0 16px; font-size:14px; color:var(--text-secondary);">Register Archon Specs as a Model Context Protocol (MCP) server in your favorite IDE.</p>
+
+                <div class="split" style="margin-top: 24px;">
+                  <div>
+                    <h4 style="margin-bottom: 12px; font-size: 14px; color: var(--brand);">A. Copy Configuration</h4>
+                    <pre class="code">{
+  "mcpServers": {
+    "archon": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "archonspecs",
+        "mcp"
+      ]
+    }
+  }
+}</pre>
+                  </div>
+                  <div>
+                    <h4 style="margin-bottom: 12px; font-size: 14px; color: var(--brand);">B. Load into environment</h4>
+                    <ul class="muted" style="margin-top: 0; font-size: 14px; line-height: 2; padding-left: 18px;">
+                      <li>
+                        <b>Claude Desktop (macOS):</b><br />
+                        <span class="kbd">~/Library/Application Support/Claude/claude_desktop_config.json</span>
+                      </li>
+                      <li>
+                        <b>Antigravity IDE:</b><br />
+                        <span class="kbd">~/.gemini/antigravity/mcp_config.json</span>
+                      </li>
+                      <li>
+                        <b>Claude Desktop (Windows):</b><br />
+                        <span class="kbd">%APPDATA%\Claude\claude_desktop_config.json</span>
+                      </li>
+                      <li>
+                        <b>Cursor / VS Code:</b><br />
+                        Add as <b>New MCP Server (SSE)</b> in Settings
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="callout" style="border-left-color: var(--brand); margin-top:32px;">
+            <div class="callout-title">⚡ That's it</div>
+            <p>No config files, no boilerplate, no YAML. Your agent now has access to the full Archon governance engine
+              via MCP. Start with <a href="#sharding" style="color:var(--brand);">the sharding process</a> to understand
+              how to structure your first project.</p>
+          </div>
+        </section>
+
+        <section id="intro">
+          <div class="section-tag">Start Here</div>
+          <h1>Welcome to ArchonSpecs</h1>
+          <p>Choose the right Archon starting point, capability, and configuration specs for your workflow.</p>
+
+          <img src="./images/welcome.png" alt="ArchonSpecs Platform Preview" class="hero-image">
+
+          <p>ArchonSpecs is an AI-native software development platform that works everywhere you do. Use this page to
+            pick the right starting point, then drill into the capability and configuration docs that match your
+            workflow.</p>
+
+          <div class="callout" style="border-left-color: var(--brand); margin-bottom: 32px;">
+            <div class="callout-title">🛡️ Beyond Code Generation</div>
+            <p>Archon has crossed the boundary from a simple scaffold tool into a <strong>control-plane
+                architecture</strong>. By integrating state lineage, reconciliation, and deterministic execution plans,
+              we have transformed the developer experience from manual boilerplate to governed system evolution.</p>
+          </div>
+
+          <h2>Start with your surface</h2>
+          <div class="card-group">
+            <a href="#cli-ref" class="card">
+              <div class="card-icon">⚡</div>
+              <h3 class="card-title">Archon CLI</h3>
+              <p class="card-description">Run Archon in your terminal and get productive in minutes.</p>
+            </a>
+            <a href="#support" class="card">
+              <div class="card-icon">🖥️</div>
+              <h3 class="card-title">Desktop App</h3>
+              <p class="card-description">Download the Archon Desktop App and connect to your local machine.</p>
+            </a>
+          </div>
+
+          <h2>Explore core capabilities</h2>
+          <div class="card-group">
+            <a href="#uml-modeling" class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">UML Modeling</h3>
+              <p class="card-description">Visualize architecture with Mermaid and transform diagrams into code.</p>
+            </a>
+            <a href="#sharding" class="card">
+              <div class="card-icon">🧩</div>
+              <h3 class="card-title">Sharding Process</h3>
+              <p class="card-description">Compile distributed domain shards into a unified, validated DesignSpec.</p>
+            </a>
+            <a href="#generation-capabilities" class="card">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title">Generation Capabilities</h3>
+              <p class="card-description">Agent-selected expression modules that extend the engine at compile time.</p>
+            </a>
+            <a href="#materialization" class="card">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Materialization</h3>
+              <p class="card-description">Seamlessly push intent from agents and specs directly into your project.</p>
+            </a>
+            <a href="#incremental" class="card">
+              <div class="card-icon">♻️</div>
+              <h3 class="card-title">Incremental Compiler</h3>
+              <p class="card-description">Evolve your codebase safely with deterministic materialization.</p>
+            </a>
+          </div>
+
+          <h2>Configure and extend</h2>
+          <div class="card-group">
+            <a href="#config" class="card">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title">Settings</h3>
+              <p class="card-description">Control models, tools, permissions, and defaults.</p>
+            </a>
+            <a href="#agents" class="card">
+              <div class="card-icon">📄</div>
+              <h3 class="card-title">AGENTS.md</h3>
+              <p class="card-description">Teach Archon your repo conventions and project context.</p>
+            </a>
+            <a href="#architecture" class="card">
+              <div class="card-icon">📜</div>
+              <h3 class="card-title">Design Specs</h3>
+              <p class="card-description">Maintain a deterministic source of truth for your system.</p>
+            </a>
+            <a href="#mcp-install" class="card">
+              <div class="card-icon">🔌</div>
+              <h3 class="card-title">MCP</h3>
+              <p class="card-description">Connect external tools and services with Model Context Protocol.</p>
+            </a>
+          </div>
+
+          <h2 id="support">Guides, reference, and support</h2>
+          <div class="card-group">
+            <a href="#support" class="card">
+              <div class="card-icon">💡</div>
+              <h3 class="card-title">Common Use Cases</h3>
+              <p class="card-description">See practical workflows you can run right away.</p>
+            </a>
+            <a href="#cli-ref" class="card">
+              <div class="card-icon">⌨️</div>
+              <h3 class="card-title">CLI Reference</h3>
+              <p class="card-description">Browse commands, flags, and operational details.</p>
+            </a>
+            <a href="changelog.html" class="card">
+              <div class="card-icon">📰</div>
+              <h3 class="card-title">Release Notes</h3>
+              <p class="card-description">Stay current with new features and improvements.</p>
+            </a>
+            <a href="mailto:support@archonspecs.dev" class="card">
+              <div class="card-icon">✉️</div>
+              <h3 class="card-title">Support</h3>
+              <p class="card-description">Get help from the Archon team or find support channels.</p>
+            </a>
+          </div>
+        </section>
+
+        <section id="architecture">
+          <div class="section-tag">System Design</div>
+          <h1>Governed Architecture</h1>
+          <p>
+            Archon is built on a three-layer governed architecture that ensures every line of code generated is
+            traceable, compliant, and architecturally sound.
+          </p>
+
+          <div
+            style="background: rgba(255, 93, 1, 0.05); border: 1px solid rgba(255, 93, 1, 0.2); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+            <h3 style="color: var(--brand); margin-top: 0;">The Conceptual Shift</h3>
+            <p style="font-size: 16px; margin-bottom: 0;">
+              In traditional AI coding, the LLM carries the architecture in its context window. In Archon, the
+              <strong>Control Plane carries the architecture</strong>, and the LLM carries only the
+              <strong>intent</strong>. State is internal and canonical.
+            </p>
+          </div>
+
+          <h2>The Mental Model</h2>
+          <p>Archon converges the best practices of modern infrastructure and build systems into a single architectural
+            platform:</p>
+
+          <div class="mapping-grid">
+            <div class="mapping-item">
+              <span class="mapping-tag">Kubernetes</span>
+              <span class="mapping-desc">Desired State + Reconciliation</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Terraform</span>
+              <span class="mapping-desc">Plan/Apply Lifecycle + Drift</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Bazel</span>
+              <span class="mapping-desc">Deterministic Build Graphs</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Git</span>
+              <span class="mapping-desc">Lineage + Immutable History</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">LSP</span>
+              <span class="mapping-desc">Semantic Code Mutation Layer</span>
+            </div>
+          </div>
+
+          <h2>The Materialized Stack</h2>
+          <p>Archon doesn't just generate boilerplate; it materializes a production-grade <strong>NestJS Enterprise
+              Ecosystem</strong>. Every project comes pre-configured with a battle-tested technical stack:</p>
+
+          <div class="stack-container">
+            <div class="stack-pill">Core: <strong>NestJS 10+</strong></div>
+            <div class="stack-pill">Persistence: <strong>TypeORM + PostgreSQL</strong></div>
+            <div class="stack-pill">Docs: <strong>Swagger / OpenAPI</strong></div>
+            <div class="stack-pill">Validation: <strong>Class Validator</strong></div>
+            <div class="stack-pill">Security: <strong>Helmet + Throttler</strong></div>
+            <div class="stack-pill">Identity: <strong>JOSE (JWT)</strong></div>
+            <div class="stack-pill">Resilience: <strong>BullMQ + Redis</strong></div>
+            <div class="stack-pill">Logs: <strong>Pino + Pretty</strong></div>
+            <div class="stack-pill">Ops: <strong>New Relic / Husky</strong></div>
+          </div>
+
+          <div class="card-group">
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">🌊</div>
+              <h3 class="card-title">Remote Layer</h3>
+              <p class="card-description">The <strong>Gateway</strong> handles high-speed SSE streaming, S3 artifact
+                persistence, and secure worker pool orchestration.</p>
+            </div>
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">⚖️</div>
+              <h3 class="card-title">Core Archon</h3>
+              <p class="card-description">The <strong>Governance Engine</strong> enforces Requirement and Architecture
+                contracts using an incremental compiler.</p>
+            </div>
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">UML Engine</h3>
+              <p class="card-description">The <strong>Visual DSL Layer</strong> parses ASCII diagrams into structured IR
+                for spec generation and Mermaid visualization.</p>
+            </div>
+          </div>
+
+          <h2 id="remote-layer">1. Remote Layer (SSE & S3)</h2>
+          <p>
+            The Remote Layer acts as the orchestrator for all architectural missions. It manages the lifecycle of a
+            materialization pass and provides the infrastructure for high-scale generation.
+          </p>
+          <ul>
+            <li><strong>SSE Stream</strong>: A persistent real-time channel that pushes file-system mutations directly
+              to the CLI.</li>
+            <li><strong>S3 Artifacts</strong>: Stores immutable snapshots of compiled project ZIPs and specifications.
+            </li>
+            <li><strong>Worker Pool</strong>: A pool of specialized MCP workers that execute heavy-duty compilation and
+              validation tasks in isolation.</li>
+          </ul>
+
+          <h2 id="core-archon">2. Core Archon (Governance)</h2>
+          <p>
+            This is the "Brain" of the system. It ensures that the generated code adheres to the <strong>Design
+              Specification v1</strong>.
+          </p>
+          <h2 id="uml-engine">3. UML Layer (Parsing & Visuals)</h2>
+          <p>
+            The UML Layer translates human-readable ASCII diagrams into machine-readable <code>DiagramIR</code>.
+          </p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="tag">UML Flow</span>
+            </div>
+            <pre>ASCII Text ➔ DiagramIR ➔ DesignSpec ➔ Materialization</pre>
+          </div>
+          <p>
+            Key tools include <code>uml_parse_ascii</code> for parsing and <code>archon_generate_diagram</code> for
+            rendering high-fidelity Mermaid class and sequence diagrams.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Contract</th>
+                <th>Responsibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Requirement Contract</strong></td>
+                <td>Defines business rules, actors, and events in <code>manifest.json</code>.</td>
+              </tr>
+              <tr>
+                <td><strong>Architecture Contract</strong></td>
+                <td>Defines technical boundaries, domain shards, and cross-cutting concerns.</td>
+              </tr>
+              <tr>
+                <td><strong>Incremental Compiler</strong></td>
+                <td>Reconciles architectural drift and materializes only what has changed.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="cli-ref">
+          <div class="section-tag">Platform</div>
+          <h1>CLI Reference</h1>
+          <p>
+            The Archon CLI (`archonspecs`) is a high-performance bridge that connects your local development
+            environment to the Archon Governance remote. It handles secure tool proxying, local shard management, and
+            real-time file-system mutations.
+          </p>
+
+          <h2 id="cli-install">Installation</h2>
+          <p>Install the Archon CLI globally via npm to use it across all your projects.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="tag">npm</span>
+            </div>
+            <pre>npm install -g archonspecs</pre>
+          </div>
+          <p>Or run it directly using <code>npx</code>:</p>
+          <div class="code-block">
+            <pre>npx archonspecs -token &lt;YOUR_SECRET_TOKEN&gt;</pre>
+          </div>
+        </section>
+
+        <section id="desktop">
+          <div class="section-tag">Platform</div>
+          <h1>Archon Desktop</h1>
+          <p>
+            The ultimate command center for architectural engineering. Archon Desktop provides a visual control plane
+            that goes beyond the limitations of traditional IDEs.
+          </p>
+
+          <div class="card-group">
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">🖥️</div>
+              <h3 class="card-title">Full Observability</h3>
+              <p class="card-description">Monitor your materialization streams, worker health, and architectural drift
+                in real-time through a dedicated dashboard.</p>
+            </div>
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">🧠</div>
+              <h3 class="card-title">Local Model Support</h3>
+              <p class="card-description">Connect directly to local LLMs (Ollama, LM Studio) for 100% private,
+                air-gapped architecture compilation.</p>
+            </div>
+            <div class="card" style="cursor: default;">
+              <div class="card-icon">🕹️</div>
+              <h3 class="card-title">Project Control</h3>
+              <p class="card-description">Take control of your projects from a unified interface. Visualize shards,
+                manage contracts, and trigger materialization without ever touching a terminal.</p>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 32px; border-left-color: var(--brand);">
+            <strong>Imagine no IDE?</strong> Archon Desktop is designed to handle the entire lifecycle of a project,
+            from UML modeling to production deployment, providing a seamless experience where the architecture
+            <strong>is</strong> the primary artifact.
+          </div>
+        </section>
+
+        <section id="cli-mcp-proxy">
+          <h1>MCP Proxy Mode</h1>
+          <p>
+            By default, running <code>archonspecs</code> starts the <strong>MCP Proxy</strong>. This mode bridges
+            standard Model
+            Context Protocol (stdio) communication from IDEs like Claude Desktop to the Archon SSE backend.
+          </p>
+
+          <h3>Local Tool Injection</h3>
+          <p>The proxy automatically augments the remote toolset with local-only capabilities that have direct access
+            to your file system:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Local Tool</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>archon_read_local_lineage</code></td>
+                <td>Reads the immutable project identity and revision from <code>.archon/lineage.json</code>.</td>
+              </tr>
+              <tr>
+                <td><code>archon_verify_local</code></td>
+                <td>Ensures local code integrity by comparing the disk state against the lineage manifest.</td>
+              </tr>
+              <tr>
+                <td><code>archon_create_requirement_contract</code></td>
+                <td>Generates a local Requirement Contract (<code>manifest.json</code>) for governed projects.</td>
+              </tr>
+              <tr>
+                <td><code>archon_compile_spec_shards</code></td>
+                <td>Compiles individual domain shards into a unified <code>DesignSpec.json</code>.</td>
+              </tr>
+              <tr>
+                <td><code>archon_sync_via_artifact</code></td>
+                <td>Smart-merges a remote ZIP artifact into the workspace while preserving manual code blocks.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout">
+            <div class="callout-title">
+              🌊 Background SSE "Socket"
+            </div>
+            <p>
+              Even in Proxy mode, the CLI maintains a background connection to the Archon stream. This allows the
+              remote governance engine to "push" file changes (Create/Update/Delete) directly to your local workspace
+              as the AI agent works.
+            </p>
+          </div>
+        </section>
+
+        <section id="runtime-layers">
+          <div class="section-tag">Platform</div>
+          <h1>Core Runtime Layers</h1>
+          <p>
+            Archon's reliability stems from a multi-layered runtime that provides a deterministic and transactional
+            environment for AI agents.
+          </p>
+
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px;">
+            <div>
+              <h3 style="margin-top: 0;">1. VFS (Virtual File System)</h3>
+              <p>Your <strong>transactional memory workspace</strong>. Stages changes in RAM for atomic commits,
+                rollbacks, and dry-runs.</p>
+              <div class="tag">Safe Execution Substrate</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">2. AST Layer (ts-morph)</h3>
+              <p>Your <strong>semantic code manipulation engine</strong>. Performs intelligent code injection and
+                patching instead of simple text replacement.</p>
+              <div class="tag">Semantic Mutation Engine</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">3. CLA (Capsule Linking Architecture)</h3>
+              <p>Your <strong>orchestration model</strong>. Splits monolithic architectures into semantic capsules for
+                modular execution.</p>
+              <div class="tag">Distributed Architecture Graph</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">4. Execution Plan Protocol</h3>
+              <p>Your <strong>synchronization protocol</strong>. Transfers intent instead of files, providing replay
+                protection and state lineage.</p>
+              <div class="tag">Control-Plane Transport</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">5. Drift Detection & Reconciliation</h3>
+              <p>Your <strong>state governance layer</strong>. Detects manual mutations and enforces ownership to
+                prevent "split-brain" codebases.</p>
+              <div class="tag">State Integrity System</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">6. Fingerprinting & Hashing</h3>
+              <p>Your <strong>cryptographic identity layer</strong>. Verifies canonical state and ensures an immutable
+                chain-of-custody.</p>
+              <div class="tag">Chain-of-Custody System</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">7. Incremental Mutation Engine</h3>
+              <p>Your <strong>scoped evolution engine</strong>. Patches specific entities and fields without loading
+                the entire project spec.</p>
+              <div class="tag">State Mutation API</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">8. Layered Validation System</h3>
+              <p>Your <strong>contract enforcement engine</strong>. Tiers validation from fragments to full-system
+                graphs.</p>
+              <div class="tag">Multi-Layer Contract System</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">9. Materializer</h3>
+              <p>Your <strong>local authority boundary</strong>. Enforces convergence, path safety, and syntax
+                validation at the disk edge.</p>
+              <div class="tag">Local Execution Authority</div>
+            </div>
+            <div>
+              <h3 style="margin-top: 0;">10. MCP Control Plane</h3>
+              <p>Your <strong>orchestration API layer</strong>. Coordinates tool contracts and distributed semantics
+                between remote and local.</p>
+              <div class="tag">Operator Interface</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="uml-modeling">
+          <div class="section-tag">Capabilities</div>
+          <h1>UML Modeling & Visualization</h1>
+          <p>
+            In the early days of AI coding, developers were forced to explain complex architectures through long,
+            ambiguous prompts. We changed that by introducing the <strong>UML Visual DSL</strong>.
+          </p>
+          <p>
+            By parsing simple ASCII diagrams into high-fidelity <strong>Mermaid</strong> visualizations, Archon gives
+            you a bird's-eye view of your system before a single line of code is written. This isn't just about pretty
+            pictures—it's about creating a machine-readable <code>DiagramIR</code> that powers the rest of the
+            compilation pipeline.
+          </p>
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+            classDiagram
+            class User {
+            uuid id
+            string email
+            string username
+            datetime created_at
+            +createOrder()
+            }
+            class Order {
+            uuid id
+            uuid user_id
+            string status
+            float total_amount
+            +processPayment()
+            }
+            class Product {
+            uuid id
+            string sku
+            string name
+            float price
+            int stock
+            }
+            class OrderItem {
+            uuid id
+            uuid order_id
+            uuid product_id
+            int quantity
+            float unit_price
+            }
+
+            User "1" --> "*" Order : places
+            Order "1" --> "*" OrderItem : contains
+            Product "1" --> "*" OrderItem : listed_in
+          </div>
+
+          <div style="text-align: center; margin: 24px 0; color: var(--brand); font-weight: 700; font-size: 24px;">↓
+          </div>
+
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin-bottom: 16px;">
+            sequenceDiagram
+            participant U as User
+            participant OS as OrderService
+            participant P as ProductService
+            participant DB as Database
+
+            U->>OS: createOrder(product_id, qty)
+            OS->>P: checkAvailability(product_id)
+            P-->>OS: in_stock (true)
+            OS->>DB: begin_transaction
+            OS->>DB: create Order record
+            OS->>DB: create OrderItem (order_id, product_id)
+            OS->>DB: commit_transaction
+            OS-->>U: order_confirmed (id)
+          </div>
+
+          <div style="text-align: center; margin: 24px 0; color: var(--brand); font-weight: 700; font-size: 24px;">↓
+          </div>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="tag">3. JSON DesignSpec (Machine Source)</span>
+            </div>
+            <pre>{
+  "entities": [
+    { "name": "Order", "fields": [...] }
+  ],
+  "services": [
+    { "name": "OrderService", "operations": [...] }
+  ]
+}</pre>
+          </div>
+
+          <p>
+            This journey from <strong>Visualization</strong> to <strong>Validation</strong> is where the magic happens.
+            Once your diagrams are structurally sound, Archon takes full control of the materialization
+            pipeline—ensuring that every service, entity, and relationship matches your design with zero drift.
+          </p>
+        </section>
+
+        <section id="sharding">
+          <h1>The Sharding Process</h1>
+          <p>
+            Large-scale systems are too complex to manage as a single file. Archon solves this through <strong>Domain
+              Sharding</strong>.
+          </p>
+          <p>
+            Each module of your system is developed as an independent shard—a discrete piece of the architectural
+            puzzle. Our compilation engine then takes these shards and merges them into a unified
+            <code>DesignSpec.json</code>, validating every relationship and constraint along the way.
+          </p>
+
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin: 24px 0;">
+            graph TD
+            S1[Identity Shard] --> MCP[MCP Validation & Compilation]
+            S2[Billing Shard] --> MCP
+            S3[Inventory Shard] --> MCP
+            MCP --> DS[Final DesignSpec.json]
+
+            style S1 fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style S2 fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style S3 fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style MCP fill:#ff5d01,stroke:#fff,stroke-width:2px,color:#fff
+            style DS fill:#2d2d2d,stroke:#ff5d01,stroke-width:2px
+          </div>
+
+          <p>
+            This process ensures that your "Identity Management" shard never conflicts with your "Billing" logic,
+            maintaining perfect isolation and integrity.
+          </p>
+
+          <div class="callout">
+            <div class="callout-title">
+              🧩 Why Sharding?
+            </div>
+            <p>
+              Sharding allows multiple agents (or humans) to work on different parts of the system simultaneously
+              without merge conflicts. More importantly:
+            </p>
+            <ul style="margin-top: 8px; margin-left: 20px;">
+              <li><strong>Token Optimization</strong>: We only send the relevant shard to the LLM, drastically reducing
+                context window usage and costs.</li>
+              <li><strong>Safe Scaling</strong>: Add new domains without risking the integrity of existing modules.</li>
+              <li><strong>Enhanced Security</strong>: Shards provide natural boundaries for permissioning and auditing.
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="generation-capabilities">
+          <h1>Generation Capabilities</h1>
+          <p>
+            Archon's compilation engine ships with a library of over <strong>180 specialized generation
+              functions</strong>
+            organized across 20 categories. Rather than loading everything unconditionally, the engine is
+            <strong>demand-driven</strong>: the agent inspects the available catalog, selects only the modules the spec
+            actually requires, and declares them in the Architecture Contract. The engine then loads exclusively those
+            modules at compile time.
+          </p>
+
+          <div class="callout" style="border-left-color: var(--brand);">
+            <div class="callout-title">🧠 Why This Matters</div>
+            <p>
+              Each project gets a compilation context shaped to its requirements — not a generic runtime with everything
+              turned on. A financial system that needs precise decimal arithmetic gets <code>math</code>. A localized
+              platform gets <code>i18n</code> and <code>inflection</code>. The agent decides; the engine enforces.
+            </p>
+          </div>
+
+          <h2>The Flow</h2>
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin: 24px 0;">
+            graph LR
+            A[archon_list_modules] --> B[Agent Analysis]
+            B --> C[archon_create_architecture_contract]
+            C --> D[DesignSpec.json]
+            D --> E[Engine loads selected modules]
+            E --> F[Compilation]
+
+            style A fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style B fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style C fill:#ff5d01,stroke:#fff,stroke-width:2px,color:#fff
+            style D fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style E fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style F fill:#2d2d2d,stroke:#ff5d01,stroke-width:2px
+          </div>
+
+          <ol style="margin-left: 20px; line-height: 2;">
+            <li>Agent calls <code>archon_list_modules</code> — receives the full catalog with descriptions for each
+              function.</li>
+            <li>Agent reads the spec requirements and determines which categories are needed.</li>
+            <li>Agent calls <code>archon_create_architecture_contract</code> with the selected list.</li>
+            <li>Shard compiler merges the selection into <code>DesignSpec.json</code>.</li>
+            <li>Engine loads only those modules during compilation — nothing else.</li>
+          </ol>
+
+          <h2>Available Categories</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>What it provides</th>
+                <th>Example use case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>array</code></td>
+                <td>Collection iteration, slicing, filtering, sorting</td>
+                <td>Multi-item entity lists, pagination patterns</td>
+              </tr>
+              <tr>
+                <td><code>collection</code></td>
+                <td>Object/array unification helpers</td>
+                <td>Mixed-type data structures</td>
+              </tr>
+              <tr>
+                <td><code>comparison</code></td>
+                <td>Logical branching: <code>eq</code>, <code>or</code>, <code>not</code>, <code>contains</code></td>
+                <td>Conditional field generation (always pre-loaded)</td>
+              </tr>
+              <tr>
+                <td><code>date</code></td>
+                <td>Formatting, parsing, arithmetic on timestamps</td>
+                <td>Audit fields, scheduling domains</td>
+              </tr>
+              <tr>
+                <td><code>math</code></td>
+                <td>Arithmetic, rounding, floor/ceil, min/max</td>
+                <td>Billing, inventory, financial domains</td>
+              </tr>
+              <tr>
+                <td><code>number</code></td>
+                <td>Locale-aware number formatting</td>
+                <td>Currency display, metrics reporting</td>
+              </tr>
+              <tr>
+                <td><code>string</code></td>
+                <td>Case transforms, truncation, padding, slugify</td>
+                <td>URL generation, display formatting</td>
+              </tr>
+              <tr>
+                <td><code>inflection</code></td>
+                <td>Pluralize, singularize, humanize, ordinal</td>
+                <td>Dynamic label generation, REST resource naming</td>
+              </tr>
+              <tr>
+                <td><code>object</code></td>
+                <td>Key extraction, deep merge, JSON stringify</td>
+                <td>Config objects, nested specs</td>
+              </tr>
+              <tr>
+                <td><code>regex</code></td>
+                <td>Pattern matching, test, replace</td>
+                <td>Validation patterns, field sanitization</td>
+              </tr>
+              <tr>
+                <td><code>url</code></td>
+                <td>Encode/decode, query string manipulation</td>
+                <td>API path construction, redirect handling</td>
+              </tr>
+              <tr>
+                <td><code>path</code></td>
+                <td>Join, dirname, extname, resolve</td>
+                <td>File artifact references, module paths</td>
+              </tr>
+              <tr>
+                <td><code>html</code></td>
+                <td>Tag generation, attribute encoding</td>
+                <td>Template rendering, email generation</td>
+              </tr>
+              <tr>
+                <td><code>markdown</code></td>
+                <td>Convert markdown to HTML</td>
+                <td>Documentation generation, README compilation</td>
+              </tr>
+              <tr>
+                <td><code>i18n</code></td>
+                <td>Translation key lookup</td>
+                <td>Internationalized service generation</td>
+              </tr>
+              <tr>
+                <td><code>code</code></td>
+                <td>Syntax highlighting helpers</td>
+                <td>Documentation artifacts</td>
+              </tr>
+              <tr>
+                <td><code>logging</code></td>
+                <td>Structured log formatting</td>
+                <td>Observability-heavy domains</td>
+              </tr>
+              <tr>
+                <td><code>misc</code></td>
+                <td>General-purpose utilities</td>
+                <td>Cross-cutting concerns</td>
+              </tr>
+              <tr>
+                <td><code>match</code></td>
+                <td>Glob and pattern matching</td>
+                <td>Dynamic routing, file resolution</td>
+              </tr>
+              <tr>
+                <td><code>fs</code></td>
+                <td>File system path helpers</td>
+                <td>Artifact generation, workspace scaffolding</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h2>Declaring in the Architecture Contract</h2>
+          <p>When the agent creates the Architecture Contract, it includes the selected categories:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="tag">archon_create_architecture_contract</span>
+            </div>
+            <pre>{
+  "version": "1.0.0",
+  "domainShards": ["billing", "inventory", "identity"],
+  "handlebarsHelpers": ["math", "date", "inflection", "array"],
+  "platform": { "terraform": true },
+  "modules": [{ "type": "queue.bullmq", "name": "jobs" }]
+}</pre>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">📋 Agent Guidance</div>
+            <p>
+              Use <code>archon_list_modules</code> before authoring the Architecture Contract. Each entry in the catalog
+              includes the function name, category, and a usage description — everything needed to make an informed
+              selection. Only declare what the spec's domains genuinely require. Over-declaring adds no functionality
+              and signals a shallow analysis.
+            </p>
+          </div>
+        </section>
+
+        <section id="materialization">
+          <h1>Materialization Engine</h1>
+          <p>
+            The bridge between intent and reality. <strong>Materialization</strong> is not a one-time generation; it is
+            a persistent stream of architectural decisions flowing directly into your file system.
+          </p>
+          <p>
+            Whether it's a new entity requested by an agent or a structural change in your JSON spec, the
+            Materialization Engine calculates the exact delta and applies it via a secure SSE channel.
+          </p>
+
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin: 24px 0;">
+            graph LR
+            A[Agent Tools / MCP] --> ME[Materialization Engine]
+            B[CLI Command] --> ME
+            C[DesignSpec Updates] --> ME
+
+            ME --> O1[<b>Workspace</b><br />AGENTS.md, Rules, Context]
+            ME --> O2[<b>Full Specs</b><br />Shards, DesignSpec.json]
+            ME --> O3[<b>Project Code</b><br />Entities, Services, DTOs]
+
+            style ME fill:#ff5d01,stroke:#fff,stroke-width:2px,color:#fff
+            style O1 fill:#1a1a1a,stroke:#ff5d01,stroke-width:1px
+            style O2 fill:#1a1a1a,stroke:#ff5d01,stroke-width:1px
+            style O3 fill:#1a1a1a,stroke:#ff5d01,stroke-width:1px
+          </div>
+
+          <h2>The Three Levels of Materialization</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Level</th>
+                <th>Target</th>
+                <th>Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>1. Workspace</strong></td>
+                <td>Bootstrapping</td>
+                <td>Initializes <code>AGENTS.md</code>, IDE rules, and project context.</td>
+              </tr>
+              <tr>
+                <td><strong>2. Specification</strong></td>
+                <td>System Design</td>
+                <td>Materializes domain shards and the compiled source-of-truth.</td>
+              </tr>
+              <tr>
+                <td><strong>3. Evolution</strong></td>
+                <td>Codebase</td>
+                <td>Real-time injection of features, entities, and services.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="code-block" style="margin-top: 24px;">
+            <div class="code-header">
+              <span class="tag">CLI Alternative</span>
+            </div>
+            <pre>archonspecs materialize &lt;projectId&gt; --key &lt;authKey&gt;</pre>
+          </div>
+        </section>
+
+        <section id="incremental">
+          <h1>Incremental Compiler</h1>
+          <p>
+            Codebases should evolve, not rot. The <strong>Incremental Compiler</strong> is designed for the long-term
+            health of your project. Unlike traditional generators that overwrite your work, our compiler is
+            <strong>region-aware</strong>—preserving your manual customizations (marked with
+            <code>// @archon-manual</code>) while updating the governed structural code around them.
+          </p>
+
+          <div class="callout" style="border-left-color: var(--brand);">
+            <div class="callout-title">🚀 The V2 Evolution</div>
+            One of the biggest upgrades in ArchonSpecs V2 is the move from a <b>monolithic compiler</b> to an
+            <b>incremental distributed architecture compiler</b>.
+          </div>
+
+          <h2>From O(N) to O(C)</h2>
+          <p>
+            In legacy systems, every small change triggered a "recompile the universe" event. At enterprise scale (100+
+            domains, 2,000+ entities), this monolithic approach collapses. Archon V2 recompiles only what changed and
+            its immediate affected dependencies.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0;">
+            <div class="code-block" style="margin: 0;">
+              <div class="code-header"><span class="tag">V1: Monolithic</span></div>
+              <pre>O(N) ➔ All Specs
+  ➔ Full Parse
+  ➔ Full Validate
+  ➔ Full Compile</pre>
+            </div>
+            <div class="code-block" style="margin: 0; border-color: var(--brand);">
+              <div class="code-header"><span class="tag" style="background: var(--brand); color: white;">V2:
+                  Incremental</span></div>
+              <pre>O(C) ➔ Changed Shards
+  ➔ Affected Deps
+  ➔ Cached Partials
+  ➔ Parallel Merge</pre>
+            </div>
+          </div>
+
+          <h2>1. Architecture Sharding</h2>
+          <p>
+            Instead of a single <code>DesignSpec.json</code>, the architecture is split into independent compilation
+            units (Shards) stored in <code>spec/domains/</code>.
+          </p>
+
+          <h2>2. Deterministic Fingerprinting</h2>
+          <p>
+            Every shard is normalized and hashed before compilation. The compiler uses these fingerprints to instantly
+            detect if a shard needs processing without parsing the entire tree.
+          </p>
+
+          <h2>3. DAG-Based Dependency Resolution</h2>
+          <p>
+            Shards declare their dependencies explicitly. Archon builds a <strong>Directed Acyclic Graph (DAG)</strong>
+            to guarantee a deterministic compilation order and detect circular dependencies.
+          </p>
+
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin: 24px 0;">
+            graph TD
+            Identity --> Billing
+            Billing --> Invoices
+            Identity --> Notifications
+
+            style Identity fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style Billing fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style Invoices fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style Notifications fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+          </div>
+
+          <h2>4. Transitive Invalidation</h2>
+          <p>
+            If the <code>Identity</code> shard changes, Archon automatically invalidates downstream shards
+            (<code>Billing</code>, <code>Invoices</code>). This ensures that architectural changes propagate safely and
+            the final system remains consistent.
+          </p>
+
+          <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+            <div>
+              <h3>Parallel Compilation</h3>
+              <p>Because shards are isolated, non-dependent branches (like Notifications and Analytics) compile
+                simultaneously, drastically reducing latency for large swarms.</p>
+            </div>
+            <div>
+              <h3>Validation Gates</h3>
+              <p>Before entering the DAG, every shard passes through a strict validation gate that checks schema
+                correctness, naming rules, and architectural invariants.</p>
+            </div>
+          </div>
+
+          <div
+            style="margin-top: 48px; padding: 32px; background: rgba(255, 93, 1, 0.05); border: 1px solid rgba(255, 93, 1, 0.2); border-radius: 12px; text-align: center;">
+            <h2 style="margin-top: 0; color: var(--brand);">The Conceptual Shift</h2>
+            <p style="font-size: 18px; line-height: 1.6; margin-bottom: 0;">
+              V1 treated architecture as a <strong>document</strong>.<br />
+              V2 treats architecture as a <strong>compilable state graph</strong>.
+            </p>
+          </div>
+        </section>
+
+        <section id="config">
+          <h2>Configuration</h2>
+          <p>
+            Archon discovers configuration in a specific order: 1. Command-line flags, 2. Environment variables, 3.
+            <code>.env</code> files, and 4. <code>.archon/config.json</code>.
+          </p>
+
+          <h3>Environment Variables</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>ARCHON_URL</code></td>
+                <td>The target Archon server URL (Default: <code>http://localhost:3001/mcp/sse</code>).</td>
+              </tr>
+              <tr>
+                <td><code>ARCHON_TOKEN</code></td>
+                <td>Authentication Bearer token for secure governance remotes.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Core Project Files</h3>
+          <ul>
+            <li><code>.archon/lineage.json</code>: The "DNA" of your project. Tracks identity and architectural version.
+            </li>
+            <li><code>.archon/sync.lock</code>: Prevents concurrent materialization passes from corrupting the
+              workspace.</li>
+            <li><code>.archon/config.json</code>: Local persistent settings for the CLI bridge.</li>
+          </ul>
+        </section>
+
+        <section id="agents">
+          <h1>AI Agents & Workspace</h1>
+          <p>
+            Archon doesn't just generate code; it materializes a complete <strong>AI-native workspace</strong>. It
+            provides your agents with the instructional foundation and context they need to operate autonomously.
+          </p>
+
+          <h2>What we materialize</h2>
+          <p>When you initialize a project, Archon materializes a "System of Record" into your workspace root:</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>File / Directory</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>AGENTS.md</code></td>
+                <td>The <strong>Master Instruction Set</strong>. Contains your repo conventions, workflow rules, and
+                  architectural mandates.</td>
+              </tr>
+              <tr>
+                <td><code>CONTEXT.md</code></td>
+                <td>High-level project summary and mental model for new agents joining the mission.</td>
+              </tr>
+              <tr>
+                <td><code>.cursorrules</code> / <code>.clinerules</code></td>
+                <td>IDE-specific configuration that enforces Archon governance rules in real-time as the agent works.
+                </td>
+              </tr>
+              <tr>
+                <td><code>spec/</code></td>
+                <td>The source of truth for your architecture. Contains the <code>manifest.json</code> and domain
+                  shards.</td>
+              </tr>
+              <tr>
+                <td><code>*.schema.json</code></td>
+                <td>JSON Schemas that ensure all architectural edits are valid and compliant.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout">
+            <div class="callout-title">
+              🧠 The Instructional Foundation
+            </div>
+            <p>
+              By materializing these files, Archon transforms a standard repository into a governed environment where AI
+              agents can safely plan, edit, and verify code without human hand-holding.
+            </p>
+          </div>
+        </section>
+
+        <section id="engineering-memory">
+          <h1>Engineering Memory</h1>
+          <p>
+            Engineering Memory is Archon's <strong>RAG-powered semantic knowledge layer</strong> — a curated library of
+            thousands of
+            real-world architecture diagrams, patterns, and system blueprints. When the requirement analysis agent
+            begins
+            working on your spec, it uses <strong>Retrieval-Augmented Generation (RAG)</strong> to query this library
+            and retrieve the most relevant context instantly, without scanning the open web or wasting tokens on broad
+            research.
+          </p>
+
+          <div class="callout" style="border-left-color: var(--brand);">
+            <div class="callout-title">🔒 Pro Feature</div>
+            <p>Engineering Memory is available on the <strong>Pro plan</strong> and is managed entirely by Archon
+              through your account. No setup required — it's always on when you're on Pro.</p>
+          </div>
+
+          <h2>What It Contains</h2>
+          <p>The library is built and maintained by Archon. It includes:</p>
+          <div class="card-group" style="margin-top: 16px;">
+            <div class="card" style="cursor:default;">
+              <div class="card-icon">🗺️</div>
+              <h3 class="card-title">Architecture Diagrams</h3>
+              <p class="card-description">Thousands of real system diagrams — microservices, event-driven, hexagonal,
+                CQRS, monorepos — indexed semantically so the agent can find structural analogues to your system.</p>
+            </div>
+            <div class="card" style="cursor:default;">
+              <div class="card-icon">📐</div>
+              <h3 class="card-title">Engineering Patterns</h3>
+              <p class="card-description">Proven patterns across domains: auth flows, data access layers, job queue
+                architectures, API gateway contracts. Ready to inform your spec without manual research.</p>
+            </div>
+            <div class="card" style="cursor:default;">
+              <div class="card-icon">⚖️</div>
+              <h3 class="card-title">Decision Records</h3>
+              <p class="card-description">Curated architectural decision records from high-quality open-source systems.
+                The agent can retrieve why specific tradeoffs were made in systems structurally similar to yours.</p>
+            </div>
+          </div>
+
+          <h2>How It Helps the Agent</h2>
+          <p>
+            When you kick off a new project, the requirement analysis agent automatically queries Engineering Memory
+            before drafting your DesignSpec. Instead of reasoning cold, it retrieves the most structurally relevant
+            diagrams and patterns — scoped to your domain — and uses them as context.
+          </p>
+
+          <div class="mermaid"
+            style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 20px; margin: 24px 0;">
+            graph LR
+            A[Your Requirements] --> B[Requirement Analysis Agent]
+            B --> C[Query Engineering Memory]
+            C --> D[Relevant Diagrams & Patterns]
+            D --> B
+            B --> E[DesignSpec Draft]
+
+            style C fill:#ff5d01,stroke:#fff,stroke-width:2px,color:#fff
+            style D fill:#1a1a1a,stroke:#ff5d01,stroke-width:2px
+            style E fill:#2d2d2d,stroke:#ff5d01,stroke-width:2px
+          </div>
+
+          <p>The result: faster spec drafting, fewer hallucinations, lower token usage — because the agent grounds its
+            output in real reference material rather than generating from scratch.</p>
+
+          <h2>Privacy & Ownership</h2>
+          <div class="callout" style="border-left-color: #10B981;">
+            <div class="callout-title">✅ We do not ingest your project</div>
+            <p>
+              Engineering Memory is a <strong>read-only curated library</strong>. Archon never scans, indexes, or stores
+              your codebase, specs, or architecture documents. Your project remains entirely yours — on your machine,
+              under your control.
+            </p>
+          </div>
+
+          <h2>Coming Soon — Private Project Memory</h2>
+          <p>
+            A future release will allow you to opt in to ingesting your own project into a <strong>private, isolated
+              memory space</strong>. This would give the agent access to your team's actual decisions, patterns, and
+            architecture history — making it dramatically more effective on long-running systems.
+          </p>
+          <p>
+            When available, this will be fully opt-in, scoped to your account, and governed by the same ownership
+            guarantees that apply to your generated code: <strong>what you build is yours, and what you ingest stays
+              private.</strong>
+          </p>
+        </section>
+
+        <section id="mcp-install">
+          <h1>MCP Installation</h1>
+          <p>
+            Connect Archon directly to your AI agents (like Claude Desktop) using the Model Context Protocol. This
+            allows your agent to perform architectural analysis, validation, and materialization directly within your
+            workspace.
+          </p>
+
+          <h2>Claude Desktop Configuration</h2>
+          <p>Add the following configuration to your <code>claude_desktop_config.json</code> file:</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="tag">JSON</span>
+            </div>
+            <pre>{
+  "mcpServers": {
+    "archon": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "archonspecs",
+        "mcp"
+      ]
+    }
+  }
+}</pre>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title">
+              ⚠️ Path Verification
+            </div>
+            <p>
+              Ensure the paths to <code>node</code> and <code>archon-mcp-client</code> are correct for your system. You
+              can find them by running <code>which node</code> and <code>which archonspecs</code> in your terminal.
+            </p>
+          </div>
+
+          <h3>Prerequisites</h3>
+          <ul>
+            <li><strong>Node.js v18+</strong>: Required to run the MCP client bridge.</li>
+            <li><strong>Zero Credentials Needed</strong>: Local execution via stdio without cloud API tokens.</li>
+            <li><strong>Global CLI</strong>: Ensure you have installed the CLI via
+              <code>npm install -g archon-mcp-client</code>.
+            </li>
+          </ul>
+        </section>
+
+        <section id="roadmap">
+          <div class="section-tag">Vision</div>
+          <h1>Future Roadmap</h1>
+          <p>
+            Archon is evolving from a code generator into a full-scale <strong>Architectural Operating System</strong>.
+            Our mission is to eliminate the gap between high-level intent and production-grade reality.
+          </p>
+
+          <div class="mapping-grid">
+            <div class="mapping-item">
+              <span class="mapping-tag">Evolution</span>
+              <span class="mapping-desc"><strong>100% NestJS Compilation</strong>: Moving from scaffolding to
+                full-system hexagonal materialization.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Patterns</span>
+              <span class="mapping-desc"><strong>Hexagonal Architecture</strong>: Enforcing strict Ports/Adapters
+                separation for enterprise resilience.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Orchestra</span>
+              <span class="mapping-desc"><strong>Microservices Mesh</strong>: Native support for BullMQ queues and
+                Kubernetes cluster orchestration.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Delivery</span>
+              <span class="mapping-desc"><strong>CI/CD Autopilot</strong>: Ready-to-deploy pipelines for GitHub/GitLab
+                with multi-environment awareness.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Quality</span>
+              <span class="mapping-desc"><strong>Resilient Testing</strong>: Automated unit, integration, and E2E test
+                suite generation for 100% contract coverage.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Desktop</span>
+              <span class="mapping-desc"><strong>The Command Center</strong>: A standalone app providing full control
+                plane observability of your projects.</span>
+            </div>
+            <div class="mapping-item">
+              <span class="mapping-tag">Local</span>
+              <span class="mapping-desc"><strong>LLM Agnostic</strong>: Direct integration with local models (Ollama/LM
+                Studio) for private architecture design.</span>
+            </div>
+          </div>
+        </section>
+
+
+        <footer class="footer">
+          <div>
+            © <span id="docs-year"></span> ArchonSpecs · Open Source Architecture Compiler · Research &amp; Development by Hernán Humana
+          </div>
+          <div class="footer-links">
+            <a href="archon-mcp.html">MCP Server</a>
+            <a href="archon-os.html">Desktop App</a>
+            <a href="benchmarks.html">Benchmarks</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="https://github.com/herhu/archonmcp" target="_blank">GitHub</a>
+          </div>
+        </footer>
+      </div>
+    </main>
+    <aside class="right-sidebar">
+      <div class="otp-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="4" x2="20" y1="9" y2="9"></line>
+          <line x1="4" x2="20" y1="15" y2="15"></line>
+          <line x1="10" x2="8" y1="3" y2="21"></line>
+          <line x1="16" x2="14" y1="3" y2="21"></line>
+        </svg>
+        On this page
+      </div>
+      <ul class="otp-nav">
+        <li><a href="#install" class="active">Quick Install</a></li>
+        <li><a href="#intro">Welcome</a></li>
+        <li><a href="#architecture">Governed Architecture</a></li>
+        <li><a href="#cli-ref">CLI Reference</a></li>
+        <li><a href="#cli-mcp-proxy">MCP Proxy Mode</a></li>
+        <li><a href="#runtime-layers">Runtime Layers</a></li>
+        <li><a href="#uml-modeling">UML Modeling</a></li>
+        <li><a href="#sharding">Sharding Process</a></li>
+        <li><a href="#generation-capabilities">Generation Capabilities</a></li>
+        <li><a href="#materialization">Materialization</a></li>
+        <li><a href="#incremental">Incremental Compiler</a></li>
+        <li><a href="#config">Configuration</a></li>
+        <li><a href="#agents">AI Agents & Workspace</a></li>
+        <li><a href="#engineering-memory">Engineering Memory</a></li>
+        <li><a href="#mcp-install">MCP Installation</a></li>
+        <li><a href="#roadmap">Future Roadmap</a></li>
+      </ul>
+    </aside>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    const docsYear = document.getElementById('docs-year');
+    if (docsYear) docsYear.textContent = new Date().getFullYear();
+
+    mermaid.initialize({
+      theme: 'dark',
+      startOnLoad: true,
+      themeVariables: {
+        primaryColor: '#ff5d01',
+        primaryTextColor: '#fff',
+        primaryBorderColor: '#ff5d01',
+        lineColor: '#ff5d01',
+        secondaryColor: '#2d2d2d',
+        tertiaryColor: '#1a1a1a'
+      }
+    });
+
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const html = document.documentElement;
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = html.getAttribute('data-theme') !== 'light';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        html.removeAttribute('data-theme');
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    });
+
+    // Scrollspy logic
+    const contentArea = document.querySelector(".content-area");
+    const sections = document.querySelectorAll("section");
+    const sidebarLinks = document.querySelectorAll(".sidebar-nav a");
+    const otpLinks = document.querySelectorAll(".otp-nav a");
+
+    contentArea.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 100) current = section.getAttribute("id");
+      });
+
+      [sidebarLinks, otpLinks].forEach(links => {
+        links.forEach(a => {
+          a.classList.remove("active");
+          if (a.getAttribute("href") === `#${current}`) a.classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

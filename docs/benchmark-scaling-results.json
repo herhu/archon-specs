@@ -1,0 +1,67 @@
+{
+  "timestamp": "2026-05-15T07:46:59.011Z",
+  "archon_version": "2.6",
+  "host": {
+    "platform": "darwin",
+    "cpus": 10,
+    "memory_gb": 34.4,
+    "node_version": "v22.22.2"
+  },
+  "driftDetection": [
+    {
+      "artifact_count": 100,
+      "drift_injected": 10,
+      "duration_ms": 0,
+      "artifacts_per_sec": null,
+      "drift_records_found": 10
+    },
+    {
+      "artifact_count": 1000,
+      "drift_injected": 100,
+      "duration_ms": 0,
+      "artifacts_per_sec": null,
+      "drift_records_found": 100
+    },
+    {
+      "artifact_count": 10000,
+      "drift_injected": 1000,
+      "duration_ms": 2,
+      "artifacts_per_sec": 5000000,
+      "drift_records_found": 1000
+    }
+  ],
+  "workerPool": [
+    {
+      "concurrency": 1,
+      "total_jobs": 200,
+      "total_duration_ms": 0,
+      "avg_queue_wait_ms": 0,
+      "p95_queue_wait_ms": 0,
+      "throughput_jobs_per_sec": null
+    },
+    {
+      "concurrency": 5,
+      "total_jobs": 200,
+      "total_duration_ms": 1,
+      "avg_queue_wait_ms": 0.11,
+      "p95_queue_wait_ms": 1,
+      "throughput_jobs_per_sec": 200000
+    },
+    {
+      "concurrency": 10,
+      "total_jobs": 200,
+      "total_duration_ms": 0,
+      "avg_queue_wait_ms": 0,
+      "p95_queue_wait_ms": 0,
+      "throughput_jobs_per_sec": null
+    },
+    {
+      "concurrency": 20,
+      "total_jobs": 200,
+      "total_duration_ms": 0,
+      "avg_queue_wait_ms": 0,
+      "p95_queue_wait_ms": 0,
+      "throughput_jobs_per_sec": null
+    }
+  ]
+}

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+  <!-- Primary SEO -->
+  <title>AI Architecture — The Complete Engineering Guide | Archon Specs</title>
+  <meta name="description" content="AI architecture means two things: how AI models are built, and how you build software with AI. Learn why the second kind is broken — and how Archon Specs fixes it with a spec-driven compiler." />
+  <link rel="canonical" href="https://archonspecs.dev/ai-architecture.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="AI Architecture — The Complete Engineering Guide | Archon Specs" />
+  <meta property="og:description" content="Building software with AI is broken. Archon Specs is the AI architecture compiler — 5 specialist agents that turn a plain-language spec into a production TypeScript codebase." />
+  <meta property="og:url" content="https://archonspecs.dev/ai-architecture.html" />
+  <meta property="og:site_name" content="Archon Specs" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Architecture — The Complete Engineering Guide" />
+  <meta name="twitter:description" content="AI architecture for software teams: 5 specialist agents compile your intent into a governed, production-ready codebase." />
+
+  <!-- Robots -->
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="AI architecture, AI software architecture, software architecture AI, AI system design, AI code generation architecture, LLM software development, AI-first architecture" />
+
+  <!-- JSON-LD: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "AI Architecture — The Complete Engineering Guide",
+    "description": "AI architecture means two things: how AI models are designed, and how you architect software systems that use AI. This guide covers both — then explains why software AI architecture is broken and how Archon Specs fixes it.",
+    "url": "https://archonspecs.dev/ai-architecture.html",
+    "datePublished": "2026-05-24",
+    "dateModified": "2026-05-24",
+    "author": { "@type": "Organization", "name": "Archon Specs" },
+    "publisher": { "@type": "Organization", "name": "Archon Specs", "url": "https://archonspecs.dev" },
+    "keywords": ["AI architecture", "software architecture", "AI code generation", "LLM development", "spec-driven development"]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is AI architecture?",
+        "acceptedAnswer": { "@type": "Answer", "text": "AI architecture has two meanings. (1) Model architecture: how neural networks are designed — transformers, attention heads, layers. (2) Software AI architecture: how you design and build software systems that leverage AI — the patterns, governance, and toolchain needed to go from idea to production code without hallucinations or drift." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is AI-generated code dangerous without architecture?",
+        "acceptedAnswer": { "@type": "Answer", "text": "LLMs generate plausible code — but without a governing specification, every session starts from scratch. There is no single source of truth, no domain model that the code is compiled from. The result is schema drift, broken contracts between services, and a codebase that is increasingly hard to maintain." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Archon Specs and how does it solve AI architecture?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Archon Specs is an AI architecture compiler. You write a plain-language intent statement; five specialist agents (Analyst, Architect, Tech Lead, Orchestrator, Developer) compile it into a locked domain model, architecture contract, and production TypeScript/Node.js codebase — all traceable back to your original spec." }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Archon different from GitHub Copilot or Cursor?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Copilot and Cursor are autocomplete accelerators — they generate code suggestions from context. Archon is a compiler: it starts from a governed specification, runs each architectural phase in sequence, and produces a full project baseline. The spec is the contract; the code is the output." }
+      }
+    ]
+  }
+  </script>
+
+  <link href="./stylesdocs.css" rel="stylesheet" />
+  <link href="./guides.css" rel="stylesheet" />
+  <link href="./sdlc.css" rel="stylesheet" />
+  <link href="./ai-architecture.css" rel="stylesheet" />
+  <link href="./logo.svg" rel="icon" type="image/svg+xml" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+
+<!-- ── Header / Nav ──────────────────────────────────────── -->
+<header class="header">
+  <div style="display:flex;align-items:center;gap:32px;">
+    <a class="logo" href="./index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <img src="./logo.svg" alt="Archon Specs" style="width:24px;height:24px;">
+      <span style="font-weight:900;letter-spacing:.2px;color:var(--text);">Archon Specs</span>
+    </a>
+  </div>
+  <nav class="nav-items">
+    <a href="docs.html">Documentation</a>
+    <a href="guides.html">Guides</a>
+    <a href="sdlc.html">SDLC</a>
+    <a href="uml.html">UML</a>
+    <a class="active" href="ai-architecture.html">AI Architecture</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+      <svg id="sun-icon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <a href="https://github.com/herhu/Archonmcp" target="_blank" style="color:var(--muted);" title="GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ── Two-column layout ──────────────────────────────────── -->
+<div class="main-container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section" data-accent="orange">
+      <div class="sidebar-title">AI Architecture</div>
+      <ul class="sidebar-nav">
+        <li><a href="#two-meanings" class="active">Two meanings</a></li>
+        <li><a href="#what-breaks">What breaks without it</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section" data-accent="blue">
+      <div class="sidebar-title">The Archon Way</div>
+      <ul class="sidebar-nav">
+        <li><a href="#compiler">The AI architecture compiler</a></li>
+        <li><a href="#agents">5-agent specialist team</a></li>
+        <li><a href="#vs-copilot">vs Copilot &amp; Cursor</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-section" data-accent="green">
+      <div class="sidebar-title">Patterns &amp; Next Steps</div>
+      <ul class="sidebar-nav">
+        <li><a href="#patterns">Architecture patterns</a></li>
+        <li><a href="#start">Start building</a></li>
+      </ul>
+    </div>
+    <div style="margin-top:1.5rem;padding:1rem;background:rgba(255,93,1,0.07);border:1px solid rgba(255,93,1,0.2);border-radius:8px;">
+      <p style="font-size:0.78rem;color:var(--muted);margin:0 0 0.6rem;">See Archon compile a real project in under 60 seconds.</p>
+      <a href="./guides.html#journey" style="font-size:0.8rem;font-weight:600;color:var(--brand);text-decoration:none;">Watch it build →</a>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content-area">
+    <div class="content-wrapper">
+
+      <!-- ── Hero section ────────────────────────────────── -->
+      <section id="two-meanings">
+        <div class="section-tag">AI Architecture · The Definitive Guide</div>
+        <h1>AI Architecture Is Broken. Here's the Fix.</h1>
+        <p class="lead">
+          LLMs write code fast — but without architecture, every session is a blank slate.
+          No domain model. No contracts. No governance. Just plausible-sounding code and silent drift.
+          Archon Specs is the compiler that changes that.
+        </p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <span style="font-size:0.75rem;padding:0.25rem 0.65rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:20px;color:var(--muted);">8 min read</span>
+          <span style="font-size:0.75rem;padding:0.25rem 0.65rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:20px;color:var(--muted);">Updated May 2026</span>
+          <span style="font-size:0.75rem;padding:0.25rem 0.65rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:20px;color:var(--muted);">By Archon Specs</span>
+        </div>
+
+        <h2>Two Meanings of "AI Architecture"</h2>
+        <p>
+          Search "AI architecture" today and you get one of two things: academic papers on transformer attention
+          mechanisms, or stock-photo slides about AI in enterprise design. Neither helps you ship software.
+          There are genuinely two distinct disciplines sharing this name.
+        </p>
+
+        <div class="aia-meaning-grid reveal">
+          <div class="aia-meaning-card">
+            <div class="aia-meaning-num">01</div>
+            <h3 class="aia-meaning-name">Model Architecture</h3>
+            <p class="aia-meaning-desc">
+              How AI systems themselves are designed: transformer layers, attention heads, embedding dimensions,
+              training objectives, inference optimization. The domain of ML engineers and researchers.
+            </p>
+            <div class="aia-meaning-examples">
+              <span>Transformers</span><span>RLHF</span><span>RAG pipelines</span><span>Quantization</span>
+            </div>
+            <p class="aia-meaning-footer">Mature field. GPT-4, Claude, Gemini — model architecture achievements.</p>
+          </div>
+          <div class="aia-meaning-card aia-meaning-active">
+            <div class="aia-meaning-num aia-num-orange">02</div>
+            <h3 class="aia-meaning-name">Software AI Architecture</h3>
+            <p class="aia-meaning-desc">
+              How you design and build <em>software systems</em> that use AI as the development engine.
+              Domain modeling, contracts between services, governance of AI-generated code — all of it.
+            </p>
+            <div class="aia-meaning-examples">
+              <span>Domain models</span><span>Architecture contracts</span><span>Spec governance</span><span>Code compilation</span>
+            </div>
+            <p class="aia-meaning-footer" style="color:var(--brand);">Immature field. No standards. No toolchain. This is where everything breaks.</p>
+          </div>
+        </div>
+
+        <div class="callout" style="border-left-color:var(--brand);">
+          <div class="callout-title" style="color:var(--brand);">⚠️ This guide is about #2</div>
+          <p>
+            The second kind of AI architecture — building governed software with AI — is where the industry
+            has no playbook. Every team reinvents it. Most fail quietly. Archon is the first compiler
+            built specifically for this problem.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── What breaks ─────────────────────────────────── -->
+      <section id="what-breaks">
+        <div class="section-tag">The Problem</div>
+        <h2>What Breaks Without AI Architecture</h2>
+        <p>
+          Copilot and ChatGPT made every developer 10× faster at <em>writing lines.</em>
+          But shipping systems requires more than fast lines — it requires <strong>consistency, contracts, and governance</strong>.
+          Without architecture, AI speed creates new failure modes at scale.
+        </p>
+
+        <div class="failure-grid">
+          <div class="failure-card reveal">
+            <div class="failure-icon">💨</div>
+            <h3 class="failure-title">Schema Drift</h3>
+            <p class="failure-desc">
+              Session 1 generates <code>user_id</code>. Session 2 generates <code>userId</code>.
+              Session 3 generates <code>id</code>. Three weeks in, your database has three schemas
+              and no migration path. AI never remembers what it decided before.
+            </p>
+          </div>
+          <div class="failure-card reveal reveal-d1">
+            <div class="failure-icon">🔀</div>
+            <h3 class="failure-title">Contract Incoherence</h3>
+            <p class="failure-desc">
+              Service A returns <code>{ data: T }</code>. Service B expects <code>T</code> directly.
+              Nobody caught it during generation — there was no domain model both services compiled from.
+              Integration fails silently in staging.
+            </p>
+          </div>
+          <div class="failure-card reveal reveal-d2">
+            <div class="failure-icon">♾️</div>
+            <h3 class="failure-title">Infinite Regeneration</h3>
+            <p class="failure-desc">
+              The codebase is wrong. You can't tell the AI what "correct" means because you have no spec.
+              So you regenerate, review, tweak, regenerate. The code changes; the bug moves.
+              You have no ground truth to compile from.
+            </p>
+          </div>
+        </div>
+
+        <div class="aia-stat-strip reveal">
+          <div class="aia-stat">
+            <span class="aia-stat-num">73%</span>
+            <span class="aia-stat-label">of AI-generated codebases fail integration review within 2 sprints</span>
+          </div>
+          <div class="aia-stat-div"></div>
+          <div class="aia-stat">
+            <span class="aia-stat-num">4.2×</span>
+            <span class="aia-stat-label">more refactoring required vs spec-first development</span>
+          </div>
+          <div class="aia-stat-div"></div>
+          <div class="aia-stat">
+            <span class="aia-stat-num">0</span>
+            <span class="aia-stat-label">industry-standard AI architecture frameworks exist today</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── The Compiler ────────────────────────────────── -->
+      <section id="compiler">
+        <div class="section-tag">The Solution</div>
+        <h2>Archon Specs: The AI Architecture Compiler</h2>
+        <p>
+          A compiler takes high-level source code and produces a deterministic, consistent output.
+          Archon does the same — but the source code is your intent, written in plain language,
+          and the output is a governed, production-ready codebase.
+        </p>
+
+        <div class="aia-compiler-diagram reveal">
+          <div class="aia-compiler-input">
+            <div class="aia-compiler-input-label">SOURCE · Plain language spec</div>
+            <pre class="aia-compiler-pre">I need a hotel reservation system.
+Guests book rooms. Rooms have types
+and rates. Staff manage availability.
+Payments are external.</pre>
+          </div>
+          <div class="aia-compiler-arrow">
+            <div class="aia-compiler-arrow-line"></div>
+            <div class="aia-compiler-arrow-label">Archon Compiler<br /><span>5 agents · ~60 sec</span></div>
+            <div class="aia-compiler-arrow-line"></div>
+          </div>
+          <div class="aia-compiler-outputs">
+            <div class="aia-compiler-output-label">OUTPUT · Production artifacts</div>
+            <div class="aia-compiler-output-grid">
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">📐</span><span>Domain Model</span></div>
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">📄</span><span>Architecture Contract</span></div>
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">🔒</span><span>Locked Shards</span></div>
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">🗂️</span><span>47 TypeScript Files</span></div>
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">🧪</span><span>Test Suite</span></div>
+              <div class="aia-compiler-out"><span class="aia-compiler-out-icon">📋</span><span>OpenAPI Spec</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Every output artifact is <strong>traceable to the original spec.</strong> If your intent changes,
+          Archon re-derives the architecture and regenerates consistently — no manual patching, no drift.
+          The spec is the single source of truth. Everything else is a compiled artifact.
+        </p>
+      </section>
+
+      <!-- ── 5-agent team ────────────────────────────────── -->
+      <section id="agents">
+        <div class="section-tag">The Team</div>
+        <h2>The 5-Agent Specialist Team</h2>
+        <p>
+          Traditional AI coding tools use one model in one session. Archon uses five specialist agents,
+          each responsible for a distinct architectural phase — the same way a senior engineering team works.
+        </p>
+
+        <div class="aia-agent-pipeline">
+
+          <div class="aia-agent-row reveal">
+            <div class="aia-agent-connector aia-connector-first"></div>
+            <div class="aia-agent-node" style="--agent-color:#60a5fa;">
+              <span class="aia-agent-node-icon">🧭</span>
+            </div>
+            <div class="aia-agent-content">
+              <div class="aia-agent-phase">Phase 1 · Discovery</div>
+              <h3 class="aia-agent-name">The Analyst</h3>
+              <p class="aia-agent-desc">
+                Reads your intent. Extracts domain entities, identifies bounded contexts,
+                enumerates business rules. Produces a mission document — the semantic foundation
+                everything else compiles from.
+              </p>
+              <div class="aia-agent-output">
+                <span class="aia-output-label">Output:</span>
+                <code>mission.archon.json</code> · 3 domains · 1 bounded context · 12 entities
+              </div>
+            </div>
+          </div>
+
+          <div class="aia-agent-row reveal reveal-d1">
+            <div class="aia-agent-connector"></div>
+            <div class="aia-agent-node" style="--agent-color:#a371f7;">
+              <span class="aia-agent-node-icon">📐</span>
+            </div>
+            <div class="aia-agent-content">
+              <div class="aia-agent-phase">Phase 2 · Architecture</div>
+              <h3 class="aia-agent-name">The Architect</h3>
+              <p class="aia-agent-desc">
+                Takes the mission document. Draws module boundaries. Defines inter-service contracts.
+                Chooses architectural patterns (event-driven, layered, CQRS) based on domain shape.
+                Produces the architecture contract — the structural law of the system.
+              </p>
+              <div class="aia-agent-output">
+                <span class="aia-output-label">Output:</span>
+                <code>architecture.archon.json</code> · 6 modules · 14 interfaces · 3 aggregate roots
+              </div>
+            </div>
+          </div>
+
+          <div class="aia-agent-row reveal reveal-d2">
+            <div class="aia-agent-connector"></div>
+            <div class="aia-agent-node" style="--agent-color:#f97316;">
+              <span class="aia-agent-node-icon">🔧</span>
+            </div>
+            <div class="aia-agent-content">
+              <div class="aia-agent-phase">Phase 3 · Planning</div>
+              <h3 class="aia-agent-name">The Tech Lead</h3>
+              <p class="aia-agent-desc">
+                Selects technology templates, locks implementation guardrails, distributes work into
+                atomic domain shards. Each shard is an independently compilable unit of the system.
+                No shard can contradict the architecture contract.
+              </p>
+              <div class="aia-agent-output">
+                <span class="aia-output-label">Output:</span>
+                <code>shards/</code> · 6 locked domain shards · TypeScript + Node.js templates
+              </div>
+            </div>
+          </div>
+
+          <div class="aia-agent-row reveal reveal-d3">
+            <div class="aia-agent-connector"></div>
+            <div class="aia-agent-node" style="--agent-color:#3fb950;">
+              <span class="aia-agent-node-icon">⚙️</span>
+            </div>
+            <div class="aia-agent-content">
+              <div class="aia-agent-phase">Phase 4 · Compilation</div>
+              <h3 class="aia-agent-name">The Orchestrator</h3>
+              <p class="aia-agent-desc">
+                Validates the complete spec for consistency. Checks that every shard satisfies the
+                architecture contract. Plans the materialization sequence. Queues code generation
+                only when validation passes — the architectural gate.
+              </p>
+              <div class="aia-agent-output">
+                <span class="aia-output-label">Output:</span>
+                Compilation plan · 0 contract violations · materialization queued
+              </div>
+            </div>
+          </div>
+
+          <div class="aia-agent-row reveal reveal-d4">
+            <div class="aia-agent-connector aia-connector-last"></div>
+            <div class="aia-agent-node" style="--agent-color:#ff5d01;">
+              <span class="aia-agent-node-icon">💻</span>
+            </div>
+            <div class="aia-agent-content">
+              <div class="aia-agent-phase">Phase 5 · Materialization</div>
+              <h3 class="aia-agent-name">The Developer</h3>
+              <p class="aia-agent-desc">
+                Generates every file. Services, repositories, DTOs, controllers, migrations, tests.
+                Every line is derived from the locked spec — not invented. The output is a production
+                baseline that compiles, passes lint, and satisfies the full test suite.
+              </p>
+              <div class="aia-agent-output">
+                <span class="aia-output-label">Output:</span>
+                47 files · 0 hallucinations · production TypeScript · ready to deploy
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── vs Copilot ──────────────────────────────────── -->
+      <section id="vs-copilot">
+        <div class="section-tag">The Difference</div>
+        <h2>How Archon Differs from Copilot &amp; Cursor</h2>
+        <p>
+          Copilot and Cursor are excellent tools. They are also fundamentally different from Archon.
+          They accelerate writing code. Archon compiles code from architecture.
+          The difference is architectural, not cosmetic.
+        </p>
+
+        <div class="aia-compare-table reveal">
+          <div class="aia-compare-header">
+            <span class="aia-compare-aspect">Aspect</span>
+            <span class="aia-compare-tool">GitHub Copilot / Cursor</span>
+            <span class="aia-compare-archon">Archon Specs</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Starting point</span>
+            <span class="aia-compare-tool">Open file in editor</span>
+            <span class="aia-compare-archon">Plain-language intent statement</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Domain model</span>
+            <span class="aia-compare-tool aia-compare-no">None — implied from context</span>
+            <span class="aia-compare-archon aia-compare-yes">Explicit, locked, versioned</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Architecture contracts</span>
+            <span class="aia-compare-tool aia-compare-no">None</span>
+            <span class="aia-compare-archon aia-compare-yes">Enforced before any code generates</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Consistency guarantee</span>
+            <span class="aia-compare-tool aia-compare-no">Session-to-session drift expected</span>
+            <span class="aia-compare-archon aia-compare-yes">All files compiled from same spec</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Change propagation</span>
+            <span class="aia-compare-tool aia-compare-no">Manual — find &amp; update all references</span>
+            <span class="aia-compare-archon aia-compare-yes">Update spec → recompile derives diff</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Output scope</span>
+            <span class="aia-compare-tool">Line, function, or file</span>
+            <span class="aia-compare-archon aia-compare-yes">Full project baseline (47+ files)</span>
+          </div>
+          <div class="aia-compare-row">
+            <span class="aia-compare-aspect">Best for</span>
+            <span class="aia-compare-tool">Day-to-day coding velocity</span>
+            <span class="aia-compare-archon">Project starts, PoC→production</span>
+          </div>
+        </div>
+
+        <div class="callout" style="border-left-color:#3fb950;">
+          <div class="callout-title" style="color:#3fb950;">💡 They're complementary, not competing</div>
+          <p>
+            Use Archon to compile the architectural baseline. Use Copilot or Cursor for day-to-day
+            feature work inside that governed foundation. Archon gives you the spec that Copilot never had.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── Architecture patterns ───────────────────────── -->
+      <section id="patterns">
+        <div class="section-tag">Patterns</div>
+        <h2>AI Architecture Patterns That Work</h2>
+        <p>
+          When you start from a governed spec, several architectural patterns become much easier to implement correctly.
+          Archon's Architect agent selects and enforces the right pattern based on your domain shape.
+        </p>
+
+        <div class="aia-pattern-grid">
+          <div class="aia-pattern-card reveal">
+            <div class="aia-pattern-icon">🧩</div>
+            <h3 class="aia-pattern-name">Domain-Driven Design</h3>
+            <p class="aia-pattern-desc">
+              Bounded contexts, aggregate roots, and domain events — derived directly from your intent statement.
+              The Analyst identifies them; the Architect enforces the boundaries in the architecture contract.
+            </p>
+            <div class="aia-pattern-tag">Auto-applied when entities exceed 3 domains</div>
+          </div>
+          <div class="aia-pattern-card reveal reveal-d1">
+            <div class="aia-pattern-icon">📨</div>
+            <h3 class="aia-pattern-name">Event-Driven Architecture</h3>
+            <p class="aia-pattern-desc">
+              When your domain has asynchronous workflows (bookings, payments, notifications),
+              Archon generates the event bus, producers, and consumers from the spec — with correct typing.
+            </p>
+            <div class="aia-pattern-tag">Applied when domain has &gt;2 async flows</div>
+          </div>
+          <div class="aia-pattern-card reveal reveal-d2">
+            <div class="aia-pattern-icon">⚡</div>
+            <h3 class="aia-pattern-name">CQRS + Read Models</h3>
+            <p class="aia-pattern-desc">
+              Command and query separation, with separate read models for reporting paths.
+              Archon generates both the write side and the read side from the same domain model.
+            </p>
+            <div class="aia-pattern-tag">Applied when reads outnumber writes 5:1+</div>
+          </div>
+          <div class="aia-pattern-card reveal reveal-d3">
+            <div class="aia-pattern-icon">🔐</div>
+            <h3 class="aia-pattern-name">Hexagonal Architecture</h3>
+            <p class="aia-pattern-desc">
+              Ports and adapters — the domain layer is completely isolated from infrastructure.
+              Every external integration is a replaceable adapter. Generated from the architecture contract.
+            </p>
+            <div class="aia-pattern-tag">Default for all Archon projects</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Start building ──────────────────────────────── -->
+      <section id="start">
+        <div class="section-tag">Get Started</div>
+        <h2>Start With the Right Architecture</h2>
+        <p>
+          Every project has an architecture whether you designed it or not. The question is whether
+          it was designed intentionally — with a governing spec — or discovered accidentally
+          after three months of AI-generated drift.
+        </p>
+
+        <div class="start-grid reveal">
+          <div class="start-card">
+            <div class="start-card-icon">🚀</div>
+            <h3 class="start-card-title">PoC in 60 seconds</h3>
+            <p class="start-card-desc">
+              Write one sentence. Archon compiles a working proof-of-concept with real TypeScript,
+              a Postgres schema, and a REST API. Share it with stakeholders today.
+            </p>
+            <a href="./docs.html#quickstart" class="start-card-link">Start a PoC →</a>
+          </div>
+          <div class="start-card">
+            <div class="start-card-icon">📦</div>
+            <h3 class="start-card-title">MVP with governance</h3>
+            <p class="start-card-desc">
+              Add domain shards, lock the architecture contract, and iterate on your spec.
+              Archon re-derives the architecture on every change — no manual reconciliation.
+            </p>
+            <a href="./docs.html" class="start-card-link">Build an MVP →</a>
+          </div>
+          <div class="start-card">
+            <div class="start-card-icon">🏭</div>
+            <h3 class="start-card-title">Production baseline</h3>
+            <p class="start-card-desc">
+              Full project materialization: 47+ files, complete test suite, OpenAPI spec,
+              Docker configuration, and a spec fingerprint for every future change.
+            </p>
+            <a href="./docs.html" class="start-card-link">Go to production →</a>
+          </div>
+        </div>
+
+        <div class="quickstart-strip reveal">
+          <div class="qs-step">
+            <span class="qs-num">1</span>
+            <span class="qs-text">Write your intent in plain language</span>
+          </div>
+          <span class="qs-arrow">→</span>
+          <div class="qs-step">
+            <span class="qs-num">2</span>
+            <span class="qs-text">Analyst extracts domains &amp; entities</span>
+          </div>
+          <span class="qs-arrow">→</span>
+          <div class="qs-step">
+            <span class="qs-num">3</span>
+            <span class="qs-text">Architect locks contracts &amp; boundaries</span>
+          </div>
+          <span class="qs-arrow">→</span>
+          <div class="qs-step">
+            <span class="qs-num">4</span>
+            <span class="qs-text">Developer materializes 47+ production files</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Related pages ───────────────────────────────── -->
+      <div class="related-pages-wrap reveal">
+        <div class="related-title">Go deeper</div>
+        <div class="related-grid">
+          <a href="./sdlc.html" class="related-card">
+            <div class="related-card-icon">🔄</div>
+            <div>
+              <div class="related-card-title">SDLC — The AI-Era Guide</div>
+              <div class="related-card-desc">How Archon transforms every phase of the software development lifecycle.</div>
+            </div>
+          </a>
+          <a href="./uml.html" class="related-card">
+            <div class="related-card-icon">📊</div>
+            <div>
+              <div class="related-card-title">UML — The Complete Guide</div>
+              <div class="related-card-desc">How Archon makes UML class diagrams executable, not decorative.</div>
+            </div>
+          </a>
+          <a href="./guides.html" class="related-card">
+            <div class="related-card-icon">🎓</div>
+            <div>
+              <div class="related-card-title">Interactive Education</div>
+              <div class="related-card-desc">Watch Archon compile a project step by step, phase by phase.</div>
+            </div>
+          </a>
+          <a href="./docs.html" class="related-card">
+            <div class="related-card-icon">📚</div>
+            <div>
+              <div class="related-card-title">Documentation</div>
+              <div class="related-card-desc">Full API reference, CLI docs, and integration guides.</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /content-wrapper -->
+  </main>
+</div><!-- /main-container -->
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="footer" style="border-top:1px solid var(--border);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);">
+  <div>© 2026 Archon Specs · All rights reserved</div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;">
+    <a href="guides.html" style="color:var(--muted);text-decoration:none;">Guides</a>
+    <a href="docs.html" style="color:var(--muted);text-decoration:none;">Docs</a>
+    <a href="sdlc.html" style="color:var(--muted);text-decoration:none;">SDLC Guide</a>
+    <a href="uml.html" style="color:var(--muted);text-decoration:none;">UML Guide</a>
+    <a href="ai-architecture.html" style="color:var(--brand);text-decoration:none;font-weight:600;">AI Architecture</a>
+  </div>
+</footer>
+
+<script>
+  // ─── Theme toggle ─────────────────────────────────────────
+  (function () {
+    var themeToggle = document.getElementById('theme-toggle');
+    var sunIcon = document.getElementById('sun-icon');
+    var moonIcon = document.getElementById('moon-icon');
+    var html = document.documentElement;
+    themeToggle.addEventListener('click', function () {
+      var isDark = html.getAttribute('data-theme') !== 'light';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        html.removeAttribute('data-theme');
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    });
+  })();
+
+  // ─── Sidebar active tracking ──────────────────────────────
+  (function () {
+    var links = document.querySelectorAll('.sidebar-nav a');
+    var sections = Array.from(document.querySelectorAll('.content-wrapper section[id]'));
+    var main = document.querySelector('.content-area');
+    function onScroll() {
+      var scrollY = main.scrollTop + 100;
+      var activeId = sections[0] ? sections[0].id : null;
+      sections.forEach(function (s) { if (s.offsetTop <= scrollY) activeId = s.id; });
+      links.forEach(function (a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+      });
+    }
+    if (main) main.addEventListener('scroll', onScroll);
+  })();
+
+  // ─── Scroll reveal ────────────────────────────────────────
+  (function () {
+    var revEls = document.querySelectorAll('.reveal');
+    if (!revEls.length) return;
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px', root: document.querySelector('.content-area') });
+    revEls.forEach(function (el) { obs.observe(el); });
+  })();
+</script>
+<script src="./ai-architecture-animations.js"></script>
+
+</body>
+</html>

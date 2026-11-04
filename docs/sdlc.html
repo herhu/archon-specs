@@ -1,0 +1,954 @@
+<!-- Archon SEO v2.0.0 - 2026-05-24 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Software Development Life Cycle (SDLC) — The AI-Era Guide | Archon Specs</title>
+  <meta name="description"
+    content="The complete SDLC guide for senior architects and engineering teams. Learn the 6 classic phases, why they break with AI agents, and how Archon Specs governs every phase — from intent to production-ready code." />
+  <link rel="canonical" href="https://archonspecs.dev/sdlc.html" />
+  <meta property="og:title" content="Software Development Life Cycle (SDLC) — The AI-Era Guide | Archon Specs" />
+  <meta property="og:description"
+    content="Traditional SDLC was designed for humans writing code. The AI era needs a governed architecture layer between design and generation. This is that guide." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://archonspecs.dev/sdlc.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SDLC in the AI Era — Archon Specs" />
+  <meta name="twitter:description" content="The complete SDLC guide for engineering teams using AI. Governed. Spec-driven. Production-ready." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Software Development Life Cycle (SDLC) — The AI-Era Guide",
+    "description": "The complete guide to SDLC for modern engineering teams: 6 classic phases explained, where they break with AI agents, and how a governed architecture compiler fixes the gap.",
+    "author": { "@type": "Organization", "name": "Archon Specs", "url": "https://archonspecs.dev" },
+    "publisher": { "@type": "Organization", "name": "Archon Specs" },
+    "datePublished": "2026-05-24",
+    "dateModified": "2026-05-24",
+    "keywords": ["SDLC", "software development life cycle", "AI SDLC", "architecture governance", "senior architect"],
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://archonspecs.dev/sdlc.html" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Software Development Life Cycle (SDLC)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The SDLC is the structured process engineering teams use to plan, design, build, test, and deliver software. It defines the phases a project moves through and the governance that ensures each phase's output is valid input for the next. Common phases: Planning, Requirements, System Design, Implementation, Testing, and Deployment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How many phases does the SDLC have?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The classic SDLC has 6 phases: Planning, Requirements Analysis, System Design, Implementation, Testing & QA, and Deployment & Maintenance. Some models split or merge phases (Agile breaks them into sprints; V-Model mirrors testing phases against development), but the six core activities always exist."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does the SDLC break down when you add AI agents?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI agents accelerate execution (implementation) but have no governance over design decisions. The classic SDLC assumes a senior architect manually enforces design constraints at each phase gate. When LLM agents generate code without a design contract, they hallucinate field types, ignore foreign-key constraints, and produce implementations that contradict the architecture by file 30. Archon Specs adds a governed architecture layer between System Design and Implementation that enforces the contract deterministically."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a governed SDLC?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A governed SDLC is one where each phase transition is enforced by a state machine: you cannot begin Implementation until System Design has been approved; you cannot deploy until tests pass. Archon Specs implements a 10-state governance machine (NEW → WORKSPACE_INITIALIZED → DISCOVERY_DONE → ARCHITECTURE_CONTRACT_CREATED → SPEC_COMPILED → SPEC_VALIDATED → PLAN_CREATED → USER_APPROVED → GENERATED → DELIVERED) that prevents phase-skipping regardless of who — human or AI — is running the workflow."
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link href="./stylesdocs.css" rel="stylesheet" />
+  <link href="./guides.css" rel="stylesheet" />
+  <link href="./sdlc.css" rel="stylesheet" />
+  <link href="./logo.svg" rel="icon" type="image/svg+xml" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div style="display:flex;align-items:center;gap:32px;">
+      <a class="logo" href="./index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width:24px;height:24px;">
+        <span style="font-weight:900;letter-spacing:.2px;color:var(--text);">Archon Specs</span>
+      </a>
+    </div>
+    <nav class="nav-items">
+      <a href="docs.html">Documentation</a>
+      <a href="guides.html">Guides</a>
+      <a class="active" href="sdlc.html">SDLC</a>
+      <a href="uml.html">UML</a>
+      <a href="ai-architecture.html">AI Architecture</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+        <svg id="sun-icon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="https://github.com/herhu/Archonmcp" target="_blank" style="color:var(--muted);" title="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- ─── Sidebar ─────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-section" data-accent="blue">
+        <div class="sidebar-title">The SDLC</div>
+        <ul class="sidebar-nav">
+          <li><a href="#what" class="active">What is the SDLC?</a></li>
+          <li><a href="#phases">The 6 classic phases</a></li>
+          <li><a href="#why-it-exists">Why it exists</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="orange">
+        <div class="sidebar-title">Where It Breaks</div>
+        <ul class="sidebar-nav">
+          <li><a href="#architecture-gap">The architecture gap</a></li>
+          <li><a href="#ai-trap">The AI hallucination trap</a></li>
+          <li><a href="#drift">The drift problem</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="purple">
+        <div class="sidebar-title">The AI-Era SDLC</div>
+        <ul class="sidebar-nav">
+          <li><a href="#what-changes">What actually changes</a></li>
+          <li><a href="#governance">The governance layer</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="green">
+        <div class="sidebar-title">Archon &amp; SDLC</div>
+        <ul class="sidebar-nav">
+          <li><a href="#mapping">Phase-by-phase mapping</a></li>
+          <li><a href="#compiler">The architecture compiler</a></li>
+          <li><a href="#demo">Watch it execute</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="pink">
+        <div class="sidebar-title">Why Architects Use It</div>
+        <ul class="sidebar-nav">
+          <li><a href="#architects">Senior architect perspective</a></li>
+          <li><a href="#start">Start your SDLC now</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ─── Main content ──────────────────────────────────────── -->
+    <main class="content-area">
+      <div class="content-wrapper">
+
+        <!-- ─── Hero ──────────────────────────────────────── -->
+        <section id="what">
+          <div class="section-tag">SDLC · 2026</div>
+          <h1>The Software Development Life Cycle (SDLC) — Built for the AI Era</h1>
+          <p class="lead">
+            Every software project ever shipped has followed the same lifecycle — from intent to deployed system.
+            Understanding the SDLC is understanding how senior engineers think. This guide explains the 6 classic
+            phases, where they break the moment you add AI agents, and what a governed AI-native SDLC actually looks like in 2026.
+          </p>
+
+          <div class="callout" style="border-left-color:#60a5fa;">
+            <div class="callout-title" style="color:#60a5fa;">📋 Definition</div>
+            <p>The <strong>Software Development Life Cycle (SDLC)</strong> is the structured process that engineering
+              teams use to plan, design, build, test, and deliver software. It is not a single methodology — it is
+              the framework of phases and governance gates that any methodology (Agile, Waterfall, DevOps, SRE)
+              executes within. Every software project has an SDLC, whether the team named it or not.</p>
+          </div>
+
+          <p>The SDLC emerged in the 1960s because building software without a process produced the same failure mode
+            every time: a team starts coding, requirements change, the architecture drifts, the code doesn't match
+            the design, the design doesn't match the requirements, and the requirements were wrong to begin with.
+            Phase gates were invented to break this chain. They still apply today — with one major new failure mode
+            that the original designers didn't anticipate.</p>
+        </section>
+
+        <!-- ─── 6 Classic Phases ──────────────────────────── -->
+        <section id="phases">
+          <div class="section-tag">The Framework</div>
+          <h2>The 6 Classic SDLC Phases</h2>
+          <p>Every SDLC model — Waterfall, Spiral, Agile, DevOps — executes these six core activities. The sequence
+            and iteration frequency differ; the activities don't. <strong>Click any phase</strong> to see what it
+            produces, who owns it, and what breaks when it's skipped.</p>
+
+          <!-- Animated SDLC Phase Explorer -->
+          <div class="sdlc-phases" id="sdlc-phases">
+            <div class="sdlc-phase" data-phase="0" style="--phase-color:#60a5fa;">
+              <div class="sdlc-phase-num">1</div>
+              <div class="sdlc-phase-name">Planning</div>
+            </div>
+            <div class="sdlc-connector">→</div>
+            <div class="sdlc-phase" data-phase="1" style="--phase-color:#c084fc;">
+              <div class="sdlc-phase-num">2</div>
+              <div class="sdlc-phase-name">Requirements</div>
+            </div>
+            <div class="sdlc-connector">→</div>
+            <div class="sdlc-phase" data-phase="2" style="--phase-color:#ff5d01;">
+              <div class="sdlc-phase-num">3</div>
+              <div class="sdlc-phase-name">System Design</div>
+            </div>
+            <div class="sdlc-connector">→</div>
+            <div class="sdlc-phase" data-phase="3" style="--phase-color:#10b981;">
+              <div class="sdlc-phase-num">4</div>
+              <div class="sdlc-phase-name">Implementation</div>
+            </div>
+            <div class="sdlc-connector">→</div>
+            <div class="sdlc-phase" data-phase="4" style="--phase-color:#f59e0b;">
+              <div class="sdlc-phase-num">5</div>
+              <div class="sdlc-phase-name">Testing &amp; QA</div>
+            </div>
+            <div class="sdlc-connector">→</div>
+            <div class="sdlc-phase" data-phase="5" style="--phase-color:#f472b6;">
+              <div class="sdlc-phase-num">6</div>
+              <div class="sdlc-phase-name">Deployment</div>
+            </div>
+          </div>
+
+          <div class="sdlc-detail-panel" id="sdlc-detail">
+            <div class="sdlc-detail-placeholder">← Click any phase to see what it produces, who owns it, and where it fails.</div>
+          </div>
+
+          <div class="sdlc-phase-cards reveal">
+            <div class="sdlc-card" style="border-top:3px solid #60a5fa;">
+              <div class="sdlc-card-num" style="color:#60a5fa;">01</div>
+              <div class="sdlc-card-title">Planning</div>
+              <p class="sdlc-card-desc">Define scope, resources, timeline, risk tolerance, and success criteria.
+                Answer: <em>Should we build this? Can we?</em></p>
+              <div class="sdlc-card-output">Output: Project Charter · Risk Register</div>
+            </div>
+            <div class="sdlc-card" style="border-top:3px solid #c084fc;">
+              <div class="sdlc-card-num" style="color:#c084fc;">02</div>
+              <div class="sdlc-card-title">Requirements</div>
+              <p class="sdlc-card-desc">Gather functional and non-functional requirements from stakeholders.
+                Answer: <em>What exactly needs to be built?</em></p>
+              <div class="sdlc-card-output">Output: Requirements Spec · User Stories · Acceptance Criteria</div>
+            </div>
+            <div class="sdlc-card" style="border-top:3px solid #ff5d01;">
+              <div class="sdlc-card-num" style="color:#ff5d01;">03</div>
+              <div class="sdlc-card-title">System Design</div>
+              <p class="sdlc-card-desc">Translate requirements into architecture: entities, modules, data flows,
+                APIs, infra topology. Answer: <em>How will it be built?</em></p>
+              <div class="sdlc-card-output">Output: Architecture Doc · ERD · API Contract · UML Diagrams</div>
+            </div>
+            <div class="sdlc-card" style="border-top:3px solid #10b981;">
+              <div class="sdlc-card-num" style="color:#10b981;">04</div>
+              <div class="sdlc-card-title">Implementation</div>
+              <p class="sdlc-card-desc">Write the code. Every module, every file, every migration.
+                Answer: <em>Build it.</em></p>
+              <div class="sdlc-card-output">Output: Source code · Database migrations · Config files</div>
+            </div>
+            <div class="sdlc-card" style="border-top:3px solid #f59e0b;">
+              <div class="sdlc-card-num" style="color:#f59e0b;">05</div>
+              <div class="sdlc-card-title">Testing &amp; QA</div>
+              <p class="sdlc-card-desc">Verify correctness, performance, security, and compliance.
+                Answer: <em>Does it work as designed?</em></p>
+              <div class="sdlc-card-output">Output: Test Reports · Bug Logs · Coverage Metrics</div>
+            </div>
+            <div class="sdlc-card" style="border-top:3px solid #f472b6;">
+              <div class="sdlc-card-num" style="color:#f472b6;">06</div>
+              <div class="sdlc-card-title">Deployment</div>
+              <p class="sdlc-card-desc">Ship to production. Monitor. Iterate. Keep it alive.
+                Answer: <em>Keep it working.</em></p>
+              <div class="sdlc-card-output">Output: Running system · CI/CD pipeline · Runbooks</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Why It Exists ─────────────────────────────── -->
+        <section id="why-it-exists">
+          <div class="section-tag">First principles</div>
+          <h2>Why the SDLC exists — and why it still matters</h2>
+          <p>The SDLC was invented to solve a specific, recurring failure: <strong>teams that start coding before
+            they understand what they're building</strong>. The 1968 NATO Software Engineering Conference documented
+            this as the "software crisis" — cost overruns, missed deadlines, systems that didn't do what users needed.</p>
+
+          <p>The fix was governance: enforce phase gates so that each phase's output becomes the verified input for
+            the next. You don't design until you understand requirements. You don't build until design is approved.
+            You don't deploy until tests pass. Simple. Powerful. Still correct in 2026.</p>
+
+          <p>What changed in 2026 is the speed of execution. AI agents can now write the code for phase 4 in
+            minutes instead of weeks. That sounds like a solution. It is actually the problem's next form.</p>
+        </section>
+
+        <!-- ─── Where It Breaks ───────────────────────────── -->
+        <section id="architecture-gap">
+          <div class="section-tag">The failure modes</div>
+          <h2>Why your SDLC breaks the moment you add an AI agent</h2>
+          <p>The classic SDLC worked because a senior architect manually enforced design constraints at each phase
+            gate. They reviewed the requirements. They drew the architecture. They reviewed the code. One person —
+            or a small team — held the whole picture in their head and enforced consistency by hand.</p>
+          <p>AI agents remove the bottleneck of execution. But they do not add governance. They accelerate phase 4
+            while leaving phases 2 and 3 exactly as slow and manual as before — and introducing a new failure mode
+            at the boundary.</p>
+
+          <div class="failure-grid reveal">
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 01</div>
+              <h3 class="failure-title">The Architecture Gap</h3>
+              <p class="failure-desc">Phase 3 (System Design) takes weeks for a senior architect to produce correctly.
+                Only one person understands the full picture. Every architectural decision lives in someone's head,
+                not in a verifiable artifact. The moment that architect is unavailable, or the team scales, the design
+                drifts — silently.</p>
+              <div class="failure-phase">Breaks at: Phase 2 → 3</div>
+            </div>
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 02</div>
+              <h3 class="failure-title">The AI Hallucination Trap</h3>
+              <p class="failure-desc">LLM agents write code without access to the Architecture Contract from phase 3.
+                By file 30, the agent has forgotten the field types from file 5, hallucinated an import, introduced a
+                circular dependency, and invented an auth mechanism that contradicts the ERD. You pay tokens to fix tokens.</p>
+              <div class="failure-phase">Breaks at: Phase 3 → 4</div>
+            </div>
+            <div class="failure-card">
+              <div class="failure-num" style="color:#ff5d01;">⚠ 03</div>
+              <h3 class="failure-title">The Drift Problem</h3>
+              <p class="failure-desc">Even when the first build is correct, manual code changes in phase 4 silently
+                diverge from the phase 3 design. A developer adds a field. Another renames an endpoint. Six months
+                later, the architecture document describes a system that no longer exists. Reconciliation costs
+                weeks of an architect's time.</p>
+              <div class="failure-phase">Breaks at: Phase 4 → 5 → 4 (loop)</div>
+            </div>
+          </div>
+
+          <div class="callout" style="border-left-color: var(--brand);">
+            <div class="callout-title">The core problem</div>
+            <p>There is no enforcement layer between System Design (phase 3) and Implementation (phase 4).
+              Everything that's decided in phase 3 is expressed as a document. Nothing prevents phase 4 from
+              contradicting it. <strong>The SDLC's governance stops exactly where the risk is highest.</strong></p>
+          </div>
+        </section>
+
+        <!-- ─── AI Trap ────────────────────────────────────── -->
+        <section id="ai-trap">
+          <div class="section-tag">2026 reality</div>
+          <h2>AI makes execution cheap. It makes decisions expensive.</h2>
+          <p>The most important insight from the AI era (articulated across engineering teams in 2025–2026) is this:
+            <strong>AI lowers the cost of doing, not the cost of deciding.</strong></p>
+
+          <p>Before AI: implementation took 3 months, design took 2 weeks. The bottleneck was coding.
+            <br>With AI: implementation takes 3 days, design still takes 2 weeks. The bottleneck is now design.</p>
+
+          <p>Worse: because implementation is so fast, teams skip the design phase entirely. They describe a feature
+            to an LLM and get working code back in minutes. But "working" means "compiles" — not "consistent with
+            the architecture" or "aligned with the data model" or "secure by the standards of phase 5." The
+            technical debt accumulates before the first feature ships.</p>
+
+          <p>The answer is not to slow AI down. It's to give AI a <strong>governed architecture layer to compile from</strong>.</p>
+        </section>
+
+        <!-- ─── Drift ──────────────────────────────────────── -->
+        <section id="drift">
+          <div class="section-tag">The long tail</div>
+          <h2>The system that ships is rarely the system that was designed</h2>
+          <p>Architecture drift is the silent SDLC killer. It begins in week one — the moment a developer makes a
+            "quick change" without updating the design document — and compounds indefinitely. The architecture
+            document, which cost weeks to produce, describes a fictional system within 30 days of the first commit.</p>
+
+          <p>The conventional answer is "just update the docs." The real answer is: <strong>the design artifact should
+            be executable</strong>. If the code is generated from the spec, the spec is always the ground truth. Any
+            change that doesn't go through the spec doesn't exist in the architecture. Drift is detected by definition.</p>
+        </section>
+
+        <!-- ─── What Changes ──────────────────────────────── -->
+        <section id="what-changes">
+          <div class="section-tag">The AI-era SDLC</div>
+          <h2>What actually changes in an AI-native SDLC</h2>
+          <p>An AI-native SDLC doesn't remove the 6 phases. It changes who executes them and how phase boundaries
+            are enforced. The key changes:</p>
+
+          <div class="change-list reveal">
+            <div class="change-row">
+              <div class="change-before">
+                <div class="change-label change-label-before">Before</div>
+                <strong>Senior architect writes design in a document.</strong>
+                <p>ERD in Lucidchart. Architecture doc in Confluence. Module boundaries in someone's head. No machine can read it.</p>
+              </div>
+              <div class="change-arrow">→</div>
+              <div class="change-after">
+                <div class="change-label change-label-after">AI-era</div>
+                <strong>You describe the system. An AI agent formalizes the design into a spec.</strong>
+                <p>The spec is machine-readable. It can be validated, versioned, diffed, compiled. The architecture lives in a file — not a head.</p>
+              </div>
+            </div>
+            <div class="change-row">
+              <div class="change-before">
+                <div class="change-label change-label-before">Before</div>
+                <strong>Developers implement from design documents manually.</strong>
+                <p>47 files. Each written by hand. Auth module, migrations, DTOs, controllers — identical across every project, written differently every time.</p>
+              </div>
+              <div class="change-arrow">→</div>
+              <div class="change-after">
+                <div class="change-label change-label-after">AI-era</div>
+                <strong>The spec compiles to code deterministically.</strong>
+                <p>Same spec, same output. No LLM in the code-generation path. Templates are tested. The compiler doesn't hallucinate.</p>
+              </div>
+            </div>
+            <div class="change-row">
+              <div class="change-before">
+                <div class="change-label change-label-before">Before</div>
+                <strong>Phase gates are meetings and document reviews.</strong>
+                <p>A committee reviews the architecture document. Someone approves. It's informal. It's skippable.</p>
+              </div>
+              <div class="change-arrow">→</div>
+              <div class="change-after">
+                <div class="change-label change-label-after">AI-era</div>
+                <strong>Phase gates are enforced by a state machine.</strong>
+                <p>The system refuses to materialize code until the spec is validated and you issue an explicit approval token. The governance is structural, not procedural.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Governance ────────────────────────────────── -->
+        <section id="governance">
+          <div class="section-tag">The missing layer</div>
+          <h2>The governance layer: what sits between design and code</h2>
+          <p>In the traditional SDLC, nothing enforces the boundary between phase 3 (System Design) and phase 4
+            (Implementation). An architecture document is not a contract — it's a suggestion. Developers override
+            it daily, and the system accumulates inconsistencies.</p>
+
+          <p>In the AI-native SDLC, that boundary is a <strong>governed architecture compiler</strong>. The compiler:</p>
+
+          <div class="govern-list">
+            <div class="govern-item reveal">
+              <span class="govern-icon">🔒</span>
+              <div>
+                <strong>Enforces schema validity</strong>
+                <p>Rejects any spec that violates architectural rules before generating a single file.
+                  Minimum entity count, field type legality, foreign-key integrity, circular dependency detection.</p>
+              </div>
+            </div>
+            <div class="govern-item reveal reveal-d1">
+              <span class="govern-icon">📋</span>
+              <div>
+                <strong>Generates an explicit execution plan</strong>
+                <p>Before writing a line of code, shows you exactly which files will be created, updated, or preserved.
+                  You review and approve. There is no auto-approve, no trust mode.</p>
+              </div>
+            </div>
+            <div class="govern-item reveal reveal-d2">
+              <span class="govern-icon">🔬</span>
+              <div>
+                <strong>Detects drift proactively</strong>
+                <p>After materialization, computes semantic hashes for every generated block. Any future change that
+                  diverges from the spec is flagged at the next run. You decide: align the code, or update the spec.</p>
+              </div>
+            </div>
+            <div class="govern-item reveal reveal-d3">
+              <span class="govern-icon">📁</span>
+              <div>
+                <strong>Preserves your manual work</strong>
+                <p>Code marked <code>@ArchonManual()</code> is never overwritten. You write business logic once.
+                  The compiler writes infrastructure forever.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout" style="border-left-color:#c084fc;">
+            <div class="callout-title" style="color:#c084fc;">🔄 The state machine</div>
+            <p>The governance compiler enforces a strict 10-state lifecycle:
+              <code>NEW → WORKSPACE_INITIALIZED → DISCOVERY_DONE → ARCHITECTURE_CONTRACT_CREATED →
+              SPEC_COMPILED → SPEC_VALIDATED → PLAN_CREATED → USER_APPROVED → GENERATED → DELIVERED</code>.
+              Every tool call is rejected if it doesn't match the current state. Phase-skipping is structurally
+              impossible — not just procedurally discouraged.</p>
+          </div>
+        </section>
+
+        <!-- ─── Phase Mapping ─────────────────────────────── -->
+        <section id="mapping">
+          <div class="section-tag">Archon &amp; SDLC</div>
+          <h2>How Archon Specs maps to each SDLC phase</h2>
+          <p>Archon doesn't replace the SDLC. It governs and accelerates the three phases where projects most
+            frequently fail: Requirements, System Design, and Implementation.</p>
+
+          <div class="mapping-table reveal">
+            <div class="mapping-header">
+              <div class="mapping-cell mapping-cell-sdlc">SDLC Phase</div>
+              <div class="mapping-cell mapping-cell-archon">Archon Agent</div>
+              <div class="mapping-cell mapping-cell-output">Verified Output</div>
+              <div class="mapping-cell mapping-cell-time">Traditional time → With Archon</div>
+            </div>
+            <div class="mapping-row" style="--row-color:#60a5fa;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#60a5fa18;color:#60a5fa;">Planning</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">You + your AI agent</div>
+              <div class="mapping-cell mapping-cell-output">Intent captured in plain language</div>
+              <div class="mapping-cell mapping-cell-time">Same</div>
+            </div>
+            <div class="mapping-row" style="--row-color:#c084fc;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#c084fc18;color:#c084fc;">Requirements</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">
+                <span class="mapping-agent" style="color:#60a5fa;">🧭 The Analyst</span>
+              </div>
+              <div class="mapping-cell mapping-cell-output">Requirement Contract (locked, versioned)</div>
+              <div class="mapping-cell mapping-cell-time">2 weeks → <strong style="color:#10b981;">~30 min</strong></div>
+            </div>
+            <div class="mapping-row" style="--row-color:#ff5d01;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#ff5d0118;color:#ff5d01;">System Design</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">
+                <span class="mapping-agent" style="color:#c084fc;">📐 The Architect</span>
+              </div>
+              <div class="mapping-cell mapping-cell-output">Architecture Contract + UML class diagram (your approval required)</div>
+              <div class="mapping-cell mapping-cell-time">3 weeks → <strong style="color:#10b981;">~45 min</strong></div>
+            </div>
+            <div class="mapping-row" style="--row-color:#f59e0b;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#f59e0b18;color:#f59e0b;">Design validation</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">
+                <span class="mapping-agent" style="color:#f59e0b;">🛡️ The Tech Lead</span>
+              </div>
+              <div class="mapping-cell mapping-cell-output">DesignSpec.json (fingerprinted, schema-valid) + ExecutionPlan</div>
+              <div class="mapping-cell mapping-cell-time">1 week → <strong style="color:#10b981;">&lt; 2 min</strong></div>
+            </div>
+            <div class="mapping-row" style="--row-color:#10b981;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#10b98118;color:#10b981;">Implementation</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">
+                <span class="mapping-agent" style="color:#10b981;">⚙️ The Orchestrator</span>
+              </div>
+              <div class="mapping-cell mapping-cell-output">47 production files (deterministic, no LLM in path)</div>
+              <div class="mapping-cell mapping-cell-time">3 months → <strong style="color:#10b981;">&lt; 60 sec</strong></div>
+            </div>
+            <div class="mapping-row" style="--row-color:#f472b6;">
+              <div class="mapping-cell mapping-cell-sdlc">
+                <span class="mapping-phase-badge" style="background:#f472b618;color:#f472b6;">Testing / Maintenance</span>
+              </div>
+              <div class="mapping-cell mapping-cell-archon">
+                <span class="mapping-agent" style="color:#f472b6;">🔬 The Developer</span>
+              </div>
+              <div class="mapping-cell mapping-cell-output">Drift scan · Reconcile · Decisions log</div>
+              <div class="mapping-cell mapping-cell-time">Ongoing → <strong style="color:#10b981;">Continuous</strong></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── The Compiler ─────────────────────────────── -->
+        <section id="compiler">
+          <div class="section-tag">The architecture compiler</div>
+          <h2>The spec IS the architecture. The architecture compiles to code.</h2>
+          <p>The central idea behind Archon Specs is that the <em>architecture document from phase 3 should be
+            executable</em>. Not a PDF. Not a Confluence page. A machine-readable spec that a deterministic
+            compiler turns into production code.</p>
+
+          <p>You describe your system in a 20-line spec. The Archon compiler parses it, builds a UML class diagram
+            for your approval, validates the schema, plans the execution, and materializes 47 files of NestJS +
+            TypeORM + JWT auth + PostgreSQL migrations + Dockerfile + CI config + Terraform — in under 60 seconds.
+            The same spec, re-run six months later, produces the same output. Your code is the proof that the
+            architecture was implemented.</p>
+
+          <div class="spec-example reveal">
+            <div class="spec-example-header">
+              <span class="spec-example-badge">spec.archon</span>
+              <span class="spec-example-badge spec-badge-orange">→ 47 production files</span>
+            </div>
+            <pre class="spec-example-pre">Project {
+  name: BookingPlatform
+  version: 1.0
+}
+
+Room {
+  id: uuid primary
+  number: string
+  type: string
+  pricePerNight: decimal
+}
+
+Reservation {
+  id: uuid primary
+  roomId: Room
+  customerId: Customer
+  checkIn: datetime
+  checkOut: datetime
+  status: string
+}
+
+Customer {
+  id: uuid primary
+  email: string
+  name: string
+  phone: string
+}</pre>
+          </div>
+
+          <p style="color:var(--muted);font-size:13px;margin-top:8px;">
+            22 lines of spec → NestJS modules, TypeORM entities, controllers, DTOs, JWT auth, PostgreSQL migrations,
+            Swagger decorators, Docker, Jenkins, Terraform, husky hooks, ESLint, Prettier, Jest config, README.
+            All tested. All yours. No vendor lock-in.
+          </p>
+        </section>
+
+        <!-- ─── Demo / Watch ──────────────────────────────── -->
+        <section id="demo">
+          <div class="section-tag">See it</div>
+          <h2>Watch the full SDLC execute — live</h2>
+          <p>The <a href="guides.html#journey" style="color:var(--brand);">animated build journey on our guides page</a>
+            shows every Archon agent activating in sequence — from intent to 47 materialized files. Each step
+            corresponds to an SDLC phase. You can step through manually or watch it auto-advance.</p>
+
+          <div class="demo-cta-box reveal">
+            <div class="demo-cta-icon">▶</div>
+            <div>
+              <strong>See every SDLC phase animate — part by part</strong>
+              <p>Watch the Analyst extract domains, the Architect draw the UML, the Tech Lead lock the shards,
+                the Orchestrator compile, and the Developer materialize 47 files — in under 90 seconds.</p>
+            </div>
+            <a href="guides.html#journey" class="demo-cta-btn">Watch it build →</a>
+          </div>
+        </section>
+
+        <!-- ─── Why Architects ───────────────────────────── -->
+        <section id="architects">
+          <div class="section-tag">The senior architect perspective</div>
+          <h2>Why senior architects use Archon instead of writing the architecture by hand</h2>
+          <p>A senior architect's time is the most expensive resource in any engineering team. It's currently spent
+            on: drawing ERDs that will drift, writing architecture docs that will become fiction, reviewing PRs for
+            adherence to a design that was never enforced, and explaining the same architectural decisions to every
+            new developer who joins the team.</p>
+          <p>Archon changes what that time is spent on.</p>
+
+          <div class="arch-cards">
+            <div class="arch-card reveal" style="border-top:3px solid #60a5fa;">
+              <div class="arch-card-icon">🏛️</div>
+              <div class="arch-card-title">Governance without meetings</div>
+              <p class="arch-card-desc">Every SDLC phase gate is enforced by the state machine. No one can ship code
+                that wasn't planned. No one can plan without an approved architecture contract. The architect defines
+                the rules once; the system enforces them forever.</p>
+            </div>
+            <div class="arch-card reveal reveal-d1" style="border-top:3px solid #c084fc;">
+              <div class="arch-card-icon">⚡</div>
+              <div class="arch-card-title">Phase 3 in 45 minutes, not 3 weeks</div>
+              <p class="arch-card-desc">Describe your system to your AI agent. The Analyst and Architect personas
+                produce a validated Architecture Contract with a UML class diagram you approve. What used to take a
+                week of architecture meetings takes an afternoon conversation.</p>
+            </div>
+            <div class="arch-card reveal reveal-d2" style="border-top:3px solid #ff5d01;">
+              <div class="arch-card-icon">🔁</div>
+              <div class="arch-card-title">Repeatability across every project</div>
+              <p class="arch-card-desc">The same spec format, the same compiler, the same output structure — across
+                every project in the organization. Onboarding a new engineer to a project takes 15 minutes, not 3
+                weeks, because the spec IS the documentation.</p>
+            </div>
+            <div class="arch-card reveal reveal-d3" style="border-top:3px solid #10b981;">
+              <div class="arch-card-icon">🔒</div>
+              <div class="arch-card-title">Auditable decisions, not tribal knowledge</div>
+              <p class="arch-card-desc">Every architectural decision is recorded in <code>.antigravity/decisions/</code>.
+                Every drift is logged. Every reconciliation is a choice, not a surprise. Compliance reviews take hours,
+                not weeks, because the audit trail is built into the lifecycle.</p>
+            </div>
+            <div class="arch-card reveal reveal-d4" style="border-top:3px solid #f472b6;">
+              <div class="arch-card-icon">🗝️</div>
+              <div class="arch-card-title">Zero lock-in</div>
+              <p class="arch-card-desc">The spec is plain text. The output is standard TypeScript you own forever.
+                Delete the <code>.archon/</code> directory and nothing breaks. The architecture decision to use Archon
+                carries no vendor dependency — by design.</p>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top:32px;">
+            <div class="callout-title">💡 The architect's new job</div>
+            <p>In the AI-native SDLC, a senior architect's job shifts from "drawing diagrams and writing docs" to
+              <strong>"defining the spec and owning the governance contract."</strong> The compiler handles the
+              translation. The architect owns the truth. This is a more powerful position, not a lesser one.</p>
+          </div>
+        </section>
+
+        <!-- ─── Start Now ────────────────────────────────── -->
+        <section id="start">
+          <div class="section-tag">Start now</div>
+          <h2>Start your governed SDLC today</h2>
+          <p>You don't need a full team or a large project to start. Archon works at every scale — from a weekend
+            PoC to a multi-team production system. Pick your entry point:</p>
+
+          <div class="start-grid">
+            <div class="start-card reveal" style="border-color:#60a5fa40;">
+              <div class="start-card-badge" style="background:#60a5fa18;color:#60a5fa;">PoC</div>
+              <h3 class="start-card-title">Proof of Concept</h3>
+              <p class="start-card-desc">You have an idea and need to validate it fast. Describe your domain in a
+                spec, generate the backend, demo it in an afternoon. No boilerplate. No setup.</p>
+              <ul class="start-card-list">
+                <li>✓ 20-line spec → working NestJS backend</li>
+                <li>✓ JWT auth and Swagger included</li>
+                <li>✓ Runs locally in minutes</li>
+              </ul>
+              <a href="guides.html#quickstart" class="start-card-cta">Get started →</a>
+            </div>
+            <div class="start-card reveal reveal-d1" style="border-color:#ff5d0140;background:rgba(255,93,1,0.04);">
+              <div class="start-card-badge start-badge-featured" style="background:var(--brand);color:#fff;">MVP</div>
+              <h3 class="start-card-title">Minimum Viable Product</h3>
+              <p class="start-card-desc">You're building for real users. You need a governed architecture, clean
+                code, and a CI/CD pipeline — not a prototype that needs to be rewritten.</p>
+              <ul class="start-card-list">
+                <li>✓ Full 5-phase SDLC with approval gates</li>
+                <li>✓ PostgreSQL, Docker, Jenkinsfile, Terraform</li>
+                <li>✓ Drift protection from day 1</li>
+              </ul>
+              <a href="guides.html#quickstart" class="start-card-cta start-cta-featured">Start building →</a>
+            </div>
+            <div class="start-card reveal reveal-d2" style="border-color:#f472b640;">
+              <div class="start-card-badge" style="background:#f472b618;color:#f472b6;">Production</div>
+              <h3 class="start-card-title">Production System</h3>
+              <p class="start-card-desc">You're scaling a team or migrating from a codebase that has drifted from
+                its architecture. Archon gives you a spec-first re-architecture with a full audit trail.</p>
+              <ul class="start-card-list">
+                <li>✓ Multi-team spec governance</li>
+                <li>✓ Legacy codebase reconciliation</li>
+                <li>✓ Compliance-ready decisions log</li>
+              </ul>
+              <a href="docs.html" class="start-card-cta">Read the docs →</a>
+            </div>
+          </div>
+
+          <div class="quickstart-strip reveal" style="margin-top:32px;">
+            <div class="qs-step">
+              <div class="qs-num">1</div>
+              <div class="qs-text">Install the MCP client<br><code>npx archonspecs@latest init</code></div>
+            </div>
+            <div class="qs-arrow">→</div>
+            <div class="qs-step">
+              <div class="qs-num">2</div>
+              <div class="qs-text">Tell your AI agent<br><em>"Start an Archon project"</em></div>
+            </div>
+            <div class="qs-arrow">→</div>
+            <div class="qs-step">
+              <div class="qs-num">3</div>
+              <div class="qs-text">Describe your system<br>in plain language</div>
+            </div>
+            <div class="qs-arrow">→</div>
+            <div class="qs-step qs-step-final">
+              <div class="qs-num">✓</div>
+              <div class="qs-text">Production baseline<br>generated &amp; verified</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Internal links / Related ──────────────────── -->
+        <div class="related-pages reveal" style="margin-top: 48px;">
+          <div class="related-title">Go deeper</div>
+          <div class="related-grid">
+            <a href="guides.html" class="related-card">
+              <div class="related-card-icon">📖</div>
+              <div>
+                <div class="related-card-title">Full Archon Guide</div>
+                <div class="related-card-desc">How the 5 specialist agents work, the 6-stage pipeline, live demo, benchmarks, and FAQ.</div>
+              </div>
+            </a>
+            <a href="guides.html#journey" class="related-card">
+              <div class="related-card-icon">▶</div>
+              <div>
+                <div class="related-card-title">Watch It Build</div>
+                <div class="related-card-desc">Animated step-by-step: watch every SDLC phase execute, agent by agent, file by file.</div>
+              </div>
+            </a>
+            <a href="docs.html" class="related-card">
+              <div class="related-card-icon">📋</div>
+              <div>
+                <div class="related-card-title">Technical Docs</div>
+                <div class="related-card-desc">MCP tool reference, spec format, state machine API, CLI commands, and integration guide.</div>
+              </div>
+            </a>
+            <a href="benchmarks.html" class="related-card">
+              <div class="related-card-icon">📊</div>
+              <div>
+                <div class="related-card-title">Benchmarks</div>
+                <div class="related-card-desc">Compilation time, materialization speed, drift scan, and cost comparison vs. agencies and LLM agents.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div><!-- /content-wrapper -->
+    </main>
+  </div><!-- /main-container -->
+
+  <footer class="footer" style="border-top:1px solid var(--border);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);">
+    <div>© 2026 Archon Specs · All rights reserved</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;">
+      <a href="guides.html" style="color:var(--muted);text-decoration:none;">Guides</a>
+      <a href="docs.html" style="color:var(--muted);text-decoration:none;">Docs</a>
+      <a href="sdlc.html" style="color:var(--brand);text-decoration:none;font-weight:600;">SDLC Guide</a>
+      <a href="uml.html" style="color:var(--muted);text-decoration:none;">UML Guide</a>
+      <a href="ai-architecture.html" style="color:var(--muted);text-decoration:none;">AI Architecture</a>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Theme toggle ─────────────────────────────────────────
+    (function () {
+      var themeToggle = document.getElementById('theme-toggle');
+      var sunIcon = document.getElementById('sun-icon');
+      var moonIcon = document.getElementById('moon-icon');
+      var html = document.documentElement;
+      themeToggle.addEventListener('click', function () {
+        var isDark = html.getAttribute('data-theme') !== 'light';
+        if (isDark) {
+          html.setAttribute('data-theme', 'light');
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        } else {
+          html.removeAttribute('data-theme');
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        }
+      });
+    })();
+
+    // ─── Sidebar active tracking ──────────────────────────────
+    (function () {
+      var links = document.querySelectorAll('.sidebar-nav a');
+      var sections = Array.from(document.querySelectorAll('.content-wrapper section[id]'));
+      var main = document.querySelector('.content-area');
+      function onScroll() {
+        var scrollY = main.scrollTop + 100;
+        var activeId = sections[0] ? sections[0].id : null;
+        sections.forEach(function (s) { if (s.offsetTop <= scrollY) activeId = s.id; });
+        links.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+        });
+      }
+      if (main) main.addEventListener('scroll', onScroll);
+    })();
+
+    // ─── Scroll reveal ────────────────────────────────────────
+    (function () {
+      var revEls = document.querySelectorAll('.reveal');
+      if (!revEls.length) return;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+      revEls.forEach(function (el) { obs.observe(el); });
+    })();
+
+    // ─── SDLC phase explorer ──────────────────────────────────
+    (function () {
+      var PHASE_DATA = [
+        {
+          name: 'Planning',
+          color: '#60a5fa',
+          who: 'Product owner, engineering lead, stakeholders',
+          produces: 'Project Charter, Risk Register, Resource Plan, Timeline',
+          question: 'Should we build this? Can we build it?',
+          time: '1–2 weeks',
+          breaksWhen: 'Scope is undefined or constantly changing, causing requirements to shift every sprint.',
+          archon: 'Captured in plain-language intent during your first conversation with your AI agent.'
+        },
+        {
+          name: 'Requirements Analysis',
+          color: '#c084fc',
+          who: 'Business analysts, product managers, domain experts',
+          produces: 'Requirements Specification, User Stories, Acceptance Criteria, Use Case Diagrams',
+          question: 'What exactly needs to be built?',
+          time: '2–4 weeks',
+          breaksWhen: 'Requirements are ambiguous or undocumented, leading to implementation mismatches discovered in QA.',
+          archon: '🧭 The Analyst extracts and formalizes requirements into a locked Requirement Contract in ~30 minutes.'
+        },
+        {
+          name: 'System Design',
+          color: '#ff5d01',
+          who: 'Senior architects, tech leads',
+          produces: 'Architecture Document, ERD, UML Class Diagrams, API Contract, Module Dependency Map',
+          question: 'How will it be built?',
+          time: '3–6 weeks',
+          breaksWhen: 'Design lives in a document that developers can\'t enforce. Architecture drifts from day 1 of implementation. ⚠️ This is the #1 SDLC failure point.',
+          archon: '📐 The Architect produces a UML class diagram you approve. The diagram IS the contract. It compiles to code.'
+        },
+        {
+          name: 'Implementation',
+          color: '#10b981',
+          who: 'Development team',
+          produces: 'Source code, database migrations, configuration files, build scripts',
+          question: 'Build it.',
+          time: '8–16 weeks',
+          breaksWhen: 'Developers contradict the design. LLM agents hallucinate field types, ignore foreign-key constraints, and produce code that diverges from the ERD by file 30. ⚠️ Second-biggest failure point.',
+          archon: '⚙️ The Orchestrator materializes 47 production files from the spec deterministically. No LLM in the code-generation path. Same spec = same output.'
+        },
+        {
+          name: 'Testing & QA',
+          color: '#f59e0b',
+          who: 'QA engineers, security teams, the development team',
+          produces: 'Test Reports, Bug Logs, Coverage Metrics, Security Audit Results',
+          question: 'Does it work as designed?',
+          time: '2–4 weeks',
+          breaksWhen: 'When implementation diverged from design in phase 4, tests validate the wrong behavior. Bugs found here are expensive to fix.',
+          archon: '🔬 The Developer runs drift detection continuously. TypeScript pass rate: 100% (templates are pre-tested). ESLint compliance: 100%.'
+        },
+        {
+          name: 'Deployment & Maintenance',
+          color: '#f472b6',
+          who: 'DevOps/SRE team, on-call engineers',
+          produces: 'Running production system, CI/CD pipeline, runbooks, monitoring dashboards',
+          question: 'Keep it working.',
+          time: 'Ongoing',
+          breaksWhen: 'Hotfixes are applied to production without updating the architecture spec. Within 6 months, the design document describes a fictional system.',
+          archon: 'Archon\'s reconciliation detects drift continuously. Every change is a choice: align the code with the spec, or update the spec to match the code. No silent divergence.'
+        },
+      ];
+
+      var phases = document.querySelectorAll('.sdlc-phase');
+      var detail = document.getElementById('sdlc-detail');
+      if (!phases.length || !detail) return;
+
+      phases.forEach(function (p) {
+        p.style.cursor = 'pointer';
+        p.addEventListener('click', function () {
+          var i = parseInt(p.getAttribute('data-phase'), 10);
+          var d = PHASE_DATA[i];
+          if (!d) return;
+
+          phases.forEach(function (ph) { ph.classList.remove('sdlc-phase-active'); });
+          p.classList.add('sdlc-phase-active');
+
+          detail.innerHTML =
+            '<div class="sdlc-detail-inner" style="border-left-color:' + d.color + ';">' +
+              '<div class="sdlc-detail-top">' +
+                '<span class="sdlc-detail-name" style="color:' + d.color + ';">' + d.name + '</span>' +
+                '<span class="sdlc-detail-time">⏱ ' + d.time + '</span>' +
+              '</div>' +
+              '<div class="sdlc-detail-question">"' + d.question + '"</div>' +
+              '<div class="sdlc-detail-row"><strong>Who:</strong> ' + d.who + '</div>' +
+              '<div class="sdlc-detail-row"><strong>Produces:</strong> ' + d.produces + '</div>' +
+              '<div class="sdlc-detail-row sdlc-detail-breaks"><strong>Breaks when:</strong> ' + d.breaksWhen + '</div>' +
+              '<div class="sdlc-detail-row sdlc-detail-archon"><strong>Archon accelerates this:</strong> ' + d.archon + '</div>' +
+            '</div>';
+
+          if (typeof gsap !== 'undefined') {
+            gsap.fromTo(detail, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' });
+          }
+        });
+      });
+
+      // Auto-open phase 2 (System Design — the most interesting one)
+      setTimeout(function () { phases[2] && phases[2].dispatchEvent(new MouseEvent('click', { bubbles: true })); }, 600);
+    })();
+  </script>
+  <script src="./sdlc-animations.js"></script>
+</body>
+</html>

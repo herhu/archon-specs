@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 Not Found — Archon Specs</title>
+    <style>
+        :root {
+            --bg: #0b0f14;
+            --text: #e7eef8;
+            --muted: #a9b7c9;
+            --brand: #7c5cff;
+            --brand2: #35d0ff;
+            --line: rgba(255, 255, 255, .08);
+            --shadow: 0 16px 48px rgba(0, 0, 0, .35);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(1200px 800px at 50% 50%, rgba(124, 92, 255, .15), transparent 60%), var(--bg);
+            color: var(--text);
+            line-height: 1.55;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 40px 24px;
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            background: rgba(16, 24, 36, .55);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+        }
+
+        .code-404 {
+            font-size: 80px;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(135deg, rgba(124, 92, 255, .95), rgba(53, 208, 255, .9));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 16px 0;
+            letter-spacing: -.5px;
+        }
+
+        p {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(124, 92, 255, .95), rgba(53, 208, 255, .9));
+            color: #06101a;
+            font-weight: 900;
+            text-decoration: none;
+            box-shadow: 0 14px 36px rgba(124, 92, 255, .25);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 42px rgba(124, 92, 255, .35);
+        }
+
+        .cta small {
+            opacity: .8;
+            font-weight: 900;
+        }
+    </style>
+
+    <!-- SEO & Open Graph Tags -->
+    <meta name="keywords"
+        content="Archon Specs, Claude, ChatGPT, Gemini, DeepSeek, MCP, Backend Generator, NestJS, AI, Systems Architecture" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://archonspecs.dev/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://archonspecs.dev/" />
+    <meta property="og:title" content="AI Architecture Compiler — Archon Specs" />
+    <meta property="og:description"
+        content="Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems. Compile high-level architecture into validated, production-ready backend systems." />
+    <meta property="og:image" content="https://archonspecs.dev/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://archonspecs.dev/" />
+    <meta name="twitter:title" content="AI Architecture Compiler — Archon Specs" />
+    <meta name="twitter:description"
+        content="Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems." />
+    <meta name="twitter:image" content="https://archonspecs.dev/logo.png" />
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="code-404">404</div>
+            <h1>Looks like you're lost</h1>
+            <p>The page you are looking for doesn't exist or has been moved. But don't worry, there's plenty more to
+                explore on our site.</p>
+            <a class="cta" href="./index.html">Explore Archon Specs <small>→</small></a>
+        </div>
+    </div>
+</body>
+
+</html>

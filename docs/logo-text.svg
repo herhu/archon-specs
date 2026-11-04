@@ -1,0 +1,12 @@
+<svg width="600" height="128" viewBox="0 0 600 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon Part -->
+  <g transform="translate(0, 0)">
+    <path d="M64 20L20 108H36L64 50L92 108H108L64 20Z" fill="#000000"/>
+    <circle cx="64" cy="68" r="10" fill="#ff5c00"/>
+    <rect x="48" y="76" width="32" height="4" fill="#000000" opacity="0.8"/>
+  </g>
+  
+  <!-- Text Part -->
+  <text x="130" y="75" font-family="Inter, sans-serif" font-weight="900" font-size="42" fill="#000000" letter-spacing="-2">ARCHON SPECS</text>
+  <text x="130" y="100" font-family="JetBrains Mono, monospace" font-size="14" fill="#ff5c00" letter-spacing="2" font-weight="700">ARCHITECTURE COMPILER</text>
+</svg>

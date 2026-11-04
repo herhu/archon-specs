@@ -1,0 +1,1515 @@
+<!-- Archon SEO v2.0.0 - 2026-04-02 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Archon Specs: AI Agent Specification & Dev Portal</title>
+  <meta name="description"
+    content="Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems. Compile high-level architecture into validated, production-ready backend systems." />
+  <link rel="canonical" href="https://archonspecs.dev/" />
+  <meta property="og:title" content="Archon Specs: AI Agent Specification & Dev Portal" />
+  <meta property="og:description"
+    content="Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems. Compile logic into validated NestJS backends." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://archonspecs.dev/" />
+  <meta property="og:image" content="https://archonspecs.dev/logo-text.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Archon Specs — AI Architecture Compiler" />
+  <meta name="twitter:description"
+    content="Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems. Generate production-grade NestJS backends with zero ambiguity." />
+  <meta name="twitter:image" content="https://archonspecs.dev/logo-text.svg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Archon Specs",
+    "operatingSystem": "Any",
+    "applicationCategory": "DeveloperApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0"
+    },
+    "description": "Archon Specs is an AI Architecture Compiler that transforms intent into production-ready systems."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "AI Backend Generator Proof — Architecture vs Code",
+    "description": "Video 1: AI can write code, but architecture is essential for governing systems. Archon Specs demonstrates the journey from prompt to working system within architectural constraints.",
+    "thumbnailUrl": "https://img.youtube.com/vi/gxYRkt7pZn0/maxresdefault.jpg",
+    "uploadDate": "2026-04-02",
+    "embedUrl": "https://www.youtube.com/embed/gxYRkt7pZn0"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "Verified Production Systems — Swagger & Docker",
+    "description": "Video 2: Reducing token usage by 70% and ensuring signal over noise. Architecture becomes the contract. Verified Swagger and live endpoints without manual boilerplate.",
+    "thumbnailUrl": "https://img.youtube.com/vi/Pv66y0ADnZw/maxresdefault.jpg",
+    "uploadDate": "2026-04-04",
+    "embedUrl": "https://www.youtube.com/embed/Pv66y0ADnZw"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "System Evolution Without Coding — Archon Specs",
+    "description": "Video 3: Defining systems instead of writing code. Infrastructure ready, Auth enforced, and modules structured by domain. Evolution without breaking changes.",
+    "thumbnailUrl": "https://img.youtube.com/vi/mossX5DuvT8/maxresdefault.jpg",
+    "uploadDate": "2026-04-03",
+    "embedUrl": "https://www.youtube.com/embed/mossX5DuvT8"
+  }
+  </script>
+  <!-- YouTube IFrame API -->
+  <script src="https://www.youtube.com/iframe_api" async></script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+  <link rel="stylesheet" href="./stylesi.css?v=3" />
+  <style>
+    /* Integration section — mobile fixes */
+    .kbd {
+      word-break: break-all;
+      overflow-wrap: anywhere;
+      display: inline-block;
+      max-width: 100%;
+    }
+
+    /* Contain code block scroll — never let it push page width */
+    pre.code {
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 560px) {
+      pre.code {
+        font-size: 10px;
+        padding: 12px;
+      }
+
+      #integrations .split>div+div {
+        border-left: none !important;
+        padding-left: 0 !important;
+        border-top: 1px solid var(--border-subtle);
+        padding-top: 20px;
+        margin-top: 8px;
+      }
+    }
+  </style>
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="nav container">
+      <a class="logo" href="./index.html" style="text-decoration: none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width: 32px; height: 32px;">
+        <span style="font-weight: 900; letter-spacing: .2px; color: var(--text-primary);">Archon Specs</span>
+      </a>
+
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle Navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a href="#why">Why</a>
+        <a href="#how">How it works</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#integrations">Integration</a>
+        <a href="#faq">FAQ</a>
+        <a href="library.html">Library</a>
+        <a href="docs.html">Docs</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+          <svg viewBox="0 0 24 24" id="theme-icon">
+            <path
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+          </svg>
+        </button>
+        <a href="https://github.com/herhu/archon-specs" target="_blank" rel="noopener" style="display:flex;align-items:center;color:var(--text-secondary);text-decoration:none;" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+          </svg>
+        </a>
+        <a class="cta" href="#integrations">Get Started →</a>
+      </div>
+    </header>
+    <main>
+      <!-- HERO -->
+      <section class="hero section-light reveal" id="top">
+        <div class="section-label">Architecture Compiler</div>
+        <div class="grid">
+          <div class="card" id="hero-vanta-card" style="overflow: hidden;">
+            <h1 class="headline">
+              <span style="color: var(--accent);">AI Architecture Compiler</span><br>
+              for Production Systems & Archon Dev Portal
+            </h1>
+            <p class="subhead"
+              style="color: var(--accent); font-weight: 700; font-size: 24px; letter-spacing: -1px; margin-bottom: 12px;">
+              From Intent to Production-Ready Code.
+            </p>
+            <p class="subhead">
+              The first open source deterministic materialization engine for enterprise-grade backend architectures.
+            </p>
+            <p class="subhead">
+              Archon Specs is an open source
+              <b>AI Architecture Compiler</b> that transforms intent into production-ready systems. It turns ambiguity
+              into a
+              <b>validated DesignSpec</b>, then compiles logic into a
+              <b>production-grade NestJS backend</b>.
+            </p>
+            <div class="split">
+              <div class="pill">
+                <b>
+                  Input:
+                </b>
+                natural language → spec
+              </div>
+              <div class="pill">
+                <b>
+                  Output:
+                </b>
+                runnable backend
+              </div>
+              <div class="pill">
+                <b>
+                  Guarantee:
+                </b>
+                schema + semantic validation
+              </div>
+              <div class="pill">
+                <b>
+                  Proof:
+                </b>
+                Docker + Swagger
+              </div>
+            </div>
+            <div class="chips">
+              <span class="chip" style="background:rgba(124, 92, 255, 0.2); border-color:var(--accent); color:var(--accent);">
+                ⭐ Open Source (MIT)
+              </span>
+              <span class="chip">
+                Spec-driven
+              </span>
+              <span class="chip">
+                Deterministic generator
+              </span>
+              <span class="chip">
+                Guardrails by design
+              </span>
+              <span class="chip">
+                Incremental evolution
+              </span>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;">
+              <a class="cta" href="https://github.com/herhu/archon-specs" target="_blank" rel="noopener">
+                View on GitHub →
+              </a>
+              <a class="ghost" href="#integrations">
+                Quickstart &amp; Setup
+              </a>
+            </div>
+            <p class="small muted" style="margin-top:24px;">
+              If your team wants AI speed without AI chaos — this is the open source control plane.
+            </p>
+          </div>
+          <aside class="card section-dark" style="display:flex; flex-direction:column; gap:24px;">
+            <h2 style="margin:0;">
+              ⚡ 30-second explanation
+            </h2>
+            <div class="highlight">
+              <p style="margin:0;color:var(--text); font-size:15px;">
+                Most AI tools generate code.
+                <b>
+                  Archon Specs compiles systems
+                </b>
+                :
+                Your AI elicits requirements, Archon Specs compiles them into a
+                <b>
+                  validated spec
+                </b>
+                ,
+                and then compiles a
+                <b>
+                  production-grade backend
+                </b>
+                with auth, logging, and Docker from day one.
+              </p>
+            </div>
+            <div class="statusRow">
+              <div class="check">
+                <div class="icon">
+                  ✓
+                </div>
+                <div>
+                  <b>
+                    Validated spec
+                  </b>
+                  <div class="muted small">
+                    JSON schema + semantic integrity
+                  </div>
+                </div>
+              </div>
+              <div class="check">
+                <div class="icon">
+                  ✓
+                </div>
+                <div>
+                  <b>
+                    Deterministic output
+                  </b>
+                  <div class="muted small">
+                    Template-driven, no hallucinations
+                  </div>
+                </div>
+              </div>
+              <div class="check">
+                <div class="icon">
+                  ✓
+                </div>
+                <div>
+                  <b>
+                    Production baseline
+                  </b>
+                  <div class="muted small">
+                    Auth, Logging, Health, Swagger, Docker
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card" style="margin-top: 16px; border: 1px solid var(--brand);">
+              <h3 style="margin:0; font-size:14px; color:var(--brand);">
+                ♦ Built by Architects
+              </h3>
+              <p style="margin:8px 0 0; font-size:13px;">
+                Archon Specs was created by enterprise engineers to solve the "AI Hallucination" problem in backend
+                design.
+                <br /><br />
+                <a href="https://github.com/herhu" style="color:var(--brand); text-decoration:underline;">View Founder
+                  Profile</a>
+              </p>
+            </div>
+            <!-- 👉 From Intent to Controlled Systems SECTION -->
+            <div class="video-proof-section">
+              <div class="video-proof-title">
+                <span>🎥 👉 From Intent to Controlled Systems</span>
+                <span class="badge-live">LIVE</span>
+              </div>
+              <div class="video-grid">
+                <!-- Video 1 -->
+                <a class="video-card" href="videos/ai-backend-generator-proof.html" style="text-decoration: none;">
+                  <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/gxYRkt7pZn0/maxresdefault.jpg" class="thumb-img" alt="Create">
+                    <div class="video-overlay">
+                      <div class="play-button">
+                        <div class="play-icon"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="video-label">1. Create</div>
+                </a>
+                <!-- Video 2 -->
+                <a class="video-card" href="videos/verified-production-systems.html" style="text-decoration: none;">
+                  <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/Pv66y0ADnZw/maxresdefault.jpg" class="thumb-img" alt="Execute">
+                    <div class="video-overlay">
+                      <div class="play-button">
+                        <div class="play-icon"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="video-label">2. Execute</div>
+                </a>
+                <!-- Video 3 -->
+                <a class="video-card" href="videos/system-evolution-without-coding.html" style="text-decoration: none;">
+                  <div class="video-thumb">
+                    <img src="https://img.youtube.com/vi/mossX5DuvT8/maxresdefault.jpg" class="thumb-img" alt="Evolve">
+                    <div class="video-overlay">
+                      <div class="play-button">
+                        <div class="play-icon"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="video-label">3. Evolve</div>
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- VIDEO SHOWCASE SECTION (STATIC IFRAME EMBED FOR 100% GSC INDEXING) -->
+      <section class="section section-light reveal" id="video-showcase">
+        <div class="section-label">Video Demonstration</div>
+        <div class="card" style="border: 2px solid var(--brand); background: rgba(16, 24, 36, 0.4);">
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div>
+              <h2 style="font-size: 28px; margin-bottom: 8px;">
+                🎥 AI Backend Generator Proof — Architecture vs Code
+              </h2>
+              <p style="font-size: 16px; color: var(--muted); max-width: 800px;">
+                Watch how Archon Specs demonstrates the journey from natural language prompt to a working enterprise
+                system within strict architectural constraints.
+              </p>
+            </div>
+            <!-- Googlebot-Optimized Static Iframe Container -->
+            <div class="video-container"
+              style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+              <iframe src="https://www.youtube.com/embed/gxYRkt7pZn0?rel=0&modestbranding=1"
+                title="AI Backend Generator Proof — Architecture vs Code"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+              </iframe>
+            </div>
+            <div style="display: flex; gap: 16px; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
+              <span style="font-size: 14px; color: var(--text-secondary);">More Video Guides:</span>
+              <a class="ghost" href="videos/verified-production-systems.html"
+                style="padding: 10px 20px; font-size: 11px;">
+                2. Verified Production Systems →
+              </a>
+              <a class="ghost" href="videos/system-evolution-without-coding.html"
+                style="padding: 10px 20px; font-size: 11px;">
+                3. System Evolution Without Coding →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TECHNICAL PROOF -->
+      <section class="section section-light reveal" id="proof">
+        <div class="section-label">Technical Proof</div>
+        <div class="card" style="border: 2px solid var(--brand);">
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div>
+              <h2 style="font-size: 28px; margin-bottom: 8px;">
+                🚀 From Architecture to Implementation
+              </h2>
+              <p style="font-size: 16px; color: var(--muted); max-width: 800px;">
+                Most AI tools generate snippets. Archon Specs compiles **systems**.
+                Every design is validated, compiled, and delivered as a production-hardened NestJS backend
+                complete with Docker persistence and a fully documented Swagger UI.
+              </p>
+            </div>
+            <div class="comparison-slider" id="proof-slider">
+              <!-- After Image (Implementation) -->
+              <img src="images/proof.png" class="comparison-img img-after" alt="Implementation Proof" />
+              <!-- Before Image (Intent/Architecture) -->
+              <img src="images/proof-2.png" class="comparison-img img-before" alt="Intent Architecture"
+                id="slider-before-img" />
+
+              <!-- Slider Elements -->
+              <div class="slider-handle" id="slider-handle"></div>
+              <div class="comparison-label label-before">Intent / Architecture</div>
+              <div class="comparison-label label-after">Verified Implementation</div>
+            </div>
+            <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+              <a class="cta" href="docs.html#quickstart">
+                Explore the Documentation
+                <small>→</small>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="section section-light reveal" id="roadmap">
+        <div class="section-label">Roadmap</div>
+        <div class="card">
+          <div
+            style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 style="margin: 0;">
+                🗺️ Roadmap: The Path to System Architecture
+              </h2>
+              <p class="muted" style="margin: 4px 0 0;">
+                From backend foundations to AI-orchestrated enterprise systems.
+              </p>
+            </div>
+            <div class="pill">
+              <b>
+                Vision:
+              </b>
+              Orchestration &gt; Generation
+            </div>
+          </div>
+          <div class="roadmap-grid">
+            <div class="roadmap-item">
+              <span class="date">
+                Phase 1
+              </span>
+              <h3>
+                Node.js Backend Engine
+              </h3>
+              <p>
+                Expanding the core compiler with more modules, advanced algorithms, and rigorous validation patterns.
+                Strengthening the "Source of Truth" for backend architecture design.
+              </p>
+              <span class="status-badge status-now">
+                In Progress
+              </span>
+            </div>
+            <div class="roadmap-item">
+              <span class="date">
+                Phase 2
+              </span>
+              <h3>
+                React Frontend Integration
+              </h3>
+              <p>
+                Moving from pure backend to full-system architect. Automated UI generation based on domain models,
+                ensuring seamless end-to-end type safety and logic.
+              </p>
+              <span class="status-badge status-next">
+                Coming Soon
+              </span>
+            </div>
+            <div class="roadmap-item">
+              <span class="date">
+                Phase 3
+              </span>
+              <h3>
+                AI System Orchestrator
+              </h3>
+              <p>
+                The ultimate goal: AI doesn't just write code; it orchestrates enterprise system design using
+                Domain-Driven Design (DDD) principles at scale.
+              </p>
+              <span class="status-badge status-vision">
+                Long-term Vision
+              </span>
+            </div>
+            <div class="roadmap-item">
+              <span class="date">
+                Phase 4
+              </span>
+              <h3>
+                Archon Specs MCP CLI
+                <span class="cli-tag">
+                  ./archon
+                </span>
+              </h3>
+              <p>
+                Auto-scale your project instantly. Use commands to generate new domains, auto-scaffold CRUD, and evolve
+                your architecture with zero manual boilerplate.
+              </p>
+              <span class="status-badge status-now">
+                Active Dev
+              </span>
+            </div>
+            <div class="roadmap-item">
+              <span class="date">
+                Phase 5
+              </span>
+              <h3>
+                OpenClaw Multi-Agent Nexus
+              </h3>
+              <p>
+                <b>WE DID IT!</b> Scaling to a 5-agent team powered by OpenClaw. Shifting from context-heavy transcripts
+                to Vector Memory
+                and Structured Compilers to solve the "context wall" and provide zero-drift system orchestration.
+              </p>
+              <span class="status-badge status-now" style="background:#52c41a;color:#fff;border-color:#52c41a;">
+                Launched
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- WHY -->
+      <section class="section section-light reveal" id="why">
+        <div class="section-label">Vision</div>
+        <div class="grid">
+          <div class="card">
+            <h2>
+              ❌ The problem
+            </h2>
+            <p>
+              “Just ask the model to build the backend” fails for teams because it produces:
+            </p>
+            <ul>
+              <li>
+                inconsistent structure across files
+              </li>
+              <li>
+                missing security decisions (authz, scopes, boundaries)
+              </li>
+              <li>
+                no regeneration path when requirements change
+              </li>
+              <li>
+                no reproducible quality gates
+              </li>
+            </ul>
+            <p class="muted">
+              That’s why most teams ban free-form AI code in production.
+            </p>
+          </div>
+          <div class="card">
+            <h2>
+              ✅ The solution
+            </h2>
+            <p>
+              Archon Specs makes backend generation
+              <b>
+                safe and repeatable
+              </b>
+              by enforcing a strict contract:
+              <b>
+                DesignSpec v1
+              </b>
+              , validated before anything is generated.
+            </p>
+            <ul>
+              <li>
+                <b>
+                  Ambiguity → Architecture → Executable System
+                </b>
+              </li>
+              <li>
+                bounded domains, entities, APIs, permissions
+              </li>
+              <li>
+                optional module injections (Redis, queues, etc.)
+              </li>
+              <li>
+                Docker + smoke checks for proof
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- HOW IT WORKS — Compiler Pipeline v2 -->
+      <style>
+        @keyframes pl-blink {
+
+          0%,
+          100% {
+            opacity: 1
+          }
+
+          50% {
+            opacity: 0
+          }
+        }
+
+        #pl-grid .pl-node {
+          background: #111118;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 10px;
+          padding: 14px 16px;
+          cursor: pointer;
+          transition: border-color .2s, box-shadow .2s, transform .2s;
+          position: relative;
+          overflow: hidden;
+          min-width: 0;
+        }
+
+        #pl-grid .pl-node::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: var(--c);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform .3s;
+        }
+
+        #pl-grid .pl-node:hover::after,
+        #pl-grid .pl-node.pl-on::after {
+          transform: scaleX(1);
+        }
+
+        #pl-grid .pl-node:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+          border-color: rgba(255, 255, 255, .18);
+        }
+
+        #pl-grid .pl-node.pl-on {
+          border-color: var(--c);
+          box-shadow: 0 0 0 1px var(--c), 0 8px 28px rgba(0, 0, 0, .5);
+        }
+
+        .pl-badge {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          color: var(--c);
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .pl-badge::after {
+          content: '';
+          flex: 1;
+          height: 1px;
+          background: var(--c);
+          opacity: .18;
+          min-width: 4px;
+        }
+
+        .pl-icon {
+          font-size: 22px;
+          margin-bottom: 6px;
+          display: block;
+          line-height: 1;
+        }
+
+        .pl-label {
+          font-size: 13px;
+          font-weight: 700;
+          color: #f8f8f2;
+          margin-bottom: 3px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .pl-role {
+          font-size: 11px;
+          color: rgba(248, 248, 242, .42);
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+
+        .pl-dp-blt {
+          font-size: 12px;
+          color: rgba(248, 248, 242, .65);
+          display: flex;
+          align-items: flex-start;
+          gap: 6px;
+          line-height: 1.4;
+        }
+
+        .pl-dp-blt::before {
+          content: '→';
+          color: var(--dc);
+          font-size: 11px;
+          flex-shrink: 0;
+          margin-top: 1px;
+        }
+
+        @media (max-width:680px) {
+          #pl-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+
+          #pl-svg {
+            display: none !important;
+          }
+        }
+      </style>
+
+      <section class="section section-light reveal" id="how">
+        <div class="section-label">Process</div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="background:#080810;border-radius:12px;overflow:hidden;">
+
+            <!-- Header -->
+            <div style="padding:28px 28px 20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+              <div
+                style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ff5d01;margin-bottom:8px;">
+                Compiler Pipeline</div>
+              <h2 style="font-size:clamp(20px,3vw,26px);font-weight:800;color:#f8f8f2;margin:0 0 8px;line-height:1.25;">
+                From idea to running system in <span style="color:#ff5d01;">6 deterministic steps</span>
+              </h2>
+              <p style="font-size:13px;color:rgba(248,248,242,0.5);margin:0;max-width:500px;">
+                After the spec is valid, compilation is template-driven — not &ldquo;AI writes code&rdquo;.
+              </p>
+            </div>
+
+            <!-- Pipeline Visualization -->
+            <div id="pl-vis" style="position:relative;padding:16px 24px 8px;">
+              <!-- SVG connector path (U-shape: top row L→R, bend, bottom row R→L) -->
+              <svg id="pl-svg" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"
+                viewBox="0 0 100 50" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="plg" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.8" />
+                    <stop offset="50%" stop-color="#ff5d01" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0.8" />
+                  </linearGradient>
+                  <filter id="pf">
+                    <feGaussianBlur stdDeviation="0.7" result="b" />
+                    <feMerge>
+                      <feMergeNode in="b" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <!-- Background ghost paths: two horizontal rows -->
+                <path d="M 17 14 H 83" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.6"
+                  stroke-dasharray="2 1.5" />
+                <path d="M 17 36 H 83" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.6"
+                  stroke-dasharray="2 1.5" />
+                <!-- Connecting drop from row1 end to row2 start: rightmost col to leftmost col -->
+                <path d="M 83 14 V 25 H 17 V 36" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.6"
+                  stroke-dasharray="2 1.5" />
+                <!-- Animated draw path: row1 line then cascade then row2 line -->
+                <path id="pl-p" d="M 17 14 H 83 V 25 H 17 V 36 H 83" fill="none" stroke="url(#plg)" stroke-width="0.9"
+                  stroke-dasharray="270" stroke-dashoffset="270" filter="url(#pf)" />
+                <!-- Accent dots at key transitions -->
+                <circle id="pl-dot-a" cx="83" cy="14" r="1.3" fill="#ff5d01" opacity="0" />
+                <circle id="pl-dot-b" cx="17" cy="36" r="1.3" fill="#22c55e" opacity="0" />
+              </svg>
+
+              <!-- Stage nodes (JS-rendered) -->
+              <div id="pl-grid" style="
+                display:grid;
+                grid-template-columns:repeat(3,minmax(0,1fr));
+                gap:12px 20px;
+                position:relative;
+                z-index:1;
+                padding:4px 0 8px;
+              "></div>
+            </div>
+
+            <!-- Detail drawer -->
+            <div id="pl-dp" style="max-height:0;overflow:hidden;transition:max-height .45s ease;margin:0 24px;">
+              <div
+                style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 18px;margin-bottom:12px;position:relative;">
+                <span id="pl-dp-x"
+                  style="position:absolute;top:10px;right:14px;cursor:pointer;color:rgba(248,248,242,0.3);font-size:12px;line-height:1;">✕</span>
+                <div id="pl-dp-cnt"></div>
+              </div>
+            </div>
+
+            <!-- Terminal strip -->
+            <div
+              style="padding:12px 24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono','Fira Code',Menlo,monospace;font-size:12px;min-height:44px;">
+              <span style="color:#ff5d01;font-weight:700;white-space:nowrap;flex-shrink:0;">archon ▶</span>
+              <span id="pl-out"
+                style="color:rgba(248,248,242,0.75);flex:1;min-width:0;overflow:hidden;white-space:nowrap;"></span>
+              <span id="pl-cur"
+                style="color:rgba(248,248,242,0.35);animation:pl-blink 1s step-end infinite;flex-shrink:0;">▋</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <script>
+        (function () {
+          var STAGES = [
+            {
+              n: 1, label: 'Elicitation', icon: '💬', color: '#4a9eff', role: 'Analyst',
+              bullets: ['Structured requirement Q&A', 'Entity & relationship discovery', 'Constraint capture (auth, DB, infra)', 'requirements.json output'],
+              cmd: 'archon elicit --project "my-api"  ▶  12 requirements, 8 entities captured'
+            },
+            {
+              n: 2, label: 'DesignSpec', icon: '📐', color: '#a855f7', role: 'Architect',
+              bullets: ['Zero-ambiguity JSON schema', 'Modules, entities, endpoints', 'Auth, roles, relationships', 'DesignSpec v1 locked'],
+              cmd: 'archon design  ▶  DesignSpec.json  (schema v3, 847 lines, 0 ambiguities)'
+            },
+            {
+              n: 3, label: 'Validation', icon: '🛡', color: '#f59e0b', role: 'Tech Lead',
+              bullets: ['200+ automated checks', 'Circular reference detection', 'Security pattern validation', 'Schema integrity verified'],
+              cmd: 'archon validate  ▶  ✓ 200 checks passed  (0.8s)'
+            },
+            {
+              n: 4, label: 'Compilation', icon: '⚙️', color: '#ff5d01', role: 'Orchestrator',
+              bullets: ['Template-driven, not AI code', 'NestJS + TypeORM + Swagger', '47 files in < 30 seconds', 'Reproducible every run'],
+              cmd: 'archon compile  ▶  ✓ 47 files generated  (23.1s)'
+            },
+            {
+              n: 5, label: 'Proof', icon: '🐳', color: '#22c55e', role: 'Developer',
+              bullets: ['docker compose up --build', 'Endpoint smoke tests pass', 'Swagger UI at :3000/api', 'Auth flow validated'],
+              cmd: 'docker compose up  ▶  ✓ API live on :3000  |  swagger :3000/api'
+            },
+            {
+              n: 6, label: 'Evolution', icon: '🔄', color: '#94a3b8', role: 'System',
+              bullets: ['Incremental spec updates', 'Safe module injection', 'Redis, queues on demand', 'Zero breaking changes'],
+              cmd: 'archon evolve --add-module payments  ▶  ✓ 6 new files, 0 regressions'
+            },
+          ];
+          var grid = document.getElementById('pl-grid');
+          if (!grid) return;
+
+          STAGES.forEach(function (s, i) {
+            var node = document.createElement('div');
+            node.className = 'pl-node';
+            node.style.setProperty('--c', s.color);
+            node.dataset.idx = i;
+            node.innerHTML =
+              '<div class="pl-badge">Step ' + s.n + ' <span style="color:' + s.color + ';opacity:.65;font-weight:700;">' + s.role + '</span></div>' +
+              '<span class="pl-icon">' + s.icon + '</span>' +
+              '<div class="pl-label">' + s.label + '</div>' +
+              '<div class="pl-role">' + s.bullets[0] + '</div>';
+            node.addEventListener('click', function () { activate(i); });
+            grid.appendChild(node);
+          });
+
+          var cur = -1, tid = null;
+
+          function activate(idx) {
+            var nodes = grid.querySelectorAll('.pl-node');
+            var dp = document.getElementById('pl-dp');
+            var cnt = document.getElementById('pl-dp-cnt');
+            var out = document.getElementById('pl-out');
+            if (cur === idx) {
+              nodes[idx] && nodes[idx].classList.remove('pl-on');
+              dp.style.maxHeight = '0'; cur = -1; return;
+            }
+            nodes.forEach(function (n) { n.classList.remove('pl-on'); });
+            nodes[idx] && nodes[idx].classList.add('pl-on');
+            cur = idx;
+            var s = STAGES[idx];
+            cnt.style.setProperty('--dc', s.color);
+            cnt.innerHTML =
+              '<div style="font-size:13px;font-weight:700;color:#f8f8f2;margin-bottom:10px;display:flex;align-items:center;gap:8px;">' +
+              s.icon + ' ' + s.label +
+              '<span style="font-size:10px;padding:2px 8px;border-radius:3px;background:' + s.color + '22;color:' + s.color + ';font-weight:700;letter-spacing:.08em;text-transform:uppercase;">' + s.role + '</span>' +
+              '</div>' +
+              '<div style="display:flex;flex-wrap:wrap;gap:6px 20px;">' +
+              s.bullets.map(function (b) { return '<div class="pl-dp-blt">' + b + '</div>'; }).join('') +
+              '</div>';
+            dp.style.maxHeight = '220px';
+            if (tid) clearInterval(tid);
+            out.textContent = '';
+            var ti = 0, txt = s.cmd;
+            tid = setInterval(function () {
+              out.textContent = txt.slice(0, ++ti);
+              if (ti >= txt.length) clearInterval(tid);
+            }, 22);
+          }
+
+          document.getElementById('pl-dp-x').addEventListener('click', function () {
+            grid.querySelectorAll('.pl-node').forEach(function (n) { n.classList.remove('pl-on'); });
+            document.getElementById('pl-dp').style.maxHeight = '0'; cur = -1;
+          });
+
+          function initGSAP() {
+            if (typeof gsap === 'undefined') return;
+            if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+            var mm = gsap.matchMedia();
+            mm.add('(prefers-reduced-motion: no-preference)', function () {
+              var nodes = grid.querySelectorAll('.pl-node');
+              if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.create({
+                  trigger: '#pl-vis', start: 'top 82%', once: true,
+                  onEnter: function () {
+                    gsap.from(nodes, { y: 18, opacity: 0, scale: .88, stagger: .09, duration: .48, ease: 'back.out(1.7)' });
+                    var p = document.getElementById('pl-p');
+                    if (p) gsap.to(p, { strokeDashoffset: 0, duration: 1.5, delay: .15, ease: 'power2.inOut' });
+                    var da = document.getElementById('pl-dot-a');
+                    var db = document.getElementById('pl-dot-b');
+                    if (da) gsap.to(da, { opacity: 1, duration: .3, delay: .9 });
+                    if (db) gsap.to(db, { opacity: 1, duration: .3, delay: 1.1 });
+                    setTimeout(function () { activate(0); }, 1000);
+                  }
+                });
+              } else {
+                gsap.from(nodes, { y: 18, opacity: 0, scale: .88, stagger: .09, duration: .48, ease: 'back.out(1.7)', delay: .3 });
+                var p = document.getElementById('pl-p');
+                if (p) gsap.to(p, { strokeDashoffset: 0, duration: 1.5, delay: .4, ease: 'power2.inOut' });
+                setTimeout(function () { activate(0); }, 1300);
+              }
+            });
+          }
+
+          if (typeof gsap !== 'undefined') { initGSAP(); }
+          else { window.addEventListener('load', initGSAP); }
+          // Fallback — no GSAP
+          setTimeout(function () { if (cur === -1) activate(0); }, 2800);
+        })();
+      </script>
+      <!-- INTEGRATION -->
+      <section class="section section-light reveal" id="integrations">
+        <div class="section-label">Integration</div>
+        <div class="card">
+          <div
+            style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h2 style="margin: 0;">
+                🔌 Universal Integration (MCP)
+              </h2>
+              <p class="muted" style="margin: 4px 0 0;">
+                One Standard. Any IDE. Archon Specs is fully compliant with the <b>Model Context Protocol</b>.
+              </p>
+            </div>
+            <div class="pill">
+              <b>Standard:</b> MCP v1.0
+            </div>
+          </div>
+
+          <div style="display: grid; gap: 40px; margin-top: 20px;">
+            <!-- Step 1 -->
+            <div>
+              <h3>1. Install the CLI</h3>
+              <p class="small muted">Install the Archon Specs CLI globally to enable local tool proxying and secure file
+                system access.</p>
+              <pre class="code" style="margin-top:10px;">npm install -g archonspecs</pre>
+            </div>
+
+            <!-- Step 2 -->
+            <div>
+              <h3>2. Initialize Locally</h3>
+              <p class="small muted">Initialize a spec contract or start the compiler directly with zero configuration.</p>
+              <pre class="code" style="margin-top:10px;">npx archonspecs init</pre>
+              <div style="margin-top: 16px;">
+                <a class="cta" href="https://github.com/herhu/archon-specs" target="_blank" rel="noopener">
+                  View on GitHub
+                  <small>→</small>
+                </a>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div>
+              <h3>3. Universal Integration (MCP)</h3>
+              <p class="small muted">Register Archon Specs as a Model Context Protocol (MCP) server in your favorite
+                IDE.</p>
+
+              <div class="split" style="margin-top: 24px;">
+                <div>
+                  <h4 style="margin-bottom: 12px; font-size: 14px; color: var(--accent);">A. Copy Configuration</h4>
+                  <pre class="code">{
+  "mcpServers": {
+    "archonspecs-mcp": {
+      "command": "npx",
+      "args": [
+        "-y", "archonspecs", "mcp"
+      ]
+    }
+  }
+}</pre>
+                </div>
+                <div>
+                  <h4 style="margin-bottom: 12px; font-size: 14px; color: var(--accent);">B. Load into environment</h4>
+                  <ul class="muted" style="margin-top: 0; font-size: 14px; line-height: 2;">
+                    <li>
+                      <b>Claude Desktop (macOS):</b><br />
+                      <span class="kbd">~/Library/Application Support/Claude/claude_desktop_config.json</span>
+                    </li>
+                    <li>
+                      <b>Antigravity IDE:</b><br />
+                      <span class="kbd">~/.gemini/antigravity/mcp_config.json</span>
+                    </li>
+                    <li>
+                      <b>Claude Desktop (Windows):</b><br />
+                      <span class="kbd">%APPDATA%\Claude\claude_desktop_config.json</span>
+                    </li>
+                    <li>
+                      <b>Cursor / VS Code:</b><br />
+                      Add as <b>New MCP Server (SSE)</b> in Settings
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:42px; padding-top:24px; border-top:1px solid var(--line);">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom: 6px;">
+              <svg fill="var(--text)" height="20" role="img" viewbox="0 0 24 24" width="20">
+                <title>
+                  ChatGPT
+                </title>
+                <path
+                  d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A6.0651 6.0651 0 0 0 19.0205 19.82a5.9847 5.9847 0 0 0 3.998-2.9002 6.0462 6.0462 0 0 0-.7366-7.0986zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.8956zm16.0993 3.8558L12.597 8.3829a.0804.0804 0 0 1 .0332-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.1408 1.6464 4.4708 4.4708 0 0 1 .5346 3.0137l-.142-.0852-4.783-2.7582a.7712.7712 0 0 0-.7806 0l-5.8428 3.3685v-2.3324zm-2.0083-4.225l-5.8144-3.3542 2.0201-1.1685a.0757.0757 0 0 1 .071 0l4.8303 2.7865a4.504 4.504 0 0 1-2.3655 8.0177V9.756a.7664.7664 0 0 0-.3879-.6765h-.0004zm-3.0645 1.5815-2.288-1.3197V5.213a4.4755 4.4755 0 0 1 2.8764 1.0408l-.1419.0804-4.7783 2.7582a.7948.7948 0 0 0-.3927.6813v6.7369l-2.02-1.1686a.071.071 0 0 1-.038-.052V9.7077a4.504 4.504 0 0 1 4.4945-4.4944zm-2.7042 1.4886 2.2884 1.3202V13.8l-2.2884 1.32V10.59z">
+                </path>
+              </svg>
+              <h3 style="margin:0;">
+                ChatGPT (Beta Developer Mode)
+              </h3>
+            </div>
+            <div class="split" style="align-items: center; margin-top: 16px;">
+              <div>
+                <p class="muted">
+                  Since our app is still in review for the official launch, you must activate Developer Mode to use
+                  Archon Specs Beta. Go to
+                  <b>
+                    Settings → App → Create app
+                  </b>
+                  and provide the following:
+                </p>
+                <ul class="muted" style="line-height:1.8;">
+                  <li>
+                    <b>
+                      Name:
+                    </b>
+                    Archon Specs Beta
+                  </li>
+                  <li>
+                    <b>
+                      Description:
+                    </b>
+                    AI Architect
+                  </li>
+                  <li>
+                    <b>
+                      MCP URL:
+                    </b>
+                    <span class="kbd">
+                      npx -y archonspecs mcp (stdio)
+                    </span>
+                  </li>
+                  <li>
+                    <b>
+                      Authentication:
+                    </b>
+                    No auth
+                    <small>
+                      (We use the apiKey parameter)
+                    </small>
+                  </li>
+                </ul>
+                <p class="muted" style="margin-top: 14px;">
+                  With this, you are ready to go for the beta and start designing backends in ChatGPT!
+                </p>
+                <div style="margin-top: 20px;">
+                  <a class="cta" href="https://github.com/herhu/archon-specs">
+                    View on GitHub
+                    <small>
+                      →
+                    </small>
+                  </a>
+                </div>
+              </div>
+              <div style="border-left: 1px solid var(--line); padding-left: 24px;">
+                <h3 style="color:var(--muted); display:flex; align-items:center; gap:8px;">
+                  OpenClaw
+                  <small
+                    style="font-size:11px; color:var(--brand); font-weight:700; border: 1px solid var(--brand); padding:2px 8px;">
+                    Coming soon
+                  </small>
+                </h3>
+                <p class="muted" style="font-size: 14px;">
+                  Native integration for the 5-agent specialized team.
+                  Vector memory support and deterministic orchestration out of the box.
+                </p>
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line);">
+                  <h4 style="font-size: 13px; color: var(--text); margin-bottom: 8px;">
+                    Other MCP IDEs
+                  </h4>
+                  <p class="small muted">
+                    Archon Specs is fully <b>MCP Standard</b> compliant. Connect instantly to
+                    <b>Cursor</b>, <b>VS Code</b> (via MCP extensions), or any environment supporting
+                    the Model Context Protocol.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="muted" style="margin-top:12px;">
+            Output is always yours: a runnable repo with Docker + Swagger + scripts. No lock-in.
+          </p>
+        </div>
+      </section>
+      <!-- DELIVERABLES -->
+      <section class="section section-light reveal" id="deliverables">
+        <div class="section-label">Deliverables</div>
+        <div class="card">
+          <h2>
+            📦 What it generates (today)
+          </h2>
+          <div class="split">
+            <div>
+              <h3>
+                Platform baseline
+              </h3>
+              <ul>
+                <li>
+                  config + env handling
+                </li>
+                <li>
+                  structured logging + correlation id
+                </li>
+                <li>
+                  global validation + error filter
+                </li>
+                <li>
+                  health/ready endpoints
+                </li>
+                <li>
+                  Swagger/OpenAPI
+                </li>
+                <li>
+                  rate limiting + CORS + helmet
+                </li>
+                <li>
+                  Docker + compose + smoke scripts
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>
+                Domain modules
+              </h3>
+              <ul>
+                <li>
+                  entities + DTOs + services + controllers
+                </li>
+                <li>
+                  JWT guard + scopes guard
+                </li>
+                <li>
+                  domain-based scopes like
+                  <span class="kbd">
+                    notifications:read
+                  </span>
+                </li>
+                <li>
+                  custom operations supported
+                </li>
+                <li>
+                  optional injections:
+                  <span class="kbd">
+                    cache.redis
+                  </span>
+                  ,
+                  <span class="kbd">
+                    queue.bullmq
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <!-- FAQ -->
+      <section class="section" id="faq">
+        <div class="card">
+          <h2>
+            🧠 FAQ
+          </h2>
+          <div class="split">
+            <div>
+              <h3>
+                Is Archon Specs open source?
+              </h3>
+              <p class="muted">
+                Yes. Archon Specs is 100% open source under the MIT License. The CLI, compiler engine, templates, and schemas are hosted on GitHub. You can inspect, fork, self-host, and contribute freely.
+              </p>
+            </div>
+            <div>
+              <h3>
+                Is this replacing developers or architects?
+              </h3>
+              <p class="muted">
+                No. Archon Specs enforces architecture decisions and removes low-value boilerplate + drift.
+                Your team designs; Archon Specs makes the design executable and consistent.
+              </p>
+            </div>
+            <div>
+              <h3>
+                How is this different from Cursor / “just ask the AI”?
+              </h3>
+              <p class="muted">
+                Those tools generate code. Archon Specs compiles systems:
+                versioned architecture, validation, deterministic compilation, and Docker proof.
+              </p>
+            </div>
+            <div>
+              <h3>
+                Do we own the generated code?
+              </h3>
+              <p class="muted">
+                Yes. Output is a standard repo you can run, modify, and deploy. No lock-in.
+              </p>
+            </div>
+            <div>
+              <h3>
+                What’s the smallest meaningful demo?
+              </h3>
+              <p class="muted">
+                “Build a notifications backend with scopes + Redis + Docker; show Swagger.”
+                Archon Specs makes that repeatable in minutes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- COMMUNITY -->
+      <section class="section" id="contact">
+        <div class="card">
+          <h2>
+            ⚡ Open Source &amp; Community
+          </h2>
+          <p class="muted">
+            Archon Specs is 100% open source under the MIT License. Explore the GitHub repository, contribute architecture templates, report issues, or connect with the community.
+          </p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px;">
+            <a class="cta" href="https://github.com/herhu/archon-specs" target="_blank" rel="noopener">
+              Star on GitHub
+              <small>→</small>
+            </a>
+            <a class="ghost" href="mailto:hello@archonspecs.dev?subject=Archon%20Open%20Source">
+              Contact us
+            </a>
+            <a class="ghost" href="#top">
+              Back to top
+            </a>
+          </div>
+          <p class="small muted" style="margin-top:12px;">
+            Tip: if you want to list this in MCP Market, lead with
+            <b>
+              “validated DesignSpec + deterministic
+              compiler”
+            </b>
+            , not “AI code generator”.
+          </p>
+        </div>
+      </section>
+      <footer class="footer">
+        <div>
+          ©
+          <span id="year">
+          </span>
+          ArchonSpecs · Open Source Architecture Compiler
+          <br><span style="opacity:.7;">Research &amp; Development by Hernán Humana</span>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="https://github.com/herhu/archon-specs" target="_blank" rel="noopener" style="color:var(--text-secondary);text-decoration:none;">GitHub</a>
+          <a href="archon-mcp.html" style="color:var(--text-secondary);text-decoration:none;">MCP Server</a>
+          <a href="archon-os.html" style="color:var(--text-secondary);text-decoration:none;">Desktop App</a>
+          <a href="benchmarks.html" style="color:var(--text-secondary);text-decoration:none;">Benchmarks</a>
+          <a href="changelog.html" style="color:var(--text-secondary);text-decoration:none;">Changelog</a>
+          <a href="privacy.html" style="color:var(--text-secondary);text-decoration:none;">Privacy</a>
+          <a href="terms.html" style="color:var(--text-secondary);text-decoration:none;">Terms</a>
+          <a href="docs.html" style="color:var(--text-secondary);text-decoration:none;">Docs</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- VIDEO MODAL -->
+  <div class="video-modal" id="video-modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeVideo()">&times;</span>
+      <div id="modal-player-container"></div>
+    </div>
+  </div>
+
+  <!-- Vanta.js Hero Card Background -->
+  <style>
+    #hero-vanta-card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    #hero-vanta-card>canvas {
+      z-index: 0 !important;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <script>
+    let player;
+    let vantaEffect = null;
+    const modal = document.getElementById('video-modal');
+
+    // YouTube IFrame API Ready
+    function onYouTubeIframeAPIReady() {
+      // API is ready, we'll create the player on first click
+    }
+
+    function openVideo(videoId) {
+      modal.classList.add('active');
+
+      if (player) {
+        player.loadVideoById(videoId);
+      } else {
+        player = new YT.Player('modal-player-container', {
+          height: '100%',
+          width: '100%',
+          videoId: videoId,
+          host: 'https://www.youtube.com',
+          playerVars: {
+            'autoplay': 1,
+            'playsinline': 1,
+            'rel': 0,
+            'modestbranding': 1,
+            'enablejsapi': 1,
+            'origin': window.location.origin
+          },
+          events: {
+            'onReady': (event) => event.target.playVideo()
+          }
+        });
+      }
+    }
+
+    function closeVideo() {
+      modal.classList.remove('active');
+      if (player) {
+        player.stopVideo();
+      }
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeVideo();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeVideo();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile Menu Toggle Logic
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        // Animate hamburger to X
+        const spans = menuBtn.querySelectorAll('span');
+        spans[0].style.transform = navLinks.classList.contains('active') ? 'rotate(45deg) translate(5px, 5px)' : '';
+        spans[1].style.opacity = navLinks.classList.contains('active') ? '0' : '1';
+        spans[2].style.transform = navLinks.classList.contains('active') ? 'rotate(-45deg) translate(5px, -5px)' : '';
+      });
+
+      // Close menu on link click
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          const spans = menuBtn.querySelectorAll('span');
+          spans[0].style.transform = '';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = '';
+        });
+      });
+    }
+
+    const llms = ["Claude", "ChatGPT", "Gemini", "DeepSeek", "Any LLM"];
+    let llmIdx = 0;
+    const llmEl = document.getElementById("llm-name");
+    if (llmEl) {
+      setInterval(() => {
+        llmEl.style.opacity = "0";
+        setTimeout(() => {
+          llmIdx = (llmIdx + 1) % llms.length;
+          llmEl.textContent = llms[llmIdx];
+          llmEl.style.opacity = "1";
+        }, 300);
+      }, 2500);
+    }
+
+    // --- Theme Logic ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+
+    const setTheme = (theme) => {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      updateIcon(theme);
+      if (vantaEffect) {
+        vantaEffect.setOptions(
+          theme === 'dark'
+            ? { backgroundColor: 0x000000, color: 0xff5c00, color2: 0xff3300 }
+            : { backgroundColor: 0xffffff, color: 0xff5c00, color2: 0xffaa77 }
+        );
+      }
+    };
+
+    const updateIcon = (theme) => {
+      const sunPath = "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z";
+      const moonPath = "M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z";
+      themeIcon.querySelector('path').setAttribute('d', theme === 'dark' ? sunPath : moonPath);
+    };
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme') || 'light';
+      setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    // Initialize Theme
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    // --- Vanta Hero Background ---
+    if (typeof VANTA !== 'undefined') {
+      const vantaThemeColors = {
+        dark: { backgroundColor: 0x000000, color: 0xff5c00, color2: 0xff3300 },
+        light: { backgroundColor: 0xffffff, color: 0xff5c00, color2: 0xffaa77 }
+      };
+      vantaEffect = VANTA.NET({
+        el: '#hero-vanta-card',
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200,
+        minWidth: 200,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        size: 3,
+        points: 7.00,
+        maxDistance: 27.00,
+        spacing: 15.00,
+        ...vantaThemeColors[savedTheme]
+      });
+    }
+
+    // --- Intersection Observer for Entrance Animations ---
+    const revealCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(revealCallback, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // --- Image Comparison Slider Logic ---
+    const slider = document.getElementById('proof-slider');
+    const beforeImg = document.getElementById('slider-before-img');
+    const handle = document.getElementById('slider-handle');
+
+    if (slider && beforeImg && handle) {
+      const moveSlider = (e) => {
+        const rect = slider.getBoundingClientRect();
+        let x = (e.pageX || e.touches[0].pageX) - rect.left - window.pageXOffset;
+
+        // Constrain x within slider bounds
+        if (x < 0) x = 0;
+        if (x > rect.width) x = rect.width;
+
+        const percent = (x / rect.width) * 100;
+
+        // Update clip-path and handle position
+        beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+        handle.style.left = `${percent}%`;
+      };
+
+      slider.addEventListener('mousemove', moveSlider);
+      slider.addEventListener('touchmove', (e) => {
+        moveSlider(e);
+        e.preventDefault(); // Prevent scrolling on touch
+      }, { passive: false });
+    }
+  </script>
+</body>
+
+</html>

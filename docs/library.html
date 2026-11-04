@@ -1,0 +1,203 @@
+<!-- Archon SEO v2.0.0 - 2026-04-02 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Archon Agent Library: Prompts, Tools & Materialization Specs</title>
+  <meta name="description"
+    content="Explore the official Archon Agent Library. Discover production-grade prompts, MCP tools, and deterministic materialization specs for enterprise NestJS architectures." />
+  <link rel="canonical" href="https://archonspecs.dev/library.html" />
+  <meta property="og:title" content="Archon Agent Library: Prompts, Tools & Materialization Specs" />
+  <meta property="og:description"
+    content="Explore the official Archon Agent Library. Discover production-grade prompts, MCP tools, and deterministic materialization specs for enterprise NestJS architectures." />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Archon Agent Library: Prompts, Tools & Materialization Specs",
+    "description": "Explore the official Archon Agent Library. Discover production-grade prompts, MCP tools, and deterministic materialization specs for enterprise NestJS architectures.",
+    "author": {
+      "@type": "Organization",
+      "name": "Archon Specs"
+    }
+  }
+  </script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="./styleslibrary.css" />
+  <link rel="icon" type="image/svg+xml" href="./logo.svg" />
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+    window.mermaid = mermaid;
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js">
+  </script>
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="nav container">
+      <a class="logo" href="./index.html" style="text-decoration: none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width: 32px; height: 32px;">
+        <span style="font-weight: 900; letter-spacing: .2px; color: var(--text-primary);">Archon Specs</span>
+      </a>
+
+      <button class="menu-toggle" id="mobile-menu-btn" aria-label="Toggle Navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#why">Why</a>
+        <a href="index.html#how">How it works</a>
+        <a class="active" href="library.html">Library</a>
+        <a href="docs.html">Docs</a>
+        <a href="changelog.html">Changelog</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+          <svg id="sun-icon" style="display: none;" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg id="moon-icon" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero reveal active">
+        <div class="section-label">Public Artifacts</div>
+        <h1 class="headline">Architecture<br>Library</h1>
+        <p style="color: var(--text-secondary); font-size: 17px; max-width: 600px; margin-bottom: 40px;">
+          Explore a collection of production-grade systems compiled deterministically from high-level intent.
+          Every project in this library is fully validated and ready for execution.
+        </p>
+      </section>
+
+      <div id="libraryGrid" class="library-grid reveal active">
+        <!-- Loading Placeholder -->
+        <div class="card" style="grid-column: 1 / -1; align-items: center; justify-content: center; padding: 100px 0;">
+          <div class="spinner"></div>
+          <p
+            style="margin-top: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 10px;">
+            Compiling Library Index...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="padding: 40px 0; border-top: 1px solid var(--border-subtle); color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center;">
+      <div>&copy; <span id="year"></span> Archon Specs. Distributed Control Plane.</div>
+      <div style="display: flex; gap: 24px;">
+        <a href="https://github.com/herhu/archor" style="text-decoration: none;">GitHub</a>
+        <a href="docs.html" style="text-decoration: none;">Documentation</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Diagram Modal -->
+  <div id="diagramModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="section-label" style="margin: 0;">Architectural Blueprint</div>
+        <button class="close-modal" onclick="closeDiagramModal()">Close</button>
+      </div>
+      <div class="modal-body">
+        <!-- Loading State -->
+        <div id="diagramLoading"
+          style="position: absolute; inset: 0; display: none; align-items: center; justify-content: center; background: var(--bg-primary); z-index: 10;">
+          <div class="spinner"></div>
+        </div>
+        <!-- Mermaid Container -->
+        <div id="mermaidContainer"
+          style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"></div>
+        <!-- Error State -->
+        <div id="diagramError" style="display: none; color: #ff6e6e; text-align: center; padding: 40px;">
+          <p style="font-weight: bold; margin: 0;">Failed to generate diagram</p>
+          <p id="diagramErrorMsg" style="font-size: 14px; opacity: 0.8; margin-top: 4px;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="library.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // --- Theme Logic ---
+    const themeToggle = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const html = document.documentElement;
+
+    const setTheme = (theme) => {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'light') {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+      } else {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+      }
+    };
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme') || 'light';
+      setTheme(currentTheme === 'light' ? 'dark' : 'light');
+    });
+
+    // Initialize Theme
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(savedTheme);
+
+    // --- Intersection Observer for Entrance Animations ---
+    const revealCallback = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(revealCallback, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // --- Mobile Menu ---
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.getElementById('nav-links');
+    if (menuBtn && navLinks) {
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+  </script>
+  <div class="seo-internal-links" style="margin-top: 50px; margin-left: 30px; font-size: 0.8em; opacity: 0.6;">
+    <!-- ARCHON-MANAGED-INTERNAL-LINKS -->
+    <p>
+      Learn more about our AI architecture compiler framework.
+      <a href="./ai-architecture-compiler.html">
+        AI architecture compiler
+      </a>
+    </p>
+  </div>
+</body>
+
+</html>

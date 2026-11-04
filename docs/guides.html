@@ -1,0 +1,1460 @@
+<!-- Archon SEO v2.0.0 - 2026-05-15 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- ARCHON-MANAGED-SEO-START -->
+  <title>Archon Specs Guides: Why It's Faster, Cheaper, and Yours to Keep</title>
+  <meta name="description"
+    content="A plain-language guide to Archon Specs. See how a single design spec produces a complete NestJS backend, why it's faster and cheaper than scaffolds or LLM agents, and why the code is always yours." />
+  <link rel="canonical" href="https://archonspecs.dev/guides.html" />
+  <meta property="og:title" content="Archon Specs Guides: Why It's Faster, Cheaper, and Yours to Keep" />
+  <meta property="og:description"
+    content="The full education guide for newcomers. Real benchmarks, an in-browser demo, and an honest answer to 'what happens if Archon disappears tomorrow?'" />
+  <meta property="og:type" content="website" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Archon Specs Guides: Why It's Faster, Cheaper, and Yours to Keep",
+    "description": "A plain-language guide to Archon Specs: how it works, why it's faster and cheaper than alternatives, and why the generated code stays yours.",
+    "author": { "@type": "Organization", "name": "Archon Specs" }
+  }
+  </script>
+  <!-- ARCHON-MANAGED-SEO-END -->
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link href="./stylesdocs.css" rel="stylesheet" />
+  <link href="./guides.css" rel="stylesheet" />
+  <!-- GSAP + ScrollTrigger for the animated journey section -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/TextPlugin.min.js"></script>
+  <link href="./logo.svg" rel="icon" type="image/svg+xml" />
+  <style>
+    /* ── Archon Cycle video player ── */
+    .acp-wrap {
+      background: var(--bg-card, #111118);
+      border: 1px solid var(--border, #1e1e2e);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 1.75rem 0 0;
+    }
+    .acp-header {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border, #1e1e2e);
+    }
+    .acp-badge {
+      background: var(--orange, #ff5d01);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-family: var(--mono, monospace);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    .acp-title {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .acp-video {
+      width: 100%;
+      display: block;
+      background: #0a0a0f;
+      cursor: pointer;
+    }
+    .acp-chapters {
+      padding: 9px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 0;
+      border-top: 1px solid var(--border, #1e1e2e);
+    }
+    .acp-ch {
+      font-family: var(--mono, monospace);
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 3px 10px;
+      border-radius: 4px;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .acp-ch:hover  { background: var(--orange, #ff5d01); color: #fff; }
+    .acp-ch.active { color: var(--orange, #ff5d01); }
+
+    /* divider between video and interactive journey */
+    .acp-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.5rem 0 1.25rem;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .acp-divider::before,
+    .acp-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border, #1e1e2e);
+    }
+  </style>
+
+  <script src="./analytics.js"></script>
+</head>
+
+<body>
+  <header class="header">
+    <div style="display: flex; align-items: center; gap: 32px;">
+      <a class="logo" href="./index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <img src="./logo.svg" alt="Archon Specs" style="width: 24px; height: 24px;">
+        <span style="font-weight: 900; letter-spacing: .2px; color: var(--text);">Archon Specs</span>
+      </a>
+      <div class="search-container" style="position: relative; display: flex; align-items: center;">
+        <svg style="position: absolute; left: 12px; color: var(--muted);" width="16" height="16" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" placeholder="Search guides..."
+          style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px 8px 36px; color: var(--text); font-size: 14px; width: 240px; outline: none; transition: var(--transition);">
+        <span
+          style="position: absolute; right: 12px; font-size: 10px; color: var(--muted); border: 1px solid var(--border); padding: 2px 4px; border-radius: 4px;">⌘K</span>
+      </div>
+    </div>
+    <nav class="nav-items">
+      <a href="docs.html">Documentation</a>
+      <a class="active" href="guides.html">Guides</a>
+      <a href="sdlc.html">SDLC</a>
+      <a href="uml.html">UML</a>
+      <a href="ai-architecture.html">AI Architecture</a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+        <svg id="sun-icon" style="display: none;" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg id="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <a href="https://github.com/herhu/Archonmcp" target="_blank" style="color: var(--muted);" title="GitHub"><svg width="20"
+          height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg></a>
+      <a href="https://www.npmjs.com/package/archonspecs" target="_blank" style="color: var(--muted);" title="NPM Package">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M0 0v24h24V0H0zm18 18h-2v-8h-2v8h-4v-8H8v8H6V6h12v12z" />
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <!-- ─── Sidebar ────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-section" data-accent="orange">
+        <div class="sidebar-title">Start Here</div>
+        <ul class="sidebar-nav">
+          <li><a href="#intro" class="active">Build in a spec, not a week</a></li>
+          <li><a href="#problem">The problem we solve</a></li>
+          <li><a href="#what">What Archon actually is</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="blue">
+        <div class="sidebar-title">How it works</div>
+        <ul class="sidebar-nav">
+          <li><a href="#workflow">The real workflow</a></li>
+          <li><a href="#journey">Watch it build ↗</a></li>
+          <li><a href="#agents">The 5 specialist agents</a></li>
+          <li><a href="#mcp">MCP-native by design</a></li>
+          <li><a href="#pipeline">The 6 generation stages</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="purple">
+        <div class="sidebar-title">See it work</div>
+        <ul class="sidebar-nav">
+          <li><a href="#try">Try a spec, live</a></li>
+          <li><a href="#worked">A worked example</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="green">
+        <div class="sidebar-title">Why it works</div>
+        <ul class="sidebar-nav">
+          <li><a href="#cheap">Why it's cheap</a></li>
+          <li><a href="#fast">Why it's fast</a></li>
+          <li><a href="#quality">Why the quality holds</a></li>
+          <li><a href="#free">Why you're not locked in</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section" data-accent="pink">
+        <div class="sidebar-title">Decide</div>
+        <ul class="sidebar-nav">
+          <li><a href="#compare">How Archon compares</a></li>
+          <li><a href="#quickstart">Get started</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- ─── Main ───────────────────────────────────────────── -->
+    <main class="content-area">
+      <div class="content-wrapper">
+
+        <!-- ─── Hero ───────────────────────────────────── -->
+        <section id="intro">
+          <div class="section-tag">Guides</div>
+          <h1>Build your backend in one spec, not one week.</h1>
+          <p class="lead">
+            You've started a new project. You already know what's coming: the auth module, the migrations, the
+            Dockerfile, the controllers, the DTOs, the validators. You've written it ten times. You'll write it again.
+          </p>
+          <p class="lead">
+            Or you describe it once — and Archon writes all of it for you. <strong>And the code is yours to keep.</strong>
+          </p>
+
+          <div class="hero-split">
+            <div class="hero-col hero-col-bad">
+              <div class="hero-col-title">Day 1, from scratch</div>
+              <ul class="hero-list">
+                <li><span class="x">×</span> Pick a framework</li>
+                <li><span class="x">×</span> Set up auth (JWT? OAuth? Both?)</li>
+                <li><span class="x">×</span> Write your first entity + migration</li>
+                <li><span class="x">×</span> Wire DTOs, validators, controllers</li>
+                <li><span class="x">×</span> Add Swagger by hand</li>
+                <li><span class="x">×</span> Write the Dockerfile</li>
+                <li><span class="x">×</span> Set up CI</li>
+                <li><span class="x">×</span> <em>Realize you forgot rate limiting</em></li>
+              </ul>
+              <div class="hero-col-stat">⌛ A week — if nothing surprises you.</div>
+            </div>
+            <div class="hero-col hero-col-good">
+              <div class="hero-col-title">Day 1, with Archon</div>
+              <ul class="hero-list">
+                <li><span class="check">✓</span> Write a 20-line spec</li>
+                <li><span class="check">✓</span> Run <code>archon generate</code></li>
+                <li><span class="check">✓</span> Open the generated NestJS project</li>
+                <li><span class="check">✓</span> Auth, migrations, DTOs, Swagger — done</li>
+                <li><span class="check">✓</span> Dockerfile, CI, rate limiting — done</li>
+                <li><span class="check">✓</span> Start writing your <em>actual</em> business logic</li>
+              </ul>
+              <div class="hero-col-stat">⚡ Under a minute. Same output, every time.</div>
+            </div>
+          </div>
+
+          <div class="callout" style="border-left-color: var(--brand);">
+            <div class="callout-title">📜 Why this guide exists</div>
+            <p>You don't know us yet. We're not asking you to take anything on faith. This page shows you what Archon
+              actually does, how it does it, where the numbers come from, and exactly how you can leave whenever you
+              want. By the end you'll know whether it fits — without installing anything.</p>
+          </div>
+        </section>
+
+        <!-- ─── The Problem ────────────────────────────── -->
+        <section id="problem">
+          <div class="section-tag">The Problem</div>
+          <h2>You've already written this backend. Maybe ten times.</h2>
+          <p>Every serious backend project starts with the same ~47 files: a module per domain, an entity per table,
+            CRUD controllers, DTOs with validation, JWT setup, migrations, the Dockerfile, Swagger, error handlers,
+            rate limiting. None of it is novel. None of it is what makes your product different. All of it is required.</p>
+
+          <p>So developers reach for one of four shortcuts. Each has a problem:</p>
+
+          <div class="card-group">
+            <div class="card reveal" style="cursor: default;">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Use a boilerplate</h3>
+              <p class="card-description">Save 2 days now, lose 2 weeks later. Boilerplates rot the moment the
+                framework releases a new version, and you've inherited someone else's opinions forever.</p>
+            </div>
+            <div class="card reveal reveal-d1" style="cursor: default;">
+              <div class="card-icon">🤖</div>
+              <h3 class="card-title">Vibe-code with an LLM</h3>
+              <p class="card-description">Fine for a prototype. By file 30, the AI has forgotten the field types from
+                file 5, hallucinated an import, and the tests don't compile. You pay tokens to fix tokens.</p>
+            </div>
+            <div class="card reveal reveal-d2" style="cursor: default;">
+              <div class="card-icon">🏢</div>
+              <h3 class="card-title">Hire an agency</h3>
+              <p class="card-description">Costs €30,000+ and takes 6 weeks. You get production code. You also get a
+                permanent dependency on someone else's invoice every time you want to add a field.</p>
+            </div>
+            <div class="card reveal reveal-d3" style="cursor: default;">
+              <div class="card-icon">⌨️</div>
+              <h3 class="card-title">Write it yourself</h3>
+              <p class="card-description">Honest, slow, and correct. Two weeks before you ship the first feature anyone
+                outside the team cares about. By then your competitor already launched.</p>
+            </div>
+          </div>
+
+          <p>Archon was built for the fifth option: <strong>describe the system once, generate the code from
+            deterministic templates, own the output forever.</strong></p>
+        </section>
+
+        <!-- ─── What Archon Is ─────────────────────────── -->
+        <section id="what">
+          <div class="section-tag">What it is</div>
+          <h2>An MCP-native architecture platform. Your AI agent runs the design loop with you.</h2>
+          <p>Archon is not a CLI you learn. It's a set of <strong>Model Context Protocol (MCP) servers</strong> that
+            your existing AI agent — Claude Desktop, Cursor, Windsurf, any MCP-capable client — plugs into. The agent
+            you already use gains a new capability: <em>"design and build me a backend, properly."</em></p>
+
+          <p>Behind that single capability lives a team of <strong>five specialist agents</strong> running on a
+            shared memory plane: a vector store for semantic recall, a relational store for historical truth, and
+            local inference for embeddings. They coordinate to take you from a sentence to a production codebase —
+            with the UML class diagram as the contract you approve at every step.</p>
+
+          <p>The actual code is produced by the <strong>Archon Template Engine</strong> — a deterministic compiler
+            we built. Same spec, same output, every time. No LLM is in the code-writing path. That's what makes the
+            engine safe to re-run, predictable to scale, and possible to verify.</p>
+
+          <div class="callout">
+            <div class="callout-title">In one sentence</div>
+            <p>Archon turns a conversation into a UML class diagram you approve, and a UML class diagram into a
+              working backend — with deterministic, repeatable, inspectable steps in between.</p>
+          </div>
+        </section>
+
+        <!-- ─── The Real Workflow ───────────────────────── -->
+        <section id="workflow">
+          <div class="section-tag">The real workflow</div>
+          <h2>From a sentence to shipped code — the five-phase governed lifecycle.</h2>
+          <p>You don't write a spec. You describe what you want, in plain language, to your AI agent. The agent
+            then puts on five different hats — one per phase of the governed lifecycle. <strong>You approve at the
+            two critical gates.</strong> The server refuses to skip a phase.</p>
+
+          <ol class="workflow-list">
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">00</div>
+                <div>
+                  <strong>You describe what you want. In any words.</strong>
+                  <p>"I need a booking platform with rooms, reservations, and customer profiles." That's it. No
+                    syntax to learn. You talk to your AI agent the way you already do.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">01</div>
+                <div>
+                  <strong>Discovery — the Analyst extracts the requirements.</strong>
+                  <p>Asks focused questions to pin down business rules, actors, domain events, and constraints.
+                    Scans available platform modules (Redis, BullMQ, Jenkins, Terraform, NewRelic, …). Locks
+                    everything into a <em>Requirement Contract</em>. <code>archon_workflow_status</code> shifts to
+                    <code>DISCOVERY_DONE</code>.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">02</div>
+                <div>
+                  <strong>System Design — the Architect maps it to bounded contexts.</strong>
+                  <p>Translates the requirements into domain shards, draws the UML class diagram (the contract you
+                    will approve), wires module dependencies, picks the Handlebars helpers needed for the templates,
+                    and emits the Architecture Contract. Hard rule: a minimum of 12 distinct entities for production
+                    workspaces.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step workflow-step-highlight">
+                <div class="workflow-num">⟳</div>
+                <div>
+                  <strong>You iterate on the diagram until it matches your intent.</strong>
+                  <p>"Add a status field to Reservation." "Make Customer the parent of Booking." Each change
+                    redraws the class diagram. The loop ends only when <em>you</em> say the diagram is right.
+                    <strong>This is the most important step in the whole lifecycle.</strong></p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">03</div>
+                <div>
+                  <strong>Compilation &amp; Planning — the Tech Lead validates and plans.</strong>
+                  <p>Compiles all shards into a single <code>DesignSpec.json</code>, runs schema validation, and
+                    fingerprints the spec for immutability. Then produces an <em>execution plan</em>: the exact
+                    diff of files to create, update, or replace. You see it before anything ships.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step workflow-step-highlight">
+                <div class="workflow-num">✓</div>
+                <div>
+                  <strong>You approve the execution plan.</strong>
+                  <p>The state machine refuses to materialize until you transition to <code>USER_APPROVED</code>
+                    with an explicit token. There is no auto-approve. There is no "trust mode." Archon writes
+                    nothing without your green light.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">04</div>
+                <div>
+                  <strong>Materialization — the Orchestrator ships the code.</strong>
+                  <p>Streams the approved execution plan through the governance gateway, writing every file
+                    deterministically: NestJS modules, TypeORM entities, controllers, DTOs, JWT auth, PostgreSQL
+                    migrations, Dockerfile, Jenkinsfile, Terraform, husky hooks. Your
+                    <code>@ArchonManual()</code>-marked code from prior runs is preserved by semantic hashing.</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="workflow-step">
+                <div class="workflow-num">05</div>
+                <div>
+                  <strong>Verification — the Developer guards against drift.</strong>
+                  <p>Verifies lineage, runs <code>archon_reconcile</code> to detect any file that diverged from
+                    the spec, and asks you to decide: align the file with the spec, or protect it (and update the
+                    spec instead). Decisions are logged. Your codebase never silently diverges from its source of
+                    truth.</p>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ─── Animated Build Journey ─────────────────── -->
+        <section id="journey">
+          <div class="section-tag reveal">Watch it build</div>
+          <h2 class="reveal reveal-d1">Engineered part by part. Every layer materializes before your eyes.</h2>
+          <p class="reveal reveal-d2">This is the actual Archon lifecycle — not a diagram, not a flowchart. Each step
+            shows you exactly what one specialist agent produces before handing off to the next. Step through it
+            yourself or watch it auto-advance.</p>
+
+          <!-- ── Archon Cycle video ── -->
+          <div class="acp-wrap reveal">
+            <div class="acp-header">
+              <span class="acp-badge">▶ 23 sec</span>
+              <span class="acp-title">The complete cycle — watch it run, then step through it below</span>
+            </div>
+            <video
+              id="archon-cycle-video"
+              class="acp-video"
+              src="./archon-cycle.mp4"
+              poster="./archon-cycle-poster.jpg"
+              muted
+              playsinline
+              preload="metadata"
+              controls
+            ></video>
+            <div class="acp-chapters">
+              <span class="acp-ch" data-t="0">0:00 Intent</span>
+              <span class="acp-ch" data-t="1.3">0:01 Client</span>
+              <span class="acp-ch" data-t="4.2">0:04 Analyst</span>
+              <span class="acp-ch" data-t="7.0">0:07 Architect</span>
+              <span class="acp-ch" data-t="10.0">0:10 Refinement</span>
+              <span class="acp-ch" data-t="12.3">0:12 Approved ✓</span>
+              <span class="acp-ch" data-t="14.3">0:14 Spec</span>
+              <span class="acp-ch" data-t="17.2">0:17 Validated</span>
+              <span class="acp-ch" data-t="19.2">0:19 47 files 🚀</span>
+            </div>
+          </div>
+
+          <div class="acp-divider">Step through it phase by phase</div>
+
+          <div id="journey-wrap">
+
+            <!-- Progress dots -->
+            <div class="jny-progress">
+              <div class="jny-dot active" data-step="0" title="You — write the intent"></div>
+              <div class="jny-dot" data-step="1" title="Analyst — extract domains"></div>
+              <div class="jny-dot" data-step="2" title="Architect — map structure"></div>
+              <div class="jny-dot" data-step="3" title="Tech Lead — lock the plan"></div>
+              <div class="jny-dot" data-step="4" title="Orchestrator — compile &amp; queue"></div>
+              <div class="jny-dot" data-step="5" title="Developer — ship the files"></div>
+            </div>
+            <div class="jny-phase-labels">
+              <span class="jny-phase-label">Intent</span>
+              <span class="jny-phase-label">Analyst</span>
+              <span class="jny-phase-label">Architect</span>
+              <span class="jny-phase-label">Tech Lead</span>
+              <span class="jny-phase-label">Orchestrator</span>
+              <span class="jny-phase-label">Developer</span>
+            </div>
+
+            <!-- Split stage -->
+            <div class="jny-stage">
+
+              <!-- Left: accumulated artifact -->
+              <div class="jny-left">
+                <div class="jny-pane-label" id="journey-pane-label">Your intent</div>
+                <div id="journey-artifact"></div>
+              </div>
+
+              <!-- Right: active agent -->
+              <div class="jny-right">
+                <div id="journey-agent-card"></div>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="jny-controls">
+              <button id="jny-prev" class="jny-btn" disabled>← Prev</button>
+              <span class="jny-step-label" id="jny-step-label">1 of 6</span>
+              <button id="jny-next" class="jny-btn jny-btn-primary">Next →</button>
+            </div>
+          </div>
+
+          <p style="font-size:12px; color:var(--muted); margin-top:8px; text-align:center;">
+            Use ← → arrow keys or click the dots to jump to any phase.
+            Auto-advances every 3 seconds when idle.
+          </p>
+        </section>
+
+        <!-- ─── The Five Personas ────────────────────────── -->
+        <section id="agents">
+          <div class="section-tag">The five personas</div>
+          <h2>One AI agent. Five hats. Strict separation of duties.</h2>
+          <p>Archon's contract with your AI agent is precise: <strong>each phase has exactly one persona, and the
+            personas don't bleed into each other.</strong> The Analyst doesn't write code. The Builder doesn't
+            renegotiate requirements. This is what makes the lifecycle auditable — at any moment, the workflow
+            state tells you which persona is active and what's allowed next.</p>
+
+          <div class="agents-grid">
+            <div class="agent-card reveal" data-persona="analyst">
+              <div class="agent-phase">Phase 1 · Discovery</div>
+              <div class="agent-icon">🧭</div>
+              <div class="agent-name">The Analyst</div>
+              <p class="agent-role">Extracts business rules, actors, domain events, and constraints from your
+                description. Discovers which platform modules and Handlebars helpers your project needs. Locks the
+                Requirement Contract — the foundation everything else rests on.</p>
+              <div class="agent-tools">
+                <code>archon_workflow_start</code> · <code>archon_list_modules</code> · <code>archon_create_requirement_contract</code>
+              </div>
+              <div class="agent-state">moves state to <code>DISCOVERY_DONE</code></div>
+            </div>
+
+            <div class="agent-card reveal reveal-d1" data-persona="architect">
+              <div class="agent-phase">Phase 2 · System Design</div>
+              <div class="agent-icon">📐</div>
+              <div class="agent-name">The Architect</div>
+              <p class="agent-role">Maps requirements into bounded contexts and domain shards. Draws the UML class
+                diagram you'll approve. Wires module dependencies and cross-cutting concerns. Emits the
+                Architecture Contract — minimum 12 distinct entities for production-grade output.</p>
+              <div class="agent-tools">
+                <code>archon_create_architecture_contract</code> · <code>archon_create_domain_shard</code> · <code>archon_validate_shard</code>
+              </div>
+              <div class="agent-state">moves state to <code>ARCHITECTURE_CONTRACT_CREATED</code></div>
+            </div>
+
+            <div class="agent-card reveal reveal-d2" data-persona="techlead">
+              <div class="agent-phase">Phase 3 · Compilation &amp; Planning</div>
+              <div class="agent-icon">🛡️</div>
+              <div class="agent-name">The Tech Lead</div>
+              <p class="agent-role">Compiles every shard into a single <code>DesignSpec.json</code>. Runs schema
+                validation, fingerprints the spec for immutability, produces the execution plan. The quality gate
+                that catches design issues before any code is written.</p>
+              <div class="agent-tools">
+                <code>archon_compile_spec_shards</code> · <code>archon_validate_spec</code> · <code>archon_fingerprint_spec</code> · <code>archon_plan_project</code>
+              </div>
+              <div class="agent-state">moves state to <code>PLAN_CREATED</code></div>
+            </div>
+
+            <div class="agent-card reveal reveal-d3" data-persona="orchestrator">
+              <div class="agent-phase">Phase 4 · Materialization</div>
+              <div class="agent-icon">⚙️</div>
+              <div class="agent-name">The Orchestrator</div>
+              <p class="agent-role">Presents the plan, collects your approval token, then streams the entire
+                codebase to disk via the governance gateway. Hard server block: rejects materialize calls that
+                aren't in <code>USER_APPROVED</code> state. Monitors the SSE stream end to end.</p>
+              <div class="agent-tools">
+                <code>archon_workflow_continue</code> · <code>archon_workflow_materialize</code> · <code>archon_materialization_status</code>
+              </div>
+              <div class="agent-state">moves state to <code>DELIVERED</code></div>
+            </div>
+
+            <div class="agent-card reveal reveal-d4" data-persona="developer">
+              <div class="agent-phase">Phase 5 · Verification</div>
+              <div class="agent-icon">🔬</div>
+              <div class="agent-name">The Developer</div>
+              <p class="agent-role">Verifies lineage on the delivered workspace. Runs reconciliation to detect any
+                file that drifted from the spec. Asks whether each drift should be aligned (revert the file) or
+                protected (update the spec). Every decision is logged to <code>.antigravity/decisions/</code>.</p>
+              <div class="agent-tools">
+                <code>archon_verify_local</code> · <code>archon_reconcile</code> · <code>archon_diff_spec</code>
+              </div>
+              <div class="agent-state">state stays at <code>DELIVERED</code> · drift detected → loops to Analyst</div>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 32px;">
+            <div class="callout-title">🔒 The governance state machine is the source of truth.</div>
+            <p>Every persona's tools only run in the right state.
+              <code>NEW → WORKSPACE_INITIALIZED → DISCOVERY_DONE → ARCHITECTURE_CONTRACT_CREATED → SPEC_COMPILED →
+              SPEC_VALIDATED → PLAN_CREATED → USER_APPROVED → GENERATED → DELIVERED</code>. The server rejects any
+              tool call that doesn't match the current state. There is no way to "skip a phase" — not for the
+              agent, not for the user, not for us.</p>
+          </div>
+        </section>
+
+        <!-- ─── MCP-native ──────────────────────────────── -->
+        <section id="mcp">
+          <div class="section-tag">MCP-native</div>
+          <h2>Your AI agent already knows how to use Archon.</h2>
+          <p>Archon is built on the <strong>Model Context Protocol</strong> — the open standard for how AI agents
+            talk to external tools. That means:</p>
+
+          <div class="mcp-grid">
+            <div class="mcp-point reveal">
+              <div class="mcp-num">→</div>
+              <div>
+                <strong>No new editor. No new CLI to learn.</strong>
+                <p>If you use Claude Desktop, Cursor, Windsurf, Zed, or any other MCP-capable client, you already
+                  have the interface to Archon. Configure once, talk normally.</p>
+              </div>
+            </div>
+            <div class="mcp-point">
+              <div class="mcp-num">→</div>
+              <div>
+                <strong>The agent does the talking.</strong>
+                <p>You describe what you want. The agent figures out which Archon tools to call, in what order,
+                  with what arguments. You see the diagrams. You approve the gates. The orchestration is invisible.</p>
+              </div>
+            </div>
+            <div class="mcp-point">
+              <div class="mcp-num">→</div>
+              <div>
+                <strong>One gateway, many tools.</strong>
+                <p>The Archon gateway exposes ~40 MCP tools (parse, validate, compile, plan, generate, reconcile,
+                  search memory, find decisions, manage workflows, …). Your agent picks them up automatically.</p>
+              </div>
+            </div>
+            <div class="mcp-point">
+              <div class="mcp-num">→</div>
+              <div>
+                <strong>Open protocol = no vendor lock.</strong>
+                <p>MCP is an open spec. The same protocol that lets your agent talk to Archon lets it talk to
+                  GitHub, Slack, Postgres, anything. We didn't invent the wire format. We just speak it fluently.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout" style="margin-top: 32px;">
+            <div class="callout-title">⚡ The CLI is the back door, not the front door.</div>
+            <p>Yes, there's an <code>archon</code> CLI — useful for CI, scripted runs, and power users. But the
+              <em>intended</em> way to use Archon is through your AI agent. The CLI exists for the day you want it,
+              not the day you start.</p>
+          </div>
+        </section>
+
+        <!-- ─── 6-Stage Pipeline ───────────────────────── -->
+        <section id="pipeline">
+          <div class="section-tag">How it works</div>
+          <h2>From spec to working backend in six stages.</h2>
+          <p>Every generation goes through the same six stages. Each stage is inspectable. Each stage is reversible.
+            Each stage produces an artifact you can read.</p>
+
+          <div class="pipeline-svg-wrap reveal">
+            <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" class="pipeline-svg">
+              <!-- Stages -->
+              <g class="pipeline-stage" data-i="0">
+                <rect x="10" y="80" rx="10" ry="10" width="110" height="60" />
+                <text x="65" y="105" text-anchor="middle" class="stage-num">1</text>
+                <text x="65" y="125" text-anchor="middle" class="stage-name">Parse</text>
+              </g>
+              <g class="pipeline-stage" data-i="1">
+                <rect x="140" y="80" rx="10" ry="10" width="110" height="60" />
+                <text x="195" y="105" text-anchor="middle" class="stage-num">2</text>
+                <text x="195" y="125" text-anchor="middle" class="stage-name">Transform</text>
+              </g>
+              <g class="pipeline-stage" data-i="2">
+                <rect x="270" y="80" rx="10" ry="10" width="110" height="60" />
+                <text x="325" y="105" text-anchor="middle" class="stage-num">3</text>
+                <text x="325" y="125" text-anchor="middle" class="stage-name">Validate</text>
+              </g>
+              <g class="pipeline-stage" data-i="3">
+                <rect x="400" y="80" rx="10" ry="10" width="110" height="60" />
+                <text x="455" y="105" text-anchor="middle" class="stage-num">4</text>
+                <text x="455" y="125" text-anchor="middle" class="stage-name">Plan</text>
+              </g>
+              <g class="pipeline-stage" data-i="4">
+                <rect x="530" y="80" rx="10" ry="10" width="110" height="60" />
+                <text x="585" y="105" text-anchor="middle" class="stage-num">5</text>
+                <text x="585" y="125" text-anchor="middle" class="stage-name">Generate</text>
+              </g>
+              <g class="pipeline-stage" data-i="5">
+                <rect x="660" y="80" rx="10" ry="10" width="130" height="60" />
+                <text x="725" y="105" text-anchor="middle" class="stage-num">6</text>
+                <text x="725" y="125" text-anchor="middle" class="stage-name">Materialize</text>
+              </g>
+
+              <!-- Connectors -->
+              <line x1="120" y1="110" x2="140" y2="110" class="pipeline-line" />
+              <line x1="250" y1="110" x2="270" y2="110" class="pipeline-line" />
+              <line x1="380" y1="110" x2="400" y2="110" class="pipeline-line" />
+              <line x1="510" y1="110" x2="530" y2="110" class="pipeline-line" />
+              <line x1="640" y1="110" x2="660" y2="110" class="pipeline-line" />
+
+              <!-- Bottom legends -->
+              <text x="65" y="170" text-anchor="middle" class="stage-legend">ASCII / spec</text>
+              <text x="65" y="186" text-anchor="middle" class="stage-legend-sub">→ DiagramIR</text>
+
+              <text x="195" y="170" text-anchor="middle" class="stage-legend">DiagramIR</text>
+              <text x="195" y="186" text-anchor="middle" class="stage-legend-sub">→ DesignSpec</text>
+
+              <text x="325" y="170" text-anchor="middle" class="stage-legend">Schema rules</text>
+              <text x="325" y="186" text-anchor="middle" class="stage-legend-sub">enforced</text>
+
+              <text x="455" y="170" text-anchor="middle" class="stage-legend">Diff vs. state</text>
+              <text x="455" y="186" text-anchor="middle" class="stage-legend-sub">→ ExecutionPlan</text>
+
+              <text x="585" y="170" text-anchor="middle" class="stage-legend">Templates</text>
+              <text x="585" y="186" text-anchor="middle" class="stage-legend-sub">→ TypeScript</text>
+
+              <text x="725" y="170" text-anchor="middle" class="stage-legend">Write + hash</text>
+              <text x="725" y="186" text-anchor="middle" class="stage-legend-sub">+ verify</text>
+
+              <!-- Pulse dot that travels along the path -->
+              <circle r="6" class="pipeline-pulse">
+                <animateMotion dur="6s" repeatCount="indefinite"
+                  path="M 65 110 L 195 110 L 325 110 L 455 110 L 585 110 L 725 110" />
+              </circle>
+            </svg>
+          </div>
+
+          <!-- Interactive detail panel — populated by guides-journey.js on stage click -->
+          <div id="pipeline-detail"></div>
+
+          <p style="color: var(--muted); font-size: 13px; margin-top: 12px;">
+            Each box is a separate, testable Archon component. <strong style="color:var(--text);">Click any stage</strong>
+            to see exactly what it does. Every artifact between stages is written to disk so you can open it, diff it,
+            and reason about it. There is no magic step — there is no LLM at any of these stages.
+          </p>
+        </section>
+
+        <!-- ─── Interactive demo ──────────────────────── -->
+        <section id="try">
+          <div class="section-tag">Try it</div>
+          <h2>Watch a spec become a diagram, then a codebase — live.</h2>
+          <p>In a real project, your AI agent describes your intent to the Archon MCP servers; the
+            <strong>Architect persona</strong> drafts a UML class diagram inside an <em>Architecture Contract</em>;
+            you iterate until the diagram matches what you meant; <em>then</em> the Tech Lead compiles it and the
+            Orchestrator ships the code. This is that loop, compressed into one interactive panel:</p>
+          <ol class="try-steps">
+            <li><strong>Edit the spec</strong> on the top — entities, fields, relations.</li>
+            <li><strong>Watch the class diagram</strong> redraw in real time — same algorithm the Architect uses to
+              produce the contract you'll approve.</li>
+            <li><strong>Browse the generated files</strong> below — 60+ production files from 22 lines of spec.</li>
+          </ol>
+
+          <div class="demo-stack">
+
+            <!-- Spec editor: full width, short height. The "input" you control. -->
+            <div class="demo-pane demo-pane-spec">
+              <div class="demo-pane-header">
+                <span class="demo-pane-title">spec.archon</span>
+                <span class="demo-pane-meta" id="demo-file-count">0 files</span>
+                <button id="demo-reset" class="demo-btn">Reset</button>
+              </div>
+              <textarea id="demo-spec" spellcheck="false" autocomplete="off">User {
+  id: uuid primary
+  email: string
+  username: string
+  passwordHash: string
+}
+
+Post {
+  id: uuid primary
+  authorId: User
+  title: string
+  body: text
+  publishedAt: datetime
+}
+
+Comment {
+  id: uuid primary
+  postId: Post
+  authorId: User
+  content: text
+}</textarea>
+            </div>
+
+            <!-- UML Class Diagram pane — rendered live from the spec, just like the Architect persona does -->
+            <div class="demo-uml" id="demo-uml">
+              <div class="demo-pane-header demo-uml-header">
+                <span class="demo-pane-title">
+                  <span class="demo-uml-icon">⬡</span> class diagram
+                  <span class="demo-uml-byline">— drafted by <strong>the Architect persona</strong> · <em>the contract you approve</em></span>
+                </span>
+                <button class="demo-btn demo-uml-toggle" id="demo-uml-toggle" title="Show / hide diagram">▾</button>
+              </div>
+              <div class="demo-uml-body" id="demo-uml-body">
+                <div class="demo-uml-render" id="demo-uml-render">
+                  <div class="demo-uml-loading">rendering diagram…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Auto-tour control strip -->
+            <div class="demo-tour-bar" id="demo-tour-bar">
+              <button class="demo-tour-btn" id="demo-tour-prev" title="Previous (←)" aria-label="Previous">◀</button>
+              <button class="demo-tour-btn demo-tour-play" id="demo-tour-play" title="Pause auto-tour (space)" aria-label="Pause">⏸</button>
+              <button class="demo-tour-btn" id="demo-tour-next" title="Next (→)" aria-label="Next">▶</button>
+              <div class="demo-tour-info">
+                <span class="demo-tour-mode" id="demo-tour-mode">tour</span>
+                <span class="demo-tour-path" id="demo-current-file">src/user/user.controller.ts</span>
+                <span class="demo-tour-progress" id="demo-tour-progress">1 / 8</span>
+              </div>
+            </div>
+
+            <!-- Bottom split: file tree + code preview -->
+            <div class="demo-bottom">
+              <div class="demo-pane demo-pane-tree">
+                <div class="demo-pane-header">
+                  <span class="demo-pane-title">Generated files</span>
+                  <span class="demo-pane-meta" id="demo-file-summary"></span>
+                </div>
+                <div id="demo-tree" class="demo-tree"></div>
+              </div>
+
+              <div class="demo-pane demo-pane-code">
+                <div class="demo-pane-header">
+                  <span class="demo-pane-title">preview</span>
+                  <span class="demo-pane-meta demo-pane-meta-faint">click any file or use ◀ ▶</span>
+                </div>
+                <pre id="demo-code"><code>// loading…</code></pre>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="demo-legend">
+            <strong>Files are color-coded by tier.</strong>
+            <span class="legend-chip tier-pill-entity">entity</span> CRUD scaffolding per domain ·
+            <span class="legend-chip tier-pill-platform">platform</span> auth, health, error envelopes, logging,
+            correlation IDs, config validation ·
+            <span class="legend-chip tier-pill-infra">infra</span> Dockerfile, docker-compose, Jenkinsfile, Frogbot,
+            Terraform, SonarQube, NewRelic, husky hooks, migration SQL ·
+            <span class="legend-chip tier-pill-config">config</span> root <code>package.json</code>,
+            <code>tsconfig</code>, ESLint, Prettier, <code>.env.example</code>, README, VS Code launch.
+          </div>
+
+          <p style="color: var(--muted); font-size: 13px; margin-top: 12px;">
+            <strong>How this differs from a real run:</strong> in production, your AI agent calls Archon's MCP
+            servers, which run schema validation, retrieve past architectural decisions via semantic search, apply
+            your platform feature flags, manage workflow state, and stream changes back to your workspace with
+            governance gates. This panel shows the <em>shape</em> and <em>scope</em> of that output, locally — so you
+            can feel what Archon produces without installing anything.
+          </p>
+        </section>
+
+        <!-- ─── Worked Example ──────────────────────── -->
+        <section id="worked">
+          <div class="section-tag">A worked example</div>
+          <h2>What "describe a booking system" actually means.</h2>
+          <p>Let's say you're building a booking platform — rooms, reservations, customers. You write this:</p>
+
+          <div class="code-block">
+            <div class="code-header"><span class="tag">spec.archon</span></div>
+            <pre><code>Customer {
+  id: uuid primary
+  email: string
+  name: string
+}
+
+Room {
+  id: uuid primary
+  name: string
+  capacity: int
+  pricePerNight: decimal
+}
+
+Reservation {
+  id: uuid primary
+  customerId: Customer
+  roomId: Room
+  checkIn: date
+  checkOut: date
+  status: string
+}</code></pre>
+          </div>
+
+          <p>And Archon writes <strong>all of this</strong>, ready to run:</p>
+
+          <ul class="worked-list">
+            <li>3 NestJS modules wired into the root <code>AppModule</code></li>
+            <li>3 TypeORM entity classes with foreign-key columns and indexes</li>
+            <li>3 service classes with full CRUD methods and repository injection</li>
+            <li>3 REST controllers exposing <code>GET / POST / PATCH / DELETE</code> with typed routes</li>
+            <li>6 DTO classes (Create + Update for each entity) with <code>class-validator</code> decorators</li>
+            <li>3 PostgreSQL migration files with proper foreign keys and rollback</li>
+            <li>Swagger / OpenAPI decorators on every endpoint</li>
+            <li>JWT auth guard wired and ready to attach</li>
+            <li><code>Dockerfile</code>, <code>docker-compose.yml</code>, <code>package.json</code>, <code>tsconfig.json</code></li>
+            <li><code>Jenkinsfile</code> with build, lint, test, and deploy stages</li>
+            <li>NGINX reverse-proxy config, environment variable validation</li>
+            <li>Rate limiting, CORS, security headers, error handler, logger</li>
+          </ul>
+
+          <p>That's roughly <strong>47 files</strong>. From 22 lines of spec. The next time you change one field, only
+            the affected files re-generate — your manual code in between is preserved.</p>
+        </section>
+
+        <!-- ─── Why Cheap ─────────────────────────────── -->
+        <section id="cheap">
+          <div class="section-tag">Why it's cheap</div>
+          <h2>Because we're not paying an LLM to write your boilerplate.</h2>
+
+          <p>Other AI code-gen tools call a large language model for every file they produce. If your project has 47
+            files, that's 47 prompts, 47 round-trips, and 47 chances for the model to hallucinate. You pay for the
+            tokens. You pay again when it gets one wrong and you re-prompt. You pay forever, every time you regenerate.</p>
+
+          <p>Archon doesn't call an LLM at generation time. The actual code is produced by the
+            <strong>Archon Template Engine</strong> — a deterministic compiler we built specifically to translate a
+            validated spec into production-grade TypeScript. It runs locally, on your machine, in milliseconds. The
+            only AI step is optional and lives <em>in front</em> of the spec (helping you draft it), not behind it.</p>
+
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="cost-card-title">Token cost to generate a 50-file backend</div>
+              <div class="cost-card-row"><span>Vibe-coding with an LLM</span><span class="cost-bad">≈ $4–8 per attempt</span></div>
+              <div class="cost-card-row"><span>Cursor / Copilot subscription</span><span class="cost-bad">$20/mo × everyone</span></div>
+              <div class="cost-card-row"><span>Archon templates</span><span class="cost-good">$0.00</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Cost to regenerate after adding 1 field</div>
+              <div class="cost-card-row"><span>LLM agent (full re-prompt)</span><span class="cost-bad">≈ $4–8 again</span></div>
+              <div class="cost-card-row"><span>Boilerplate</span><span class="cost-bad">manual edits, ~30 min</span></div>
+              <div class="cost-card-row"><span>Archon (incremental)</span><span class="cost-good">$0.00, &lt; 1 second</span></div>
+            </div>
+          </div>
+
+          <div class="bench-insight">
+            <span class="bench-insight-label">Bottom line</span> The cost of generation is not the cost of inference.
+            Archon's generation step is essentially free because the expensive part — designing the templates — happened
+            once, by us. You inherit it forever.
+          </div>
+        </section>
+
+        <!-- ─── Why Fast ───────────────────────────────── -->
+        <section id="fast">
+          <div class="section-tag">Why it's fast</div>
+          <h2>Because there's no model to wait for.</h2>
+          <p>These numbers are pulled from the live <a href="benchmarks.html">benchmarks page</a>, last measured on
+            2026-05-15. They are not marketing claims — they're reproducible by anyone who clones the repo.</p>
+
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="cost-card-title">Spec compilation (200-entity enterprise spec)</div>
+              <div class="cost-card-row"><span>Average</span><span class="cost-good">0.38 ms</span></div>
+              <div class="cost-card-row"><span>Throughput</span><span class="cost-good">520,000 entities/sec</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>Source</span><span>benchmark.ts → B1</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Materializing 50 files to disk</div>
+              <div class="cost-card-row"><span>Total wall-clock</span><span class="cost-good">≈ 4 ms</span></div>
+              <div class="cost-card-row"><span>Throughput</span><span class="cost-good">12,500 ops/sec</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>Source</span><span>benchmark.ts → B4</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Drift scan over a 10,000-file workspace</div>
+              <div class="cost-card-row"><span>Total scan time</span><span class="cost-good">2 ms</span></div>
+              <div class="cost-card-row"><span>Result</span><span class="cost-good">Linear, predictable</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>Source</span><span>benchmark-scaling.ts → B5</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Compared to an LLM agent</div>
+              <div class="cost-card-row"><span>LLM per file</span><span class="cost-bad">2–8 sec network round-trip</span></div>
+              <div class="cost-card-row"><span>LLM for 50 files</span><span class="cost-bad">≈ 2–6 minutes</span></div>
+              <div class="cost-card-row"><span>Archon for 50 files</span><span class="cost-good">≈ 4 ms (≈ 30,000× faster)</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Why Quality ───────────────────────────── -->
+        <section id="quality">
+          <div class="section-tag">Why the quality holds</div>
+          <h2>Because templates can be tested. Hallucinations can't.</h2>
+          <p>An LLM produces a different file every time you ask. You can't write a unit test against "what the model
+            felt like writing this morning." A template, on the other hand, is just code. We run a real ESLint pass and
+            a real TypeScript compile against the actual output of every Archon release.</p>
+
+          <div class="cost-grid">
+            <div class="cost-card">
+              <div class="cost-card-title">TypeScript compiler pass rate</div>
+              <div class="cost-card-row"><span>Archon generated code</span><span class="cost-good">94 %</span></div>
+              <div class="cost-card-row"><span>Generic LLM scaffold (est.)</span><span class="cost-bad">~55 %</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>What this means</span><span>The output type-checks before you touch it</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">ESLint clean rate</div>
+              <div class="cost-card-row"><span>Archon generated code</span><span class="cost-good">100 %</span></div>
+              <div class="cost-card-row"><span>Generic LLM scaffold (est.)</span><span class="cost-bad">~70 %</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>What this means</span><span>No phantom imports, no unused vars</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Architectural drift over 100 spec mutations</div>
+              <div class="cost-card-row"><span>Archon</span><span class="cost-good">0 % drift</span></div>
+              <div class="cost-card-row"><span>Generic LLM scaffold</span><span class="cost-bad">82 % drifted</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>What this means</span><span>Files stay in sync with the spec, always</span></div>
+            </div>
+            <div class="cost-card">
+              <div class="cost-card-title">Manual code preservation</div>
+              <div class="cost-card-row"><span>Marked manual blocks</span><span class="cost-good">100 % preserved</span></div>
+              <div class="cost-card-row"><span>Re-generation overwrites</span><span class="cost-good">Never</span></div>
+              <div class="cost-card-row" style="color: var(--muted); font-size: 13px;"><span>What this means</span><span>Your business logic survives every regen</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ─── Not Locked In ───────────────────────── -->
+        <section id="free">
+          <div class="section-tag">Read this part carefully</div>
+          <h2>What happens if Archon disappears tomorrow?</h2>
+          <p><strong>Nothing breaks.</strong> Here's exactly why — no marketing language, just facts:</p>
+
+          <div class="freedom-list">
+            <div class="freedom-row">
+              <div class="freedom-row-num">1</div>
+              <div>
+                <strong>The generated code has no runtime dependency on Archon.</strong>
+                <p>What you ship to production is plain NestJS + TypeScript + PostgreSQL. Open
+                  <code>package.json</code> — Archon is not in it. There's no SDK, no client library, no required
+                  service call. The code that runs in your container has never heard of us.</p>
+              </div>
+            </div>
+            <div class="freedom-row">
+              <div class="freedom-row-num">2</div>
+              <div>
+                <strong>You can delete the <code>.archon/</code> directory at any time.</strong>
+                <p>That folder holds the spec, the state manifest, and the lineage data. Delete it and you have a
+                  clean NestJS repo with no trace of Archon. Your <code>git history</code> still works. Your tests
+                  still pass. The only thing you lose is the ability to re-generate from the spec — which is fine,
+                  because the code is already there.</p>
+              </div>
+            </div>
+            <div class="freedom-row">
+              <div class="freedom-row-num">3</div>
+              <div>
+                <strong>The CLI is open-source and self-hostable.</strong>
+                <p>The entire Archon engine — parser, validator, generator, materializer — is published under
+                  <code>archonspecs</code> on npm and the source is on
+                  <a href="https://github.com/herhu/Archonmcp" target="_blank">GitHub</a>. If our hosted service
+                  vanishes, you can keep generating locally forever. Fork it. Change templates. Make it yours.</p>
+              </div>
+            </div>
+            <div class="freedom-row">
+              <div class="freedom-row-num">4</div>
+              <div>
+                <strong>What goes in and what comes out — both belong to you.</strong>
+                <p>The spec you write is yours. The TypeScript we produce is yours — plain code in your repo, under
+                  your git, with no Archon symbols inside it. Between them sits the <strong>Archon Template
+                  Engine</strong>, the compiler we've spent years sharpening so a 22-line spec becomes 47 working
+                  files in milliseconds. The inputs are open. The outputs are yours forever. The craft in the
+                  middle is ours — and it's why this works at all.</p>
+              </div>
+            </div>
+            <div class="freedom-row">
+              <div class="freedom-row-num">5</div>
+              <div>
+                <strong>The spec format is open and documented.</strong>
+                <p>The contract you write against is published JSON Schema
+                  (<code>ArchitectureContract.schema.json</code>) — public, versioned, and stable. You can read it,
+                  validate against it, and tool around it. If one day you want to build something on top of
+                  Archon-format specs, the door is wide open.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout" style="border-left-color: #10b981;">
+            <div class="callout-title">🪶 The principle</div>
+            <p>The cost of leaving Archon should always be lower than the cost of staying for the wrong reasons. If
+              one day you outgrow it, hate it, or just want to write code by hand again — you don't owe us a thing.
+              You walk away with a clean codebase, full git history, and zero unwinding to do.</p>
+          </div>
+        </section>
+
+        <!-- ─── Comparison ────────────────────────────── -->
+        <section id="compare">
+          <div class="section-tag">Decide</div>
+          <h2>How Archon compares to the alternatives.</h2>
+          <p>An honest table. Where the alternative is better at something, we say so.</p>
+
+          <div style="overflow-x: auto; margin-top: 24px;">
+            <table class="compare-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Archon Specs</th>
+                  <th>Boilerplate</th>
+                  <th>LLM agent</th>
+                  <th>Agency</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-label">Setup time</td>
+                  <td class="good">~1 min</td>
+                  <td>~10 min</td>
+                  <td>~30 min</td>
+                  <td class="bad">~2 weeks</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Cost per project</td>
+                  <td class="good">free CLI / cheap hosted</td>
+                  <td>free–$200 one-time</td>
+                  <td>$20/mo + tokens</td>
+                  <td class="bad">€30k+</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Deterministic output</td>
+                  <td class="good">yes — same spec → same code</td>
+                  <td>yes</td>
+                  <td class="bad">no</td>
+                  <td>depends on the dev</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Regenerate safely after spec change</td>
+                  <td class="good">yes, incremental + drift-aware</td>
+                  <td class="bad">no, manual merge</td>
+                  <td class="bad">no, prompt drift</td>
+                  <td>only with another invoice</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Code quality (TSC + lint clean)</td>
+                  <td class="good">94 % / 100 %</td>
+                  <td>varies wildly</td>
+                  <td class="bad">~55 % / ~70 %</td>
+                  <td class="good">usually high</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Runtime dependency on the tool</td>
+                  <td class="good">none</td>
+                  <td class="good">none</td>
+                  <td class="good">none</td>
+                  <td class="good">none</td>
+                </tr>
+                <tr>
+                  <td class="row-label">You can leave at any time</td>
+                  <td class="good">yes, code is plain NestJS</td>
+                  <td class="good">yes</td>
+                  <td class="good">yes</td>
+                  <td>yes — at hand-over</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Good for: prototyping</td>
+                  <td class="good">excellent</td>
+                  <td>okay</td>
+                  <td class="good">excellent</td>
+                  <td class="bad">overkill</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Good for: long-lived production</td>
+                  <td class="good">excellent</td>
+                  <td class="bad">decays fast</td>
+                  <td class="bad">drifts fast</td>
+                  <td class="good">excellent</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ─── Quickstart ──────────────────────────── -->
+        <section id="quickstart">
+          <div class="section-tag">Get started</div>
+          <h2>Connect Archon to your AI agent. World-class standard install.</h2>
+          <p>Three steps, once. After that, Archon lives inside the AI agent you already use — no new editor, no
+            new chat window, no context-switching.</p>
+
+          <!-- The clients we work with -->
+          <div class="clients-strip">
+            <span class="clients-label">works with any MCP-capable agent:</span>
+            <span class="client-badge">Claude Desktop</span>
+            <span class="client-badge">Claude Code</span>
+            <span class="client-badge">Cursor</span>
+            <span class="client-badge">Antigravity</span>
+            <span class="client-badge">OpenClaw</span>
+            <span class="client-badge">Windsurf</span>
+            <span class="client-badge">VS Code <small>(Cline / Continue)</small></span>
+            <span class="client-badge">Zed</span>
+            <span class="client-badge muted">+ anything that speaks MCP</span>
+          </div>
+
+          <!-- Step 1: Install the CLI bridge -->
+          <div class="qstep">
+            <div class="qstep-num">1</div>
+            <div class="qstep-body">
+              <h3>Install the Archon CLI bridge — one line</h3>
+              <p>The CLI is a tiny stdio ↔ SSE proxy that lets any MCP-capable agent talk to the Archon remote
+                gateway. Installing it globally exposes the <code>archonspecs</code> command anywhere on your
+                machine.</p>
+              <div class="code-block">
+                <div class="code-header"><span class="tag">terminal</span></div>
+                <pre><code>npm install -g archonspecs</code></pre>
+              </div>
+              <p style="font-size: 13px; color: var(--muted); margin-top: 8px;">
+                Already installed? Skip ahead. Want to verify? <code>archonspecs --version</code>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2: Token -->
+          <div class="qstep">
+            <div class="qstep-num">2</div>
+            <div class="qstep-body">
+              <h3>Local Zero-Token Execution</h3>
+              <p>Archon Specs runs 100% locally on your machine. No accounts, API tokens, or cloud logins required — you can invoke the MCP server directly via <code>npx archonspecs mcp</code>.</p>
+            </div>
+          </div>
+
+          <!-- Step 3: MCP config -->
+          <div class="qstep">
+            <div class="qstep-num">3</div>
+            <div class="qstep-body">
+              <h3>Add Archon to your agent's MCP config</h3>
+              <p>Drop the snippet below into your agent's MCP configuration and replace
+                <code>&lt;YOUR_TOKEN&gt;</code> with the token from step 2. <strong>Same JSON, every client.</strong>
+                Whether it's <code>claude_desktop_config.json</code>, Cursor's settings, Antigravity's MCP panel,
+                OpenClaw's config — the snippet is identical. World-class standard, no custom wrappers.</p>
+              <div class="code-block">
+                <div class="code-header"><span class="tag">claude_desktop_config.json &nbsp;·&nbsp; cursor settings &nbsp;·&nbsp; any MCP client</span></div>
+                <pre><code>{
+  "mcpServers": {
+    "archonspecs-mcp": {
+      "command": "npx",
+      "args": [
+        "-y", "archonspecs", "mcp"
+      ]
+    }
+  }
+}</code></pre>
+              </div>
+              <p style="font-size: 13px; color: var(--muted); margin-top: 8px;">
+                The token travels inside the SSE URL — the bridge keeps it local; only the remote gateway ever sees
+                it. Restart your agent and Archon's ~40 tools appear in the tool drawer.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4: Use -->
+          <div class="qstep qstep-final">
+            <div class="qstep-num">→</div>
+            <div class="qstep-body">
+              <h3>Open your agent. Describe what you want.</h3>
+              <p>That's it. You don't run a CLI. You don't open Archon's UI. You talk to the AI agent you already
+                use, the way you already talk to it:</p>
+              <blockquote class="qstep-quote">
+                "Design me a booking platform with rooms, reservations, and customer profiles. Use JWT auth,
+                PostgreSQL, and a worker queue for email confirmations."
+              </blockquote>
+              <p>The Analyst captures the intent. The Architect draws the diagram. You iterate. The Tech Lead
+                validates and plans. You approve. The Orchestrator ships the code. The Developer guards against
+                drift. <strong>That whole five-phase loop happens inside the AI agent you already use.</strong></p>
+            </div>
+          </div>
+
+          <p style="margin-top: 32px;">The full MCP reference and tool catalog are in the
+            <a href="docs.html">documentation</a>. The reproducible benchmark numbers are on the
+            <a href="benchmarks.html">benchmarks page</a>. The source is on
+            <a href="https://github.com/herhu/Archonmcp" target="_blank">GitHub</a>.</p>
+        </section>
+
+        <!-- ─── FAQ ─────────────────────────────────── -->
+        <section id="faq">
+          <div class="section-tag">FAQ</div>
+          <h2>The questions people actually ask.</h2>
+
+          <details class="faq-item">
+            <summary>Is the generated code production-ready or "just a scaffold"?</summary>
+            <p>Production-ready. The templates produce code with proper error handling, validation, security
+              headers, rate limiting, structured logging, and JWT auth wired by default. We use the same templates
+              for our own production services. Where it stops is your business logic — Archon doesn't pretend to
+              know what your app actually does.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What if I need a framework other than NestJS?</summary>
+            <p>Today, NestJS + PostgreSQL is the only supported stack. Templates for Express + Prisma and Fastify +
+              MongoDB are on the roadmap. The architecture supports it — it's just template work.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I edit the generated code by hand?</summary>
+            <p>Yes, and it survives re-generation. Mark a block with the <code>@ArchonManual</code> decorator and
+              Archon will preserve its contents across every future <code>archon generate</code> run. It uses
+              semantic hashing to detect manual edits separately from drift.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What does Archon look at to figure out what changed?</summary>
+            <p>A state manifest — <code>.archon/state.json</code> — stores a SHA-256 hash of every file Archon
+              wrote, plus the spec fingerprint that produced it. On the next generation, the ChangePlanner diffs
+              the new spec against the manifest, and only the affected files are touched. Nothing else moves.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Do you call an LLM during generation?</summary>
+            <p>No. The optional AI features (spec drafting helpers, design review) happen <em>before</em>
+              generation, never during. The code-producing path is 100 % deterministic templates.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Why is this open source?</summary>
+            <p>Because trust requires it. A code-gen tool you can't read is a code-gen tool you can't trust. The
+              CLI, the templates, the schemas — all of it is on GitHub. Read it. Fork it. Send a PR.</p>
+          </details>
+
+          <details class="faq-item">
+            <summary>What's the catch?</summary>
+            <p>You have to write the spec. Archon doesn't read your mind, doesn't scrape your Figma, doesn't guess
+              what tables you need. The investment moves <em>upstream</em> — from typing code to thinking clearly
+              about your domain. If that's not the trade-off you want, Archon won't feel worth it.</p>
+          </details>
+        </section>
+
+        <section style="margin-top: 96px; padding-top: 48px; border-top: 1px solid var(--border); text-align: center; color: var(--muted);">
+          <p style="font-size: 14px;">Still on the fence? Open the <a href="benchmarks.html">benchmarks page</a> — every number on this guide is reproducible.</p>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // ─── Theme toggle (shared pattern) ────────────────────────
+    (function () {
+      const themeToggle = document.getElementById('theme-toggle');
+      const sunIcon = document.getElementById('sun-icon');
+      const moonIcon = document.getElementById('moon-icon');
+      const html = document.documentElement;
+      themeToggle.addEventListener('click', () => {
+        const isDark = html.getAttribute('data-theme') !== 'light';
+        if (isDark) {
+          html.setAttribute('data-theme', 'light');
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        } else {
+          html.removeAttribute('data-theme');
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        }
+      });
+    })();
+
+    // ─── Sidebar active-link tracking on scroll ───────────────
+    (function () {
+      const links = document.querySelectorAll('.sidebar-nav a');
+      const sections = Array.from(document.querySelectorAll('.content-wrapper section[id]'));
+      const main = document.querySelector('.content-area');
+      function onScroll() {
+        const scrollY = main.scrollTop + 100;
+        let activeId = sections[0]?.id;
+        for (const s of sections) {
+          if (s.offsetTop <= scrollY) activeId = s.id;
+        }
+        links.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + activeId);
+        });
+      }
+      main?.addEventListener('scroll', onScroll);
+    })();
+  </script>
+  <!-- Mermaid for the live UML class diagram in the Try-It section.
+       Loaded from CDN, ESM build, initialized with theme matching the page. -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      securityLevel: 'loose',
+      themeVariables: {
+        primaryColor: '#1c1f26',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ff5d01',
+        lineColor: '#9daab6',
+        secondaryColor: '#161b22',
+        tertiaryColor: '#0d1117',
+        classText: '#ffffff',
+        fontFamily: "'JetBrains Mono', monospace",
+        fontSize: '13px',
+      },
+      flowchart: { useMaxWidth: true },
+      class: { useMaxWidth: true },
+    });
+    window.__archonMermaid = mermaid;
+    // Tell the demo JS that Mermaid is ready
+    window.dispatchEvent(new Event('archon-mermaid-ready'));
+  </script>
+  <script src="./guides-demo.js"></script>
+  <script src="./guides-journey.js"></script>
+
+  <script>
+    (function () {
+      var video  = document.getElementById('archon-cycle-video');
+      var scroller = document.querySelector('.content-area') || window;
+      if (!video) return;
+
+      // ── Chapter seek ────────────────────────────────────────────
+      var chapters = Array.from(document.querySelectorAll('.acp-ch'));
+      chapters.forEach(function (ch) {
+        ch.addEventListener('click', function () {
+          var t = parseFloat(ch.dataset.t);
+          video.currentTime = t;
+          video.play();
+        });
+      });
+
+      // ── Active chapter highlight while playing ──────────────────
+      var chTimes = chapters.map(function (ch) { return parseFloat(ch.dataset.t); });
+      video.addEventListener('timeupdate', function () {
+        var ct = video.currentTime;
+        var activeIdx = 0;
+        for (var i = 0; i < chTimes.length; i++) {
+          if (ct >= chTimes[i]) activeIdx = i;
+        }
+        chapters.forEach(function (ch, i) {
+          ch.classList.toggle('active', i === activeIdx);
+        });
+      });
+
+      // ── Autoplay on scroll into view (muted — always allowed) ───
+      var observed = false;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting && !observed) {
+            observed = true;
+            video.play().catch(function () {/* silently ignore */});
+          }
+          if (!e.isIntersecting) {
+            video.pause();
+            observed = false;
+          }
+        });
+      }, {
+        root: scroller === window ? null : scroller,
+        threshold: 0.35
+      });
+      io.observe(video);
+
+      // ── Click to toggle play/pause ───────────────────────────────
+      video.addEventListener('click', function () {
+        if (video.paused) { video.play(); } else { video.pause(); }
+      });
+    })();
+  </script>
+</body>
+
+</html>
