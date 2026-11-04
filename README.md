@@ -6,6 +6,7 @@
 
   <p>
     <a href="https://github.com/herhu/archon-specs/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+    <a href="https://herhu.github.io/archon-specs/"><img src="https://img.shields.io/badge/Website-Live%20Showcase-blueviolet.svg" alt="Live Website"></a>
     <a href="https://www.npmjs.com/package/archonspecs"><img src="https://img.shields.io/npm/v/archonspecs.svg" alt="npm version"></a>
     <img src="https://img.shields.io/badge/Protocol-MCP%20v1.0-8A2BE2.svg" alt="MCP v1.0">
     <img src="https://img.shields.io/badge/Node.js-%3E%3D18.0.0-green.svg" alt="Node Version">
